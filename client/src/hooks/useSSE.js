@@ -2,7 +2,16 @@ import { useEffect, useState } from "react";
 
 import { resolveApiUrl } from "../lib/api.js";
 
-const namedEvents = ["token", "message_done", "done", "sage_token", "sage_done", "verdict", "report_ready"];
+const namedEvents = [
+  "token",
+  "message_done",
+  "done",
+  "sage_token",
+  "sage_done",
+  "active_sage",
+  "verdict",
+  "report_ready",
+];
 
 function parseEventData(value) {
   if (!value) return {};

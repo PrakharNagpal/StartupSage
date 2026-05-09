@@ -5,13 +5,23 @@ import os
 from pathlib import Path
 from typing import Any
 
-from .prompts import SAGE_FOLLOWUP_PROMPT, SAGE_OPENING_PROMPT, SAGE_VERDICT_PROMPT
+from .prompts import (
+    SAGE_FOLLOWUP_PROMPT,
+    SAGE_OPENING_PROMPT,
+    SAGE_RESPOND_PROMPT,
+    SAGE_VERDICT_PROMPT,
+)
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 SERVER_ROOT = Path(__file__).resolve().parents[1]
 OPENAI_MODEL = "gpt-4o-mini"
 VALID_VERDICTS = {"survives", "pivot", "rethink"}
+SAGE_FOCUS = {
+    "sage_1": "distribution and go-to-market",
+    "sage_2": "market timing and readiness",
+    "sage_3": "unit economics and margins",
+}
 
 
 def _load_env() -> None:
@@ -59,6 +69,7 @@ class SageAgent:
         self.persona = persona
         self.failed_startup = failed_startup
         self.failure_lesson = failure_lesson
+        self.focus = SAGE_FOCUS.get(sage_id, "startup failure risk")
 
     async def _call_openai(self, prompt: str) -> str:
         _load_env()
@@ -87,21 +98,46 @@ class SageAgent:
         )
         return await self._call_openai(prompt)
 
-    async def followup(self, idea_text: str, conversation_history: str) -> str:
+    async def followup(self, idea_text: str, full_transcript: str) -> str:
         prompt = SAGE_FOLLOWUP_PROMPT.format(
             sage_name=self.name,
             failure_lesson=self.failure_lesson,
             idea_text=idea_text,
-            conversation_history=conversation_history,
+            full_transcript=full_transcript,
         )
         return await self._call_openai(prompt)
 
-    async def verdict(self, idea_text: str, conversation_history: str) -> dict:
+    async def respond(
+        self,
+        user_content: str,
+        transcript: list[dict],
+        idea_text: str,
+        memory_context: list[str] | None = None,
+    ) -> str:
+        lines: list[str] = []
+        for message in transcript:
+            speaker = "User" if message.get("role") == "user" else message.get("sage_name") or message.get("role")
+            content = str(message.get("content", "")).strip()
+            if content:
+                lines.append(f"{speaker}: {content}")
+
+        full_transcript = "\n".join(lines)
+        prompt = SAGE_RESPOND_PROMPT.format(
+            sage_name=self.name,
+            failure_lesson=self.failure_lesson,
+            idea_text=idea_text,
+            full_transcript=full_transcript,
+            memory_context="\n".join(memory_context or []) if memory_context else "Nothing yet",
+            user_content=user_content,
+        )
+        return await self._call_openai(prompt)
+
+    async def verdict(self, idea_text: str, full_transcript: str) -> dict:
         prompt = SAGE_VERDICT_PROMPT.format(
             sage_name=self.name,
             failure_lesson=self.failure_lesson,
             idea_text=idea_text,
-            full_conversation=conversation_history,
+            full_conversation=full_transcript,
         )
         parsed = _extract_json_object(await self._call_openai(prompt))
         verdict = str(parsed.get("verdict", "")).strip().lower()

@@ -34,9 +34,12 @@ function SageAvatar({ sage }) {
   );
 }
 
-function SageCard({ sage, verdict, index }) {
+function SageCard({ sage, verdict, index, isActive }) {
   return (
-    <Card className="animate-fadeIn" style={{ animationDelay: `${index * 120}ms` }}>
+    <Card
+      className={`animate-fadeIn ${isActive ? "border-gold/70 bg-gold/[0.09] shadow-gold/10" : ""}`}
+      style={{ animationDelay: `${index * 120}ms` }}
+    >
       <CardContent className="flex gap-4 p-4">
         <SageAvatar sage={sage} />
         <div className="min-w-0 flex-1">
@@ -46,8 +49,10 @@ function SageCard({ sage, verdict, index }) {
               <Badge className="animate-pulseGold" variant={verdictBadgeVariant(verdict.verdict)}>
                 {verdictLabel(verdict.verdict)}
               </Badge>
+            ) : isActive ? (
+              <Badge>Active</Badge>
             ) : (
-              <Badge variant="outline">Listening</Badge>
+              <Badge variant="outline">Waiting</Badge>
             )}
           </div>
           <p className="mt-1 truncate text-xs text-gold">{sage.failedStartup}</p>
@@ -75,6 +80,8 @@ export default function LiveSession() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [round, setRound] = useState(1);
+  const [activeSageKey, setActiveSageKey] = useState(null);
+  const [awaitingReply, setAwaitingReply] = useState(false);
   const [verdicts, setVerdicts] = useState({});
   const [reportReady, setReportReady] = useState(false);
   const processedEvents = useRef(0);
@@ -91,6 +98,14 @@ export default function LiveSession() {
     if (!pending.length) return;
 
     pending.forEach((event) => {
+      if (event.type === "active_sage") {
+        const sageKey = event.data.sage_id || event.data.sage_key || event.data.key;
+        const nextRound = Number(event.data.round);
+        setActiveSageKey(sageKey || null);
+        setAwaitingReply(Boolean(event.data.awaiting_reply));
+        if (Number.isFinite(nextRound)) setRound(Math.max(1, Math.min(2, nextRound)));
+      }
+
       if (event.type === "token" || event.type === "sage_token") {
         const tokenEvent = normalizeTokenEvent(event.data, sagesByKey);
         if (!tokenEvent.token) return;
@@ -138,6 +153,8 @@ export default function LiveSession() {
 
       if (event.type === "done" || event.type === "report_ready") {
         setReportReady(true);
+        setActiveSageKey(null);
+        setAwaitingReply(false);
         setMessages((current) => current.map((message) => ({ ...message, streaming: false })));
       }
     });
@@ -156,6 +173,7 @@ export default function LiveSession() {
 
     setMessages((current) => [...current, { id: makeId("user"), role: "user", content }]);
     setInput("");
+    setAwaitingReply(false);
     sendMessage.mutate(content);
   };
 
@@ -183,7 +201,13 @@ export default function LiveSession() {
 
         <div className="grid gap-4 lg:grid-cols-3">
           {sages.map((sage, index) => (
-            <SageCard key={sage.key} sage={sage} verdict={verdicts[sage.key]} index={index} />
+            <SageCard
+              key={sage.key}
+              sage={sage}
+              verdict={verdicts[sage.key]}
+              index={index}
+              isActive={sage.key === activeSageKey}
+            />
           ))}
         </div>
 
@@ -246,11 +270,22 @@ export default function LiveSession() {
             <form onSubmit={handleSend} className="flex gap-3 border-t border-white/10 p-4">
               <Input
                 value={input}
-                placeholder="Answer the council..."
+                placeholder={
+                  activeSageKey
+                    ? awaitingReply
+                      ? `Reply to ${sagesByKey.get(activeSageKey)?.name || "the active sage"}...`
+                      : `${sagesByKey.get(activeSageKey)?.name || "The active sage"} is asking...`
+                    : "Waiting for the next sage..."
+                }
                 onChange={(event) => setInput(event.target.value)}
-                disabled={sendMessage.isPending}
+                disabled={sendMessage.isPending || reportReady || !activeSageKey || !awaitingReply}
               />
-              <Button type="submit" size="icon" disabled={!input.trim() || sendMessage.isPending} aria-label="Send message">
+              <Button
+                type="submit"
+                size="icon"
+                disabled={!input.trim() || sendMessage.isPending || reportReady || !activeSageKey || !awaitingReply}
+                aria-label="Send message"
+              >
                 {sendMessage.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
               </Button>
             </form>

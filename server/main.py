@@ -309,11 +309,11 @@ def create_app() -> FastAPI:
         handled = await call_orchestrator(session_id, payload.content, round_number)
         if not handled:
             await emit_fallback_sage_turn(session_id, payload.content, round_number)
-        with db() as connection:
-            connection.execute(
-                "UPDATE sessions SET current_round = ? WHERE id = ?",
-                (2 if round_number < 2 else round_number, session_id),
-            )
+            with db() as connection:
+                connection.execute(
+                    "UPDATE sessions SET current_round = ? WHERE id = ?",
+                    (2 if round_number < 2 else round_number, session_id),
+                )
         return StatusResponse(status="ok")
 
     @app.get("/sessions/{session_id}/report", response_model=ReportResponse)

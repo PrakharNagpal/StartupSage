@@ -37,6 +37,16 @@ def session_exists(session_id: str) -> bool:
 
 
 async def emit_opening_stub(session_id: str) -> None:
+    try:
+        from agents import sage_orchestrator
+    except Exception:
+        sage_orchestrator = None
+
+    if sage_orchestrator is not None:
+        emitted = await sage_orchestrator.emit_current_sage_prompt(session_id)
+        if emitted:
+            return
+
     if session_id in _bootstrapped_sessions:
         return
     _bootstrapped_sessions.add(session_id)
