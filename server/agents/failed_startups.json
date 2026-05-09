@@ -388,5 +388,200 @@
       "Urban mobility products must fit regulations and social norms",
       "Launch expectations should match realistic adoption curves"
     ]
+  },
+  {
+    "name": "WeWork",
+    "year_founded": 2010,
+    "year_failed": 2023,
+    "sector": "Commercial Real Estate",
+    "one_line_pitch": "Flexible co-working spaces for freelancers, startups, and enterprises.",
+    "primary_failure_reason": "Long-term real estate liabilities, governance failures, and a valuation narrative disconnected from unit economics collapsed during its IPO process.",
+    "key_lessons": [
+      "A compelling story cannot substitute for sound financial structure",
+      "Long-dated fixed costs are dangerous when revenue is short-term and cyclical",
+      "Governance failures erode investor trust faster than operational ones"
+    ]
+  },
+  {
+    "name": "Google Glass",
+    "year_founded": 2012,
+    "year_failed": 2015,
+    "sector": "Consumer Wearables",
+    "one_line_pitch": "A heads-up display worn like glasses for real-time information and camera access.",
+    "primary_failure_reason": "Privacy backlash, social stigma, weak everyday utility, and high price prevented consumer adoption of an immature technology.",
+    "key_lessons": [
+      "Wearables must be socially acceptable before they can be useful",
+      "Developer-first hardware launches can set damaging public narratives",
+      "Price must match maturity of the use case"
+    ]
+  },
+  {
+    "name": "Amazon Fire Phone",
+    "year_founded": 2014,
+    "year_failed": 2015,
+    "sector": "Consumer Electronics",
+    "one_line_pitch": "A smartphone with 3D display effects and deep Amazon shopping integration.",
+    "primary_failure_reason": "The device served Amazon's commerce goals rather than genuine consumer needs, lacked a compelling app ecosystem, and was priced against premium competitors.",
+    "key_lessons": [
+      "Hardware products must solve user problems, not distribution goals",
+      "Entering a mature platform market requires a defensible wedge",
+      "Carrier exclusivity can starve a new hardware product of volume"
+    ]
+  },
+  {
+    "name": "HQ Trivia",
+    "year_founded": 2017,
+    "year_failed": 2020,
+    "sector": "Live Entertainment",
+    "one_line_pitch": "A live-streamed mobile trivia game show with real cash prizes.",
+    "primary_failure_reason": "Novelty-driven viral growth faded as the live-only format restricted reach, internal turmoil disrupted operations, and copycat products emerged.",
+    "key_lessons": [
+      "Viral novelty is not a retention strategy",
+      "Live-only products create fragile engagement that cannot be replayed or shared",
+      "Leadership instability can destroy momentum faster than competition"
+    ]
+  },
+  {
+    "name": "Friendster",
+    "year_founded": 2002,
+    "year_failed": 2011,
+    "sector": "Social Networking",
+    "one_line_pitch": "One of the first mainstream social networks for connecting with friends online.",
+    "primary_failure_reason": "Scaling failures and persistent performance problems drove users away just as faster-moving competitors launched.",
+    "key_lessons": [
+      "Social networks must scale infrastructure in step with growth",
+      "User experience degradation accelerates churn in network-effect products",
+      "First-mover advantage disappears without continuous product investment"
+    ]
+  },
+  {
+    "name": "Kozmo.com",
+    "year_founded": 1998,
+    "year_failed": 2001,
+    "sector": "On-Demand Delivery",
+    "one_line_pitch": "One-hour delivery of convenience items, movies, and food in major cities.",
+    "primary_failure_reason": "Delivery costs on low-value orders were never recovered, and rapid city expansion multiplied losses before the model was proven.",
+    "key_lessons": [
+      "Minimum order values must cover last-mile delivery economics",
+      "Geographic expansion should follow proven unit economics, not investor enthusiasm",
+      "Convenience is not a business model unless it pencils out per order"
+    ]
+  },
+  {
+    "name": "LivingSocial",
+    "year_founded": 2007,
+    "year_failed": 2016,
+    "sector": "Daily Deals",
+    "one_line_pitch": "A daily deals platform offering discounted local experiences and products.",
+    "primary_failure_reason": "The daily deals market commoditized rapidly, merchant satisfaction declined, and customer retention was structurally weak in a discount-driven model.",
+    "key_lessons": [
+      "Discount-driven acquisition creates disloyal customers by design",
+      "Marketplace categories that commoditize quickly cannot support two large players",
+      "Merchant economics matter as much as consumer metrics"
+    ]
+  },
+  {
+    "name": "Microsoft Zune",
+    "year_founded": 2006,
+    "year_failed": 2011,
+    "sector": "Consumer Electronics",
+    "one_line_pitch": "A portable music player and download marketplace to compete with the iPod.",
+    "primary_failure_reason": "Launched years after the iPod had locked in ecosystem loyalty, with an inferior store and no meaningful hardware differentiation.",
+    "key_lessons": [
+      "Entering a category years late requires a compelling reason to switch",
+      "Ecosystem lock-in is harder to overcome than hardware specs",
+      "Me-too products from large companies rarely displace category creators"
+    ]
+  },
+  {
+    "name": "Nikola",
+    "year_founded": 2014,
+    "year_failed": 2023,
+    "sector": "Electric Vehicles",
+    "one_line_pitch": "Hydrogen fuel-cell and battery-electric semi-trucks for long-haul transport.",
+    "primary_failure_reason": "Fraudulent claims about technology readiness, a faked product demo, and regulatory investigations destroyed investor and partner trust.",
+    "key_lessons": [
+      "Misrepresenting technical progress is existential, not a growth tactic",
+      "Hardware startups must show working products, not rendered concepts",
+      "Founder credibility is a core asset in capital-intensive industries"
+    ]
+  },
+  {
+    "name": "Lumosity",
+    "year_founded": 2005,
+    "year_failed": 2016,
+    "sector": "Health Technology",
+    "one_line_pitch": "A subscription platform of brain training games claiming to improve cognitive performance.",
+    "primary_failure_reason": "Regulatory action for deceptive advertising, after scientific evidence did not support the cognitive improvement claims made in marketing.",
+    "key_lessons": [
+      "Health and wellness claims require scientific evidence, not just intuition",
+      "Regulatory risk is a product risk in health technology",
+      "Marketing effectiveness built on weak claims is a liability, not an asset"
+    ]
+  },
+  {
+    "name": "Digg",
+    "year_founded": 2004,
+    "year_failed": 2012,
+    "sector": "News Aggregation",
+    "one_line_pitch": "A community-voted news aggregator where readers decided what stories rose to prominence.",
+    "primary_failure_reason": "A major redesign alienated its core power users, whose disproportionate contribution had built the community, while Reddit captured the category.",
+    "key_lessons": [
+      "Power users sustain community products and must be protected through product changes",
+      "Redesigns that sacrifice core utility for aesthetic or advertiser goals can be fatal",
+      "Community momentum, once lost, rarely returns"
+    ]
+  },
+  {
+    "name": "Doppler Labs",
+    "year_founded": 2013,
+    "year_failed": 2017,
+    "sector": "Consumer Audio Hardware",
+    "one_line_pitch": "Smart earbuds that filtered and augmented real-world sound in real time.",
+    "primary_failure_reason": "The hardware and battery technology were not mature enough to deliver the promised experience at a price consumers would pay.",
+    "key_lessons": [
+      "Hardware categories require component maturity before product-market fit",
+      "Audio experience expectations are unforgiving",
+      "Visionary products that arrive before the enabling technology tend to fail on execution"
+    ]
+  },
+  {
+    "name": "Loot Crate",
+    "year_founded": 2012,
+    "year_failed": 2019,
+    "sector": "Subscription Boxes",
+    "one_line_pitch": "Monthly mystery boxes of pop culture and gaming merchandise for fans.",
+    "primary_failure_reason": "Rapid subscriber growth masked high churn, fulfillment delays, and weak margins on physical goods, leading to cash flow collapse.",
+    "key_lessons": [
+      "Gross subscriber count hides churn-driven economics in subscription boxes",
+      "Physical goods subscriptions face margin compression as scale grows",
+      "Fulfillment reliability is a brand promise in subscription commerce"
+    ]
+  },
+  {
+    "name": "Turntable.fm",
+    "year_founded": 2011,
+    "year_failed": 2013,
+    "sector": "Social Music",
+    "one_line_pitch": "A social platform where avatars DJ for rooms of online listeners in real time.",
+    "primary_failure_reason": "Licensing costs and geographic restrictions limited the user base while engagement faded as the novelty wore off.",
+    "key_lessons": [
+      "Social music products are disproportionately hurt by licensing geography restrictions",
+      "Real-time synchronous engagement creates fragile retention",
+      "Content costs must be modeled before launch, not after traction"
+    ]
+  },
+  {
+    "name": "Iridium (original)",
+    "year_founded": 1991,
+    "year_failed": 1999,
+    "sector": "Satellite Communications",
+    "one_line_pitch": "A global satellite phone network offering voice calls from anywhere on Earth.",
+    "primary_failure_reason": "By the time the $5 billion network launched, terrestrial mobile had expanded enough to eliminate the core use case for most customers at a fraction of the price.",
+    "key_lessons": [
+      "Long-cycle infrastructure projects must model the competitive landscape at launch, not at conception",
+      "High capital commitment locks a company into a strategy that the market may have moved past",
+      "A technically impressive product can be commercially stranded by timing"
+    ]
   }
 ]

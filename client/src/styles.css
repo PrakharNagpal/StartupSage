@@ -202,6 +202,112 @@ button:disabled {
   animation: spotlightPulse 2.8s ease-in-out infinite;
 }
 
+/* ── Transcript collapse ── */
+.transcript-body {
+  display: grid;
+  grid-template-rows: 1fr;
+  transition: grid-template-rows 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.transcript-body.collapsed {
+  grid-template-rows: 0fr;
+}
+
+.transcript-body-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* ── Transcript toggle button ── */
+.transcript-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 1px solid rgba(0,0,0,0.1);
+  background: transparent;
+  color: #7a6040;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.transcript-toggle:hover {
+  background: rgba(0,0,0,0.05);
+  color: #1c1810;
+}
+
+/* ── Judge filter chips ── */
+.transcript-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.07);
+  background: rgba(0,0,0,0.015);
+}
+
+.transcript-filters-label {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #9a8060;
+  margin-right: 2px;
+}
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 11px;
+  border-radius: 999px;
+  border: 1px solid rgba(0,0,0,0.11);
+  background: transparent;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #5a4a2a;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.filter-chip:hover {
+  background: rgba(0,0,0,0.04);
+}
+
+.filter-chip.active {
+  border-color: rgba(196,154,46,0.55);
+  background: rgba(196,154,46,0.1);
+  color: #7a5c20;
+}
+
+.filter-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── Read more / less ── */
+.read-more-btn {
+  display: inline-block;
+  margin-top: 5px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #9a7030;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  opacity: 0.8;
+  transition: opacity 0.15s;
+}
+
+.read-more-btn:hover { opacity: 1; }
+
 /* ── Transcript messages ── */
 .transcript-msg {
   animation: messageSlideIn 0.3s ease both;

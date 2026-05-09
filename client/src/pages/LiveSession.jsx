@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { ArrowRight, Loader2, Send, Wifi } from "lucide-react";
+import { ArrowRight, ChevronDown, ChevronUp, Loader2, Send, Wifi } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 
 import PageShell from "../components/layout/PageShell.jsx";
@@ -292,6 +292,8 @@ export default function LiveSession() {
   const [verdicts, setVerdicts] = useState({});
   const [reportReady, setReportReady] = useState(false);
   const [introPhase, setIntroPhase] = useState("order"); // "order" | "begin" | "done"
+  const [transcriptOpen, setTranscriptOpen] = useState(true);
+  const [filterSage, setFilterSage] = useState(null);
   const processedEvents = useRef(0);
   const feedEndRef = useRef(null);
   const messageRefs = useRef(new Map());
@@ -425,6 +427,14 @@ export default function LiveSession() {
   const lastSageMsg = [...messages].reverse().find((m) => m.role === "sage");
   const showTyping = Boolean(activeSageKey && !awaitingReply && lastSageMsg?.sageKey !== activeSageKey);
 
+  const visibleMessages = useMemo(
+    () => filterSage
+      ? messages.filter((m) => m.role === "divider" || m.role === "user" || m.sageKey === filterSage)
+      : messages,
+    [messages, filterSage],
+  );
+
+
   const handleSend = async (event) => {
     event.preventDefault();
     const content = input.trim();
@@ -512,64 +522,106 @@ export default function LiveSession() {
           </Alert>
         ) : null}
 
-        <Card className="flex min-h-0 flex-1 flex-col bg-white">
+        <Card className="flex flex-col bg-white overflow-hidden">
           <CardHeader className="border-b border-black/[0.08] pb-4">
-            <CardTitle>Council Transcript</CardTitle>
+            <div className="flex items-center justify-between">
+              <CardTitle>Council Transcript</CardTitle>
+              <button
+                className="transcript-toggle"
+                onClick={() => setTranscriptOpen((v) => !v)}
+                aria-label={transcriptOpen ? "Collapse transcript" : "Expand transcript"}
+              >
+                {transcriptOpen
+                  ? <ChevronUp className="h-4 w-4" />
+                  : <ChevronDown className="h-4 w-4" />}
+              </button>
+            </div>
           </CardHeader>
-          <CardContent className="flex min-h-[420px] flex-1 flex-col p-0">
-            <div className="chat-scroll flex-1 space-y-4 overflow-y-auto px-4 py-5 sm:px-5">
-              {!messages.length ? (
-                <div className="space-y-3">
-                  <Skeleton className="h-16 w-10/12" />
-                  <Skeleton className="ml-auto h-12 w-7/12" />
-                  <Skeleton className="h-16 w-8/12" />
-                </div>
-              ) : (
-                messages.map((message) => {
-                  if (message.role === "divider") {
-                    return (
-                      <div key={message.id} className="round-divider">
-                        Cross-Examination — Round 2
-                      </div>
-                    );
-                  }
 
-                  const sage = sagesByKey.get(message.sageKey);
-                  const isUser = message.role === "user";
-                  return (
-                    <div
-                      key={message.id}
-                      ref={(el) => { if (el) messageRefs.current.set(message.id, el); else messageRefs.current.delete(message.id); }}
-                      className={`transcript-msg flex items-end gap-2 ${isUser ? "justify-end" : "justify-start"}`}
-                    >
-                      {!isUser && sage ? <SageMiniAvatar sage={sage} /> : null}
-                      <div
-                        className={`msg-bubble max-w-[min(720px,85%)] rounded-2xl border px-4 py-3 ${
-                          isUser
-                            ? "rounded-br-sm border-[#4f46e5]/20 bg-[#4f46e5]/[0.08] text-foreground"
-                            : "rounded-bl-sm border-black/[0.08] bg-white text-foreground/85 shadow-sm"
-                        }`}
-                        style={!isUser && sage ? { borderLeft: `3px solid ${sage.avatarColor}50` } : {}}
-                      >
-                        {!isUser ? (
-                          <div className="mb-1 text-xs font-semibold" style={{ color: sage?.avatarColor || "#c49a2e" }}>
-                            {message.sageName || sage?.name || "The Council"}
-                          </div>
-                        ) : null}
-                        <p className="whitespace-pre-wrap text-sm leading-6">
-                          {message.content}
-                          {message.streaming ? <span className="ml-1 inline-block h-4 w-1 animate-pulse bg-gold align-middle" /> : null}
-                        </p>
-                      </div>
-                      {isUser ? <UserAvatar /> : null}
+          {transcriptOpen && (
+            <div className="transcript-filters">
+              <span className="transcript-filters-label">Filter</span>
+              <button
+                className={`filter-chip${filterSage === null ? " active" : ""}`}
+                onClick={() => setFilterSage(null)}
+              >
+                All
+              </button>
+              {sages.map((sage) => (
+                <button
+                  key={sage.key}
+                  className={`filter-chip${filterSage === sage.key ? " active" : ""}`}
+                  style={filterSage === sage.key
+                    ? { borderColor: `${sage.avatarColor}70`, color: sage.avatarColor, background: `${sage.avatarColor}14` }
+                    : {}}
+                  onClick={() => setFilterSage((f) => f === sage.key ? null : sage.key)}
+                >
+                  <span className="filter-dot" style={{ background: sage.avatarColor }} />
+                  {sage.name.replace("The ", "")}
+                </button>
+              ))}
+            </div>
+          )}
+
+          <CardContent className="flex flex-col p-0">
+            <div className={`transcript-body${transcriptOpen ? "" : " collapsed"}`}>
+              <div className="transcript-body-inner">
+                <div className="chat-scroll space-y-4 overflow-y-auto px-4 py-5 sm:px-5" style={{ minHeight: 360 }}>
+                  {!messages.length ? (
+                    <div className="space-y-3">
+                      <Skeleton className="h-16 w-10/12" />
+                      <Skeleton className="ml-auto h-12 w-7/12" />
+                      <Skeleton className="h-16 w-8/12" />
                     </div>
-                  );
-                })
-              )}
-              {showTyping && activeSageKey ? (
-                <TypingIndicator sage={sagesByKey.get(activeSageKey)} />
-              ) : null}
-              <div ref={feedEndRef} />
+                  ) : (
+                    visibleMessages.map((message) => {
+                      if (message.role === "divider") {
+                        return (
+                          <div key={message.id} className="round-divider">
+                            Cross-Examination — Round 2
+                          </div>
+                        );
+                      }
+
+                      const sage = sagesByKey.get(message.sageKey);
+                      const isUser = message.role === "user";
+
+                      return (
+                        <div
+                          key={message.id}
+                          ref={(el) => { if (el) messageRefs.current.set(message.id, el); else messageRefs.current.delete(message.id); }}
+                          className={`transcript-msg flex items-end gap-2 ${isUser ? "justify-end" : "justify-start"}`}
+                        >
+                          {!isUser && sage ? <SageMiniAvatar sage={sage} /> : null}
+                          <div
+                            className={`msg-bubble max-w-[min(720px,85%)] rounded-2xl border px-4 py-3 ${
+                              isUser
+                                ? "rounded-br-sm border-[#4f46e5]/20 bg-[#4f46e5]/[0.08] text-foreground"
+                                : "rounded-bl-sm border-black/[0.08] bg-white text-foreground/85 shadow-sm"
+                            }`}
+                            style={!isUser && sage ? { borderLeft: `3px solid ${sage.avatarColor}50` } : {}}
+                          >
+                            {!isUser ? (
+                              <div className="mb-1 text-xs font-semibold" style={{ color: sage?.avatarColor || "#c49a2e" }}>
+                                {message.sageName || sage?.name || "The Council"}
+                              </div>
+                            ) : null}
+                            <p className="whitespace-pre-wrap text-sm leading-6">
+                              {message.content}
+                              {message.streaming ? <span className="ml-1 inline-block h-4 w-1 animate-pulse bg-gold align-middle" /> : null}
+                            </p>
+                          </div>
+                          {isUser ? <UserAvatar /> : null}
+                        </div>
+                      );
+                    })
+                  )}
+                  {showTyping && activeSageKey ? (
+                    <TypingIndicator sage={sagesByKey.get(activeSageKey)} />
+                  ) : null}
+                  <div ref={feedEndRef} />
+                </div>
+              </div>
             </div>
 
             <form onSubmit={handleSend} className="flex gap-3 border-t border-black/[0.08] p-4">
