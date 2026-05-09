@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import inspect
 import uuid
+import asyncio
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -10,6 +11,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 from database import db, init_db
+from sse_router import push_event, router as sse_router, stream_tokens
 from schemas import (
     ReportResponse,
     ResearchResponse,
@@ -173,6 +175,53 @@ def fallback_report(session_id: str, idea_text: str) -> dict[str, Any]:
     }
 
 
+async def emit_fallback_sage_turn(session_id: str, user_content: str, round_number: int) -> None:
+    if round_number >= 2:
+        verdicts = [
+            (
+                "sage_1",
+                "pivot",
+                "The idea can work only if distribution is narrowed to one repeatable wedge before broad automation.",
+            ),
+            (
+                "sage_2",
+                "survives",
+                "The market is more ready now if grocery integrations and budget pressure are real user triggers.",
+            ),
+            (
+                "sage_3",
+                "pivot",
+                "The economics need proof that order commissions or subscriptions cover support and acquisition costs.",
+            ),
+        ]
+        for sage_id, verdict, rationale in verdicts:
+            await push_event(
+                session_id,
+                "verdict",
+                {"sage_id": sage_id, "verdict": verdict, "rationale": rationale},
+            )
+            await asyncio.sleep(0.15)
+        await push_event(session_id, "report_ready", {"session_id": session_id})
+        return
+
+    responses = [
+        (
+            "sage_1",
+            f"You said: {user_content} I still need the acquisition proof. What exact channel gets the first 100 paying users without discounts doing all the work?",
+        ),
+        (
+            "sage_2",
+            "That is a plausible wedge, but timing needs sharper evidence. What behavior or platform shift makes this urgent this quarter?",
+        ),
+        (
+            "sage_3",
+            "The wedge is useful only if the math survives. What gross margin, retention, and payback period make this worth scaling?",
+        ),
+    ]
+    for sage_id, text in responses:
+        await stream_tokens(session_id, sage_id, text, 2)
+
+
 def create_app() -> FastAPI:
     app = FastAPI(title="StartupSage API", version="0.1.0")
 
@@ -183,6 +232,7 @@ def create_app() -> FastAPI:
         allow_methods=["*"],
         allow_headers=["*"],
     )
+    app.include_router(sse_router)
 
     @app.on_event("startup")
     def startup() -> None:
@@ -239,6 +289,12 @@ def create_app() -> FastAPI:
             )
 
         await call_orchestrator(session_id, payload.content, round_number)
+        await emit_fallback_sage_turn(session_id, payload.content, round_number)
+        with db() as connection:
+            connection.execute(
+                "UPDATE sessions SET current_round = ? WHERE id = ?",
+                (2 if round_number < 2 else round_number, session_id),
+            )
         return StatusResponse(status="ok")
 
     @app.get("/sessions/{session_id}/report", response_model=ReportResponse)
