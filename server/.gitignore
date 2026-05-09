@@ -1,0 +1,4 @@
+__pycache__/
+*.py[cod]
+data/*_devb.db
+data/*_devb.db-*
