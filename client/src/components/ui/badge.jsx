@@ -1,11 +1,11 @@
 import { cn } from "../../lib/utils.js";
 
 const variants = {
-  default: "border-transparent bg-white/10 text-white",
-  survives: "border-emerald-400/25 bg-emerald-400/[0.12] text-emerald-200",
-  pivot: "border-gold/30 bg-gold/[0.12] text-gold",
-  rethink: "border-red-400/25 bg-red-400/[0.12] text-red-200",
-  outline: "border-white/[0.14] text-white/[0.72]",
+  default: "border-transparent bg-black/[0.07] text-foreground",
+  survives: "border-emerald-600/25 bg-emerald-500/[0.12] text-emerald-700",
+  pivot: "border-gold/30 bg-gold/[0.12] text-amber-700",
+  rethink: "border-red-400/25 bg-red-400/[0.10] text-red-700",
+  outline: "border-black/[0.14] text-foreground/65",
 };
 
 export function Badge({ className, variant = "default", ...props }) {

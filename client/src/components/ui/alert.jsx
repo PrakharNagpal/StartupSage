@@ -3,8 +3,8 @@ import { AlertCircle } from "lucide-react";
 import { cn } from "../../lib/utils.js";
 
 const variants = {
-  default: "border-white/10 bg-white/[0.055] text-white",
-  destructive: "border-red-400/25 bg-red-500/10 text-red-100",
+  default: "border-black/[0.08] bg-black/[0.03] text-foreground",
+  destructive: "border-red-400/25 bg-red-500/[0.08] text-red-700",
 };
 
 export function Alert({ className, variant = "default", children, ...props }) {

@@ -5,14 +5,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "#0a0a0a",
-        foreground: "#e8e8e8",
-        gold: "#d4a847",
-        ember: "#bb4a3b",
-        teal: "#38b8a7",
-        ink: "#101010",
-        panel: "#141414",
-        line: "#2a2a2a",
+        background: "#f7f4ee",
+        foreground: "#1c1810",
+        gold: "#c49a2e",
+        ember: "#b83e2f",
+        teal: "#2aa898",
+        ink: "#eee9de",
+        panel: "#ffffff",
+        line: "#e2ddd3",
       },
       fontFamily: {
         display: ['"Playfair Display"', "Georgia", "serif"],
