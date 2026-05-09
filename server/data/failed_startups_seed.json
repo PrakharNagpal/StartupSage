@@ -1,0 +1,272 @@
+[
+  {
+    "name": "Quibi",
+    "year_founded": 2018,
+    "year_failed": 2020,
+    "sector": "Streaming Media",
+    "one_line_pitch": "Premium short-form mobile video episodes built for commuters.",
+    "primary_failure_reason": "Misread consumer behavior and launched into a market that did not need another paid video subscription.",
+    "key_lessons": ["Validate habit frequency before content spend", "Do not confuse celebrity supply with demand", "Timing can erase a use case"]
+  },
+  {
+    "name": "Juicero",
+    "year_founded": 2013,
+    "year_failed": 2017,
+    "sector": "Consumer Hardware",
+    "one_line_pitch": "A connected countertop press for proprietary juice packs.",
+    "primary_failure_reason": "Hardware complexity and high price failed to create value beyond a simpler manual alternative.",
+    "key_lessons": ["Prove the machine does something customers cannot already do", "Avoid proprietary consumables unless value is obvious", "Hardware margins punish overengineering"]
+  },
+  {
+    "name": "MoviePass",
+    "year_founded": 2011,
+    "year_failed": 2019,
+    "sector": "Entertainment Subscription",
+    "one_line_pitch": "A subscription that let members watch many theater movies for one monthly fee.",
+    "primary_failure_reason": "The core offer was loved by users but structurally unprofitable at scale.",
+    "key_lessons": ["Great demand can still be fatal with negative unit economics", "Model partner leverage before subsidizing usage", "Watch for usage patterns that worsen with engagement"]
+  },
+  {
+    "name": "Theranos",
+    "year_founded": 2003,
+    "year_failed": 2018,
+    "sector": "Healthcare Diagnostics",
+    "one_line_pitch": "Blood testing from tiny samples through proprietary machines.",
+    "primary_failure_reason": "Technical claims outran validated science in a high-trust regulated market.",
+    "key_lessons": ["Healthcare trust must be earned with evidence", "Regulatory reality is part of the product", "Secrecy cannot substitute for validation"]
+  },
+  {
+    "name": "Webvan",
+    "year_founded": 1996,
+    "year_failed": 2001,
+    "sector": "Grocery Delivery",
+    "one_line_pitch": "Online grocery ordering with rapid home delivery.",
+    "primary_failure_reason": "Expanded capital-intensive logistics before demand density and fulfillment economics worked.",
+    "key_lessons": ["Density matters in delivery", "Scale does not fix weak contribution margin", "Operational complexity should follow demand"]
+  },
+  {
+    "name": "Pets.com",
+    "year_founded": 1998,
+    "year_failed": 2000,
+    "sector": "E-commerce",
+    "one_line_pitch": "Online pet supplies delivered to homes.",
+    "primary_failure_reason": "Spent aggressively on brand before margins, logistics, and repeat economics were ready.",
+    "key_lessons": ["Brand cannot rescue poor gross margin", "Bulky goods need shipping discipline", "Measure repeat behavior before mass marketing"]
+  },
+  {
+    "name": "Color Labs",
+    "year_founded": 2010,
+    "year_failed": 2012,
+    "sector": "Social Networking",
+    "one_line_pitch": "A proximity-based mobile photo sharing network.",
+    "primary_failure_reason": "Raised and built ahead of a clear user behavior or compelling social graph.",
+    "key_lessons": ["Social apps need an atomic habit", "Funding does not create network effects", "Explain the use case in one breath"]
+  },
+  {
+    "name": "Beepi",
+    "year_founded": 2013,
+    "year_failed": 2017,
+    "sector": "Automotive Marketplace",
+    "one_line_pitch": "A managed marketplace for buying and selling used cars online.",
+    "primary_failure_reason": "Heavy operations and cash burn overwhelmed marketplace liquidity gains.",
+    "key_lessons": ["Managed marketplaces need tight operational scope", "Inventory risk changes the business model", "Trust features must pay for themselves"]
+  },
+  {
+    "name": "Jawbone",
+    "year_founded": 1999,
+    "year_failed": 2017,
+    "sector": "Wearables",
+    "one_line_pitch": "Consumer fitness trackers and connected audio devices.",
+    "primary_failure_reason": "Product quality issues and brutal hardware competition eroded the brand.",
+    "key_lessons": ["Hardware reliability is brand", "Competing with platform owners is hard", "Support burden can consume margin"]
+  },
+  {
+    "name": "Better Place",
+    "year_founded": 2007,
+    "year_failed": 2013,
+    "sector": "Electric Vehicles",
+    "one_line_pitch": "Battery swapping infrastructure for electric vehicles.",
+    "primary_failure_reason": "Required massive ecosystem coordination before enough compatible cars and demand existed.",
+    "key_lessons": ["Infrastructure startups need ecosystem sequencing", "Capex must match adoption reality", "Standards risk can sink adoption"]
+  },
+  {
+    "name": "Homejoy",
+    "year_founded": 2010,
+    "year_failed": 2015,
+    "sector": "Home Services Marketplace",
+    "one_line_pitch": "On-demand home cleaning booked online.",
+    "primary_failure_reason": "Low retention, worker classification pressure, and thin margins made growth fragile.",
+    "key_lessons": ["Marketplace liquidity is not retention", "Labor compliance is strategic", "Discount-led acquisition hides weak loyalty"]
+  },
+  {
+    "name": "Fab.com",
+    "year_founded": 2010,
+    "year_failed": 2015,
+    "sector": "Design E-commerce",
+    "one_line_pitch": "Flash sales and discovery for design-forward products.",
+    "primary_failure_reason": "Rapid pivots and expansion created operational drag without durable differentiation.",
+    "key_lessons": ["Curation needs supply discipline", "Flash sale demand can be shallow", "Pivots do not erase execution debt"]
+  },
+  {
+    "name": "Aereo",
+    "year_founded": 2012,
+    "year_failed": 2014,
+    "sector": "Media Technology",
+    "one_line_pitch": "Cloud-based broadcast television streaming through tiny antennas.",
+    "primary_failure_reason": "The business depended on a legal interpretation that courts rejected.",
+    "key_lessons": ["Legal risk can be existential", "Regulated incumbents fight distribution bypasses", "Have a fallback business model"]
+  },
+  {
+    "name": "Bodega",
+    "year_founded": 2017,
+    "year_failed": 2018,
+    "sector": "Retail Automation",
+    "one_line_pitch": "Smart pantry boxes as an alternative to corner stores.",
+    "primary_failure_reason": "Brand positioning triggered backlash and the model lacked clear advantage over existing retail.",
+    "key_lessons": ["Respect existing community context", "Automation still needs distribution", "Launch narratives shape adoption"]
+  },
+  {
+    "name": "Clinkle",
+    "year_founded": 2011,
+    "year_failed": 2015,
+    "sector": "Payments",
+    "one_line_pitch": "A secretive mobile payments app for students.",
+    "primary_failure_reason": "Hype and funding preceded a compelling product in a crowded payments market.",
+    "key_lessons": ["Payments need trust and ubiquity", "Stealth can starve product feedback", "Campus adoption must translate into retention"]
+  },
+  {
+    "name": "Rdio",
+    "year_founded": 2010,
+    "year_failed": 2015,
+    "sector": "Music Streaming",
+    "one_line_pitch": "A polished subscription music streaming service.",
+    "primary_failure_reason": "Strong product was outdistributed by larger competitors with better bundles and marketing.",
+    "key_lessons": ["Product quality alone may not beat distribution", "Licensing-heavy markets reward scale", "Bundles can undercut standalone value"]
+  },
+  {
+    "name": "Vine",
+    "year_founded": 2012,
+    "year_failed": 2017,
+    "sector": "Social Video",
+    "one_line_pitch": "A short looping video social network.",
+    "primary_failure_reason": "Creator monetization and product direction lagged while competitors copied and extended the format.",
+    "key_lessons": ["Creators need economic reasons to stay", "Formats are easy to copy", "Parent-company priorities matter"]
+  },
+  {
+    "name": "Secret",
+    "year_founded": 2013,
+    "year_failed": 2015,
+    "sector": "Social Networking",
+    "one_line_pitch": "Anonymous sharing with friends and nearby users.",
+    "primary_failure_reason": "Engagement leaned toward harmful behavior and trust problems rather than durable connection.",
+    "key_lessons": ["Anonymity needs strong guardrails", "Viral growth can amplify abuse", "Trust and safety is core infrastructure"]
+  },
+  {
+    "name": "Yik Yak",
+    "year_founded": 2013,
+    "year_failed": 2017,
+    "sector": "Social Networking",
+    "one_line_pitch": "Anonymous location-based message boards for campuses.",
+    "primary_failure_reason": "Moderation challenges and fading novelty undermined campus network effects.",
+    "key_lessons": ["Local networks need ongoing utility", "Safety failures drive institutions away", "Novelty is not retention"]
+  },
+  {
+    "name": "Google Glass Explorer",
+    "year_founded": 2012,
+    "year_failed": 2015,
+    "sector": "Wearable Computing",
+    "one_line_pitch": "Consumer smart glasses with camera and glanceable computing.",
+    "primary_failure_reason": "Privacy concerns, unclear use cases, and awkward social acceptance blocked mainstream adoption.",
+    "key_lessons": ["Social acceptability is a product requirement", "Developer ecosystems need clear use cases", "Wearables must solve frequent pain"]
+  },
+  {
+    "name": "Essential Products",
+    "year_founded": 2015,
+    "year_failed": 2020,
+    "sector": "Consumer Electronics",
+    "one_line_pitch": "Premium Android phones and ambient computing devices.",
+    "primary_failure_reason": "Entered a mature smartphone market without enough differentiation or distribution.",
+    "key_lessons": ["Mature hardware categories punish late entrants", "Carrier and retail channels matter", "Premium requires unmistakable advantage"]
+  },
+  {
+    "name": "Solyndra",
+    "year_founded": 2005,
+    "year_failed": 2011,
+    "sector": "Clean Energy",
+    "one_line_pitch": "Cylindrical solar panels for commercial rooftops.",
+    "primary_failure_reason": "Manufacturing economics collapsed as conventional solar prices fell faster than expected.",
+    "key_lessons": ["Cost curves can invalidate technical differentiation", "Manufacturing scale is unforgiving", "Commodity markets punish inflexibility"]
+  },
+  {
+    "name": "Munchery",
+    "year_founded": 2010,
+    "year_failed": 2019,
+    "sector": "Food Delivery",
+    "one_line_pitch": "Prepared meal delivery from central kitchens.",
+    "primary_failure_reason": "Food waste, logistics, and demand forecasting made the model expensive to operate.",
+    "key_lessons": ["Perishability compounds operational risk", "Forecasting errors become margin losses", "Local density matters"]
+  },
+  {
+    "name": "Sprig",
+    "year_founded": 2013,
+    "year_failed": 2017,
+    "sector": "Food Delivery",
+    "one_line_pitch": "On-demand healthy meals delivered quickly.",
+    "primary_failure_reason": "Vertically integrated food operations could not support sustainable delivery economics.",
+    "key_lessons": ["Owning the full stack raises burn", "Fast delivery needs dense demand", "Menu simplicity helps but does not fix logistics"]
+  },
+  {
+    "name": "Daqri",
+    "year_founded": 2010,
+    "year_failed": 2019,
+    "sector": "Augmented Reality",
+    "one_line_pitch": "Industrial augmented reality headsets and software.",
+    "primary_failure_reason": "Enterprise AR hardware arrived before cost, comfort, and workflows were ready.",
+    "key_lessons": ["Enterprise pilots are not deployments", "Hardware ergonomics decide usage", "Timing matters even in B2B"]
+  },
+  {
+    "name": "Nasty Gal",
+    "year_founded": 2006,
+    "year_failed": 2016,
+    "sector": "Fashion E-commerce",
+    "one_line_pitch": "Online fashion retail built from a distinctive brand voice.",
+    "primary_failure_reason": "Growth outpaced operational maturity and inventory discipline.",
+    "key_lessons": ["Brand heat must convert into repeatable operations", "Inventory mistakes drain cash", "Culture and systems must scale together"]
+  },
+  {
+    "name": "Washio",
+    "year_founded": 2013,
+    "year_failed": 2016,
+    "sector": "Local Services",
+    "one_line_pitch": "On-demand laundry and dry cleaning pickup.",
+    "primary_failure_reason": "Convenience was attractive but route logistics and labor costs weakened margins.",
+    "key_lessons": ["Route density is the business", "Convenience premiums have ceilings", "Local ops do not scale like software"]
+  },
+  {
+    "name": "Shyp",
+    "year_founded": 2013,
+    "year_failed": 2018,
+    "sector": "Logistics",
+    "one_line_pitch": "On-demand pickup, packing, and shipping for consumers and businesses.",
+    "primary_failure_reason": "A labor-intensive consumer convenience model lacked enough frequency and margin.",
+    "key_lessons": ["Occasional-use products face high CAC", "Operational delight can be expensive", "B2B focus may need to come earlier"]
+  },
+  {
+    "name": "Tink Labs",
+    "year_founded": 2012,
+    "year_failed": 2019,
+    "sector": "Travel Technology",
+    "one_line_pitch": "Free hotel smartphones for travelers with local services and ads.",
+    "primary_failure_reason": "Hardware deployment costs and weak monetization collided as traveler behavior shifted.",
+    "key_lessons": ["Free hardware requires reliable monetization", "Hotels are slow distribution partners", "Smartphone ubiquity can erase the need"]
+  },
+  {
+    "name": "Powa Technologies",
+    "year_founded": 2007,
+    "year_failed": 2016,
+    "sector": "Mobile Commerce",
+    "one_line_pitch": "Mobile payments and commerce tools for merchants.",
+    "primary_failure_reason": "Overstated partnerships and broad ambition hid weak adoption.",
+    "key_lessons": ["Partnership announcements are not revenue", "Merchant payments need focused workflows", "Credibility collapses when traction is inflated"]
+  }
+]

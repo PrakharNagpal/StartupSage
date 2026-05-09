@@ -1,0 +1,17 @@
+[project]
+name = "startupsage-server"
+version = "0.1.0"
+description = "FastAPI baseline for the StartupSage hackathon project."
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi==0.110.3",
+  "uvicorn==0.38.0",
+  "pydantic==1.10.26",
+  "python-dotenv==1.2.1",
+  "sse-starlette==3.0.3",
+  "httpx==0.28.1",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
