@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowLeft, CheckCircle2, CircleAlert, RotateCcw, Sparkles } from "lucide-react";
+import { ArrowLeft, CheckCircle2, CircleAlert, RotateCcw, Sparkles, Star } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 
 import PageShell from "../components/layout/PageShell.jsx";
@@ -15,8 +15,9 @@ import { loadSessionSages } from "../lib/sages.js";
 import { normalizeReport, verdictBadgeVariant, verdictLabel } from "../lib/report.js";
 
 function ScoreDial({ score }) {
+  const degrees = Math.max(0, Math.min(100, Number(score) || 0)) / 100 * 360;
   return (
-    <div className="score-dial" style={{ "--score": score }}>
+    <div className="score-dial" style={{ "--score-degrees": `${degrees}deg` }}>
       <div className="text-center">
         <div className="text-5xl font-extrabold text-white">{score}</div>
         <div className="mt-1 text-xs font-semibold uppercase text-gold">Survival</div>
@@ -105,24 +106,36 @@ export default function Report() {
             </CardContent>
           </Card>
 
-          <div className="grid gap-4 lg:grid-cols-3">
-            {report.sageVerdicts.map((sage) => (
-              <Card key={sage.key}>
-                <CardHeader>
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <CardTitle className="text-base">{sage.name}</CardTitle>
-                      <p className="mt-1 text-xs text-gold">{sage.failedStartup}</p>
-                    </div>
-                    <Badge variant={verdictBadgeVariant(sage.verdict)}>{verdictLabel(sage.verdict)}</Badge>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm leading-6 text-white/[0.64]">{sage.rationale}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+          <Card className="border-gold/[0.18] bg-[rgba(16,16,16,0.9)]">
+            <CardHeader>
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <CardTitle>Council Summary</CardTitle>
+                <Badge variant={verdictBadgeVariant(report.councilSummary.verdict)}>
+                  {verdictLabel(report.councilSummary.verdict)}
+                </Badge>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <p className="text-lg italic leading-8 text-white/[0.78]">
+                {report.councilSummary.consensus}
+              </p>
+
+              <div>
+                <h3 className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-gold">
+                  <Star className="h-4 w-4 fill-gold text-gold" />
+                  What we liked
+                </h3>
+                <ul className="mt-3 space-y-3">
+                  {report.councilSummary.whatWeLiked.map((item) => (
+                    <li key={item} className="flex gap-3 text-sm leading-6 text-white/[0.7]">
+                      <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-teal" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
 
           <div className="grid gap-4 lg:grid-cols-2">
             <Card>

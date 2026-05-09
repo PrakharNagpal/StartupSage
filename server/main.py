@@ -3,11 +3,12 @@ from __future__ import annotations
 import inspect
 import uuid
 import asyncio
+import traceback
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-from fastapi import FastAPI, HTTPException
+from fastapi import BackgroundTasks, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 from database import db, init_db
@@ -23,6 +24,7 @@ from schemas import (
 
 
 SERVER_ROOT = Path(__file__).resolve().parent
+session_message_locks: dict[str, asyncio.Lock] = {}
 
 
 def load_environment() -> None:
@@ -66,6 +68,14 @@ async def maybe_await(value: Any) -> Any:
     if inspect.isawaitable(value):
         return await value
     return value
+
+
+def get_session_message_lock(session_id: str) -> asyncio.Lock:
+    lock = session_message_locks.get(session_id)
+    if lock is None:
+        lock = asyncio.Lock()
+        session_message_locks[session_id] = lock
+    return lock
 
 
 def utc_now() -> str:
@@ -128,6 +138,7 @@ async def call_orchestrator(session_id: str, content: str, round_number: int) ->
     except TypeError:
         await maybe_await(handler(session_id, content))
     except Exception:
+        traceback.print_exc()
         return False
 
     return True
@@ -153,6 +164,17 @@ async def get_agent_report(session_id: str) -> dict[str, Any] | None:
     return None
 
 
+async def run_verdicts_background(session_id: str) -> None:
+    try:
+        from agents import sage_orchestrator
+
+        verdict_runner = getattr(sage_orchestrator, "run_verdicts", None)
+        if verdict_runner is not None:
+            await maybe_await(verdict_runner(session_id))
+    except Exception:
+        traceback.print_exc()
+
+
 def fallback_report(session_id: str, idea_text: str) -> dict[str, Any]:
     return {
         "survival_score": 50,
@@ -160,16 +182,17 @@ def fallback_report(session_id: str, idea_text: str) -> dict[str, Any]:
             "Agent report generation is not connected yet. This placeholder confirms the "
             f"report endpoint is reachable for session {session_id}."
         ),
-        "sage_verdicts": [
-            {
-                "sage_id": sage["id"],
-                "sage_name": sage["name"],
-                "persona": sage["persona"],
-                "verdict": "pivot",
-                "rationale": f"Validate the idea against {sage['failed_startup']}'s failure pattern.",
-            }
-            for sage in STUB_SAGES
-        ],
+        "council_summary": {
+            "consensus": (
+                "We believe the idea needs more validation before it can be called resilient, "
+                "especially around distribution, timing, and unit economics."
+            ),
+            "what_we_liked": [
+                "The founder submitted a concrete idea for the council to evaluate.",
+                "The report endpoint is reachable and ready for generated council synthesis.",
+            ],
+            "verdict": "pivot",
+        },
         "top_risks": [
             "The initial customer acquisition channel is not proven.",
             "The timing assumptions need evidence from real buyers.",
@@ -221,22 +244,12 @@ async def emit_fallback_sage_turn(session_id: str, user_content: str, round_numb
         await push_event(session_id, "report_ready", {"session_id": session_id})
         return
 
-    responses = [
-        (
-            "sage_1",
-            f"You said: {user_content} I still need the acquisition proof. What exact channel gets the first 100 paying users without discounts doing all the work?",
-        ),
-        (
-            "sage_2",
-            "That is a plausible wedge, but timing needs sharper evidence. What behavior or platform shift makes this urgent this quarter?",
-        ),
-        (
-            "sage_3",
-            "The wedge is useful only if the math survives. What gross margin, retention, and payback period make this worth scaling?",
-        ),
-    ]
-    for sage_id, text in responses:
-        await stream_tokens(session_id, sage_id, text, 2)
+    sage_id = "sage_1"
+    text = (
+        f"You said: {user_content} I still need the acquisition proof. What exact channel gets "
+        "the first 100 paying users without discounts doing all the work?"
+    )
+    await stream_tokens(session_id, sage_id, text, 2)
 
 
 def create_app() -> FastAPI:
@@ -293,28 +306,47 @@ def create_app() -> FastAPI:
 
     @app.post("/sessions/{session_id}/messages", response_model=StatusResponse)
     async def add_message(session_id: str, payload: UserMessageRequest) -> StatusResponse:
+        async with get_session_message_lock(session_id):
+            session = get_session_or_404(session_id)
+            message_id = str(uuid.uuid4())
+            round_number = int(session["current_round"])
+
+            with db() as connection:
+                connection.execute(
+                    """
+                    INSERT INTO messages (id, session_id, role, content, round_number, timestamp)
+                    VALUES (?, ?, ?, ?, ?, ?)
+                    """,
+                    (message_id, session_id, "user", payload.content, round_number, utc_now()),
+                )
+
+            handled = await call_orchestrator(session_id, payload.content, round_number)
+            if not handled:
+                await emit_fallback_sage_turn(session_id, payload.content, round_number)
+                with db() as connection:
+                    connection.execute(
+                        "UPDATE sessions SET current_round = ? WHERE id = ?",
+                        (2 if round_number < 2 else round_number, session_id),
+                    )
+        return StatusResponse(status="ok")
+
+    @app.post("/sessions/{session_id}/end", response_model=StatusResponse)
+    async def end_session(session_id: str, background_tasks: BackgroundTasks) -> StatusResponse:
         session = get_session_or_404(session_id)
-        message_id = str(uuid.uuid4())
-        round_number = int(session["current_round"])
+        status = str(session["status"])
+        if status == "completed":
+            return StatusResponse(status="already_completed")
+        if status != "in_session":
+            raise HTTPException(status_code=400, detail="Session is not active.")
 
         with db() as connection:
             connection.execute(
-                """
-                INSERT INTO messages (id, session_id, role, content, round_number, timestamp)
-                VALUES (?, ?, ?, ?, ?, ?)
-                """,
-                (message_id, session_id, "user", payload.content, round_number, utc_now()),
+                "UPDATE sessions SET status = ? WHERE id = ?",
+                ("completing", session_id),
             )
 
-        handled = await call_orchestrator(session_id, payload.content, round_number)
-        if not handled:
-            await emit_fallback_sage_turn(session_id, payload.content, round_number)
-            with db() as connection:
-                connection.execute(
-                    "UPDATE sessions SET current_round = ? WHERE id = ?",
-                    (2 if round_number < 2 else round_number, session_id),
-                )
-        return StatusResponse(status="ok")
+        background_tasks.add_task(run_verdicts_background, session_id)
+        return StatusResponse(status="completing")
 
     @app.get("/sessions/{session_id}/report", response_model=ReportResponse)
     async def report(session_id: str) -> ReportResponse:
@@ -323,6 +355,52 @@ def create_app() -> FastAPI:
         if report_data is None:
             report_data = fallback_report(session_id, session["idea_text"])
         return ReportResponse(**report_data)
+
+    @app.get("/sessions/{session_id}/test-report")
+    async def test_report(session_id: str) -> dict[str, Any]:
+        session = get_session_or_404(session_id)
+        try:
+            from agents import report_generator
+
+            result = await report_generator.generate_report(
+                session_id=f"{session_id}:test",
+                idea_text=session["idea_text"],
+                all_verdicts=[
+                    {
+                        "sage_id": "sage_1",
+                        "sage_name": "Distribution Skeptic",
+                        "persona": "Quibi founder",
+                        "failed_startup": "Quibi",
+                        "verdict": "pivot",
+                        "rationale": "The distribution plan needs a repeatable acquisition wedge.",
+                    },
+                    {
+                        "sage_id": "sage_2",
+                        "sage_name": "Timing Realist",
+                        "persona": "Webvan founder",
+                        "failed_startup": "Webvan",
+                        "verdict": "survives",
+                        "rationale": "The market could be ready if the founder validates urgency.",
+                    },
+                    {
+                        "sage_id": "sage_3",
+                        "sage_name": "Unit Economics Hawk",
+                        "persona": "MoviePass founder",
+                        "failed_startup": "MoviePass",
+                        "verdict": "pivot",
+                        "rationale": "Margins and payback period are not proven yet.",
+                    },
+                ],
+                transcript=(
+                    "User: I want to launch a premium neighborhood coffee subscription.\n"
+                    "Distribution Skeptic: What exact channel gets your first 100 subscribers?\n"
+                    "User: I will start with office managers in three buildings where I already know tenants."
+                ),
+            )
+            return {"result": result, "debug": report_generator.LAST_REPORT_DEBUG}
+        except Exception as exc:
+            traceback.print_exc()
+            return {"error": str(exc)}
 
     return app
 

@@ -5,13 +5,23 @@ import { Link, useParams } from "react-router-dom";
 
 import PageShell from "../components/layout/PageShell.jsx";
 import { Alert, AlertDescription, AlertTitle } from "../components/ui/alert.jsx";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "../components/ui/alert-dialog.jsx";
 import { Badge } from "../components/ui/badge.jsx";
 import { Button } from "../components/ui/button.jsx";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card.jsx";
 import { Input } from "../components/ui/input.jsx";
 import { Skeleton } from "../components/ui/skeleton.jsx";
 import { useSSE } from "../hooks/useSSE.js";
-import { sendSessionMessage } from "../lib/api.js";
+import { endSession, sendSessionMessage } from "../lib/api.js";
 import { makeId } from "../lib/utils.js";
 import { loadSessionSages } from "../lib/sages.js";
 import { verdictBadgeVariant, verdictLabel } from "../lib/report.js";
@@ -290,13 +300,17 @@ export default function LiveSession() {
   const [activeSageKey, setActiveSageKey] = useState(null);
   const [awaitingReply, setAwaitingReply] = useState(false);
   const [verdicts, setVerdicts] = useState({});
+  const [sessionEnding, setSessionEnding] = useState(false);
   const [reportReady, setReportReady] = useState(false);
   const [introPhase, setIntroPhase] = useState("order"); // "order" | "begin" | "done"
   const [transcriptOpen, setTranscriptOpen] = useState(true);
   const [filterSage, setFilterSage] = useState(null);
+  const [endDialogOpen, setEndDialogOpen] = useState(false);
+  const [tooEarlyDialogOpen, setTooEarlyDialogOpen] = useState(false);
   const processedEvents = useRef(0);
   const feedEndRef = useRef(null);
   const messageRefs = useRef(new Map());
+  const userReplyCount = useMemo(() => messages.filter((message) => message.role === "user").length, [messages]);
 
   const scrollToLatestSageMessage = useCallback((sageKey) => {
     const last = [...messages].reverse().find((m) => m.role === "sage" && m.sageKey === sageKey);
@@ -309,6 +323,16 @@ export default function LiveSession() {
 
   const sendMessage = useMutation({
     mutationFn: (content) => sendSessionMessage(id, content),
+  });
+
+  const endSessionMutation = useMutation({
+    mutationFn: () => endSession(id),
+    onSuccess: () => {
+      setEndDialogOpen(false);
+      setSessionEnding(true);
+      setActiveSageKey(null);
+      setAwaitingReply(false);
+    },
   });
 
   useEffect(() => {
@@ -387,8 +411,15 @@ export default function LiveSession() {
         }
       }
 
+      if (event.type === "session_ending") {
+        setSessionEnding(true);
+        setActiveSageKey(null);
+        setAwaitingReply(false);
+      }
+
       if (event.type === "done" || event.type === "report_ready") {
         setReportReady(true);
+        setSessionEnding(false);
         setActiveSageKey(null);
         setAwaitingReply(false);
         setMessages((current) => current.map((message) => ({ ...message, streaming: false })));
@@ -438,12 +469,26 @@ export default function LiveSession() {
   const handleSend = async (event) => {
     event.preventDefault();
     const content = input.trim();
-    if (!content || sendMessage.isPending) return;
+    if (!content || sendMessage.isPending || sessionEnding || reportReady) return;
 
     setMessages((current) => [...current, { id: makeId("user"), role: "user", content }]);
     setInput("");
     setAwaitingReply(false);
     sendMessage.mutate(content);
+  };
+
+  const handleEndSessionClick = () => {
+    if (userReplyCount === 0) {
+      setTooEarlyDialogOpen(true);
+      return;
+    }
+    setEndDialogOpen(true);
+  };
+
+  const handleConfirmEndSession = () => {
+    if (!sessionEnding && !reportReady && !endSessionMutation.isPending) {
+      endSessionMutation.mutate();
+    }
   };
 
   return (
@@ -496,14 +541,33 @@ export default function LiveSession() {
             <h1 className="font-display text-4xl font-bold text-foreground sm:text-5xl">Live Session</h1>
             <p className="mt-2 text-sm text-foreground/50">Round {round} of 2</p>
           </div>
-          {reportReady ? (
-            <Button asChild>
-              <Link to={`/report/${id}`}>
-                View Report
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
-          ) : null}
+          <div className="flex flex-wrap items-center gap-3">
+            {!reportReady ? (
+              <Button
+                variant="outline"
+                className="border-red-400/30 text-red-200 hover:bg-red-500/10"
+                disabled={sessionEnding || endSessionMutation.isPending}
+                onClick={handleEndSessionClick}
+              >
+                {endSessionMutation.isPending ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Ending...
+                  </>
+                ) : (
+                  "End Session & Get Report"
+                )}
+              </Button>
+            ) : null}
+            {reportReady ? (
+              <Button asChild>
+                <Link to={`/report/${id}`}>
+                  View Report
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </Button>
+            ) : null}
+          </div>
         </header>
 
         <CouncilBench sages={sages} verdicts={verdicts} activeSageKey={activeSageKey} messages={messages} onBubbleClick={scrollToLatestSageMessage} />
@@ -636,12 +700,12 @@ export default function LiveSession() {
                     : "Waiting for the next judge…"
                 }
                 onChange={(event) => setInput(event.target.value)}
-                disabled={sendMessage.isPending || reportReady || !activeSageKey || !awaitingReply}
+                disabled={sendMessage.isPending || sessionEnding || reportReady || !activeSageKey || !awaitingReply}
               />
               <Button
                 type="submit"
                 size="icon"
-                disabled={!input.trim() || sendMessage.isPending || reportReady || !activeSageKey || !awaitingReply}
+                disabled={!input.trim() || sendMessage.isPending || sessionEnding || reportReady || !activeSageKey || !awaitingReply}
                 aria-label="Send message"
               >
                 {sendMessage.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
@@ -650,6 +714,39 @@ export default function LiveSession() {
           </CardContent>
         </Card>
       </section>
+
+      <AlertDialog open={endDialogOpen} onOpenChange={setEndDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>End council session?</AlertDialogTitle>
+            <AlertDialogDescription>
+              The sages will deliver their verdicts based on the conversation so far. This cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setEndDialogOpen(false)}>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleConfirmEndSession} disabled={endSessionMutation.isPending}>
+              {endSessionMutation.isPending ? "Ending..." : "End Session"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog open={tooEarlyDialogOpen} onOpenChange={setTooEarlyDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Too early to end</AlertDialogTitle>
+            <AlertDialogDescription>
+              The council needs to hear from you first. Reply to at least one sage before ending the session.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogAction variant="secondary" onClick={() => setTooEarlyDialogOpen(false)}>
+              OK
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </PageShell>
   );
 }

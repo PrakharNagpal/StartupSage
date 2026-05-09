@@ -1,4 +1,4 @@
-import { defaultSages, normalizeSage } from "./sages.js";
+import { defaultSages } from "./sages.js";
 
 function stripMarkdown(value = "") {
   return value
@@ -52,33 +52,21 @@ export function verdictLabel(value) {
 export function normalizeReport(payload = {}, sages = defaultSages) {
   const markdown = payload.markdown || "";
   const score = Number(payload.survival_score ?? payload.score ?? 0);
-  const rawVerdicts = payload.sage_verdicts || payload.sageVerdicts || [];
+  console.log("report.survival_score", payload.survival_score);
 
-  const sageVerdicts = rawVerdicts.length
-    ? rawVerdicts.map((verdict, index) => {
-        const sageId = verdict.sage_id || verdict.sageId || verdict.key;
-        const matched = sages.find((sage) => sage.key === sageId || sage.name === verdict.sage_name) || sages[index];
-        const normalizedSage = normalizeSage(
-          {
-            ...matched,
-            ...verdict,
-            key: sageId || matched?.key,
-            name: verdict.sage_name || verdict.sageName || verdict.name || matched?.name,
-          },
-          index,
-        );
-
-        return {
-          ...normalizedSage,
-          verdict: normalizeVerdict(verdict.verdict),
-          rationale: verdict.rationale || "The detailed rationale has not been generated yet.",
-        };
-      })
-    : sages.map((sage) => ({
-        ...sage,
-        verdict: "pending",
-        rationale: "The council has not published a full verdict for this sage yet.",
-      }));
+  const councilSummary = payload.council_summary ||
+    payload.councilSummary || {
+      consensus:
+        payload.overall_verdict ||
+        payload.overallVerdict ||
+        markdownSection(markdown, "Verdict Summary") ||
+        "We have enough signal to continue, but the riskiest assumptions still need direct evidence.",
+      what_we_liked: [
+        "The founder brought a concrete idea into the council review.",
+        "The conversation produced testable risks around distribution, timing, and unit economics.",
+      ],
+      verdict: payload.verdict || "pivot",
+    };
 
   return {
     score: Number.isFinite(score) ? Math.max(0, Math.min(100, score)) : 0,
@@ -87,7 +75,14 @@ export function normalizeReport(payload = {}, sages = defaultSages) {
       payload.overallVerdict ||
       markdownSection(markdown, "Verdict Summary") ||
       "The council has enough signal to continue, but the riskiest assumptions still need direct evidence.",
-    sageVerdicts,
+    councilSummary: {
+      consensus: councilSummary.consensus || "We believe the idea needs more validation before scaling.",
+      whatWeLiked: firstNonEmptyArray(councilSummary.what_we_liked, councilSummary.whatWeLiked, [
+        "The founder brought a concrete idea into the council review.",
+        "The conversation produced testable risks around distribution, timing, and unit economics.",
+      ]),
+      verdict: normalizeVerdict(councilSummary.verdict),
+    },
     topRisks: firstNonEmptyArray(payload.top_risks, payload.topRisks, markdownList(markdown, "Top Risks"), [
         "Distribution assumptions are not yet proven.",
         "Market timing needs sharper evidence.",

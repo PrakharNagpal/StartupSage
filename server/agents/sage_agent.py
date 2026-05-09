@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 from pathlib import Path
 from typing import Any
 
@@ -89,6 +90,21 @@ class SageAgent:
             raise ValueError("OpenAI returned an empty response")
         return response_text.strip()
 
+    def _strip_self_label(self, text: str) -> str:
+        labels = [self.name, self.failed_startup]
+        cleaned = text.strip()
+        for label in labels:
+            if not label:
+                continue
+            cleaned = re.sub(
+                rf"^\s*{re.escape(label)}\s*:\s*",
+                "",
+                cleaned,
+                count=1,
+                flags=re.IGNORECASE,
+            )
+        return cleaned.strip()
+
     async def opening_message(self, idea_text: str) -> str:
         prompt = SAGE_OPENING_PROMPT.format(
             sage_name=self.name,
@@ -96,7 +112,7 @@ class SageAgent:
             failure_lesson=self.failure_lesson,
             idea_text=idea_text,
         )
-        return await self._call_openai(prompt)
+        return self._strip_self_label(await self._call_openai(prompt))
 
     async def followup(self, idea_text: str, full_transcript: str) -> str:
         prompt = SAGE_FOLLOWUP_PROMPT.format(
@@ -105,7 +121,7 @@ class SageAgent:
             idea_text=idea_text,
             full_transcript=full_transcript,
         )
-        return await self._call_openai(prompt)
+        return self._strip_self_label(await self._call_openai(prompt))
 
     async def respond(
         self,
@@ -130,7 +146,7 @@ class SageAgent:
             memory_context="\n".join(memory_context or []) if memory_context else "Nothing yet",
             user_content=user_content,
         )
-        return await self._call_openai(prompt)
+        return self._strip_self_label(await self._call_openai(prompt))
 
     async def verdict(self, idea_text: str, full_transcript: str) -> dict:
         prompt = SAGE_VERDICT_PROMPT.format(

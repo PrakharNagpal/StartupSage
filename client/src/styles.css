@@ -97,7 +97,7 @@ button:disabled {
 
 
 .score-dial {
-  --score: 0;
+  --score-degrees: 0deg;
   display: grid;
   width: 190px;
   aspect-ratio: 1;

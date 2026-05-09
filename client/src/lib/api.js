@@ -65,6 +65,12 @@ export async function sendSessionMessage(sessionId, content) {
   });
 }
 
+export async function endSession(sessionId) {
+  return fetchJson(`/sessions/${sessionId}/end`, {
+    method: "POST",
+  });
+}
+
 export async function getSessionMessages(sessionId) {
   return fetchJson(`/sessions/${sessionId}/messages`);
 }

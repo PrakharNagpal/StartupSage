@@ -33,12 +33,10 @@ class StatusResponse(BaseModel):
     status: str
 
 
-class SageVerdict(BaseModel):
-    sage_id: str
-    sage_name: str
-    persona: str
+class CouncilSummary(BaseModel):
+    consensus: str
+    what_we_liked: list[str]
     verdict: str
-    rationale: str
 
 
 class ClosestParallel(BaseModel):
@@ -49,7 +47,7 @@ class ClosestParallel(BaseModel):
 class ReportResponse(BaseModel):
     survival_score: int
     overall_verdict: str
-    sage_verdicts: list[SageVerdict]
+    council_summary: CouncilSummary
     top_risks: list[str]
     top_improvements: list[str]
     closest_parallel: ClosestParallel
