@@ -100,20 +100,37 @@ async def run_researcher(idea_text: str) -> tuple[list[dict[str, Any]], dict[str
     return sages, debug
 
 
-async def call_orchestrator(session_id: str, content: str, round_number: int) -> None:
+def init_orchestrator_sages(session_id: str, sages: list[dict[str, Any]]) -> None:
     try:
         from agents import sage_orchestrator
     except Exception:
         return
 
+    initializer = getattr(sage_orchestrator, "init_sages", None)
+    if initializer is None:
+        return
+
+    initializer(session_id, sages)
+
+
+async def call_orchestrator(session_id: str, content: str, round_number: int) -> bool:
+    try:
+        from agents import sage_orchestrator
+    except Exception:
+        return False
+
     handler = getattr(sage_orchestrator, "handle_user_message", None)
     if handler is None:
-        return
+        return False
 
     try:
         await maybe_await(handler(session_id, content, round_number))
     except TypeError:
         await maybe_await(handler(session_id, content))
+    except Exception:
+        return False
+
+    return True
 
 
 async def get_agent_report(session_id: str) -> dict[str, Any] | None:
@@ -265,6 +282,7 @@ def create_app() -> FastAPI:
             )
 
         sages, debug = await run_researcher(session["idea_text"])
+        init_orchestrator_sages(session_id, sages)
 
         with db() as connection:
             connection.execute(
@@ -288,8 +306,9 @@ def create_app() -> FastAPI:
                 (message_id, session_id, "user", payload.content, round_number, utc_now()),
             )
 
-        await call_orchestrator(session_id, payload.content, round_number)
-        await emit_fallback_sage_turn(session_id, payload.content, round_number)
+        handled = await call_orchestrator(session_id, payload.content, round_number)
+        if not handled:
+            await emit_fallback_sage_turn(session_id, payload.content, round_number)
         with db() as connection:
             connection.execute(
                 "UPDATE sessions SET current_round = ? WHERE id = ?",
