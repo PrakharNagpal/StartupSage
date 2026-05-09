@@ -1,7 +1,31 @@
-__pychache__/
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
 *.py[cod]
+*$py.class
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+server/.venv/
+
+# Local databases
 data/*_devb.db
 data/*_devb.db-*
-.env
-# ignore .pyc files
-*.pyc
+server/data/*.db
+server/data/*.db-*
+
+# OS / editor files
+.DS_Store
+.idea/
+.vscode/
