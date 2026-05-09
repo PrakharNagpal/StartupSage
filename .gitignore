@@ -1,0 +1,7 @@
+__pychache__/
+*.py[cod]
+data/*_devb.db
+data/*_devb.db-*
+.env
+# ignore .pyc files
+*.pyc
