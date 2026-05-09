@@ -5,7 +5,7 @@ AI-powered startup idea validation with a council of adversarial failed-founder 
 This repo contains the phase 0 hackathon baseline:
 
 - `server/` FastAPI backend with SQLite, CORS, dummy agent, SSE stream, optional Gemini/OpenAI smoke hooks, and failed-startup seed data.
-- `app/` Flutter app with Home, Submit Idea, Live Session, and Report screens.
+- `client/` React + Vite frontend with Home, Submit Idea, Live Session, and Report screens.
 - `docs/api_schema.md` shared API contract.
 - `.daytona/devcontainer.json` baseline shared dev environment config.
 
@@ -42,12 +42,18 @@ curl "http://127.0.0.1:8000/llm/smoke?provider=openai"
 ## Frontend
 
 ```bash
-cd app
-flutter pub get
-flutter run -d chrome --web-port 5858 --dart-define=API_BASE_URL=http://127.0.0.1:8000
+cd client
+npm install
+npm run dev
 ```
 
-The app can still run if the backend is offline; it falls back to baseline demo data for the live session and report.
+Optional API override:
+
+```bash
+cp .env.example .env
+```
+
+Then set `VITE_API_BASE_URL` if the backend is not running on `http://127.0.0.1:8000`.
 
 ## Phase 0 Checklist
 
@@ -57,10 +63,9 @@ The app can still run if the backend is offline; it falls back to baseline demo 
 - Gemini/OpenAI SDK hooks
 - Agent base class and echo dummy agent
 - SSE fake conversation stream
-- Flutter CORS origins configured
 - Environment example
 - 30 failed-startup seed records
-- Flutter project with Riverpod, Dio, markdown rendering, and audio dependency
+- React client scaffold with Vite, Tailwind, shadcn-style primitives, routing, TanStack Query, and SSE handling
 - Navigation and baseline screens
 - Shared API contract
 

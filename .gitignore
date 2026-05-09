@@ -15,9 +15,17 @@ htmlcov/
 
 # Virtual environments
 .venv/
+.venv-local/
 venv/
 env/
 server/.venv/
+server/.venv-local/
+
+# Node / frontend generated files
+node_modules/
+client/node_modules/
+client/dist/
+client/.vite/
 
 # Local databases
 data/*_devb.db
