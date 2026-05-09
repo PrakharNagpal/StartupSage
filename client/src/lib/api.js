@@ -32,6 +32,36 @@ async function fetchJson(path, options = {}) {
   return payload;
 }
 
+async function fetchMultipart(path, formData, options = {}) {
+  const response = await fetch(resolveApiUrl(path), {
+    mode: "cors",
+    method: "POST",
+    body: formData,
+    ...options,
+  });
+
+  const text = await response.text();
+  const payload = text ? JSON.parse(text) : null;
+
+  if (!response.ok) {
+    const detail = payload?.detail || payload?.message || response.statusText;
+    const error = new Error(detail || "Request failed");
+    error.status = response.status;
+    error.payload = payload;
+    throw error;
+  }
+
+  return payload;
+}
+
+function extensionForAudioType(contentType = "") {
+  if (contentType.includes("mp4")) return "mp4";
+  if (contentType.includes("mpeg")) return "mp3";
+  if (contentType.includes("wav")) return "wav";
+  if (contentType.includes("ogg")) return "ogg";
+  return "webm";
+}
+
 export async function createSession(idea) {
   const payload = await fetchJson("/sessions", {
     method: "POST",
@@ -69,6 +99,13 @@ export async function endSession(sessionId) {
   return fetchJson(`/sessions/${sessionId}/end`, {
     method: "POST",
   });
+}
+
+export async function transcribeSessionAudio(sessionId, audioBlob) {
+  const formData = new FormData();
+  const extension = extensionForAudioType(audioBlob.type);
+  formData.append("audio", audioBlob, `recording.${extension}`);
+  return fetchMultipart(`/sessions/${sessionId}/transcribe`, formData);
 }
 
 export async function getSessionMessages(sessionId) {

@@ -32,6 +32,7 @@ data/*_devb.db
 data/*_devb.db-*
 server/data/*.db
 server/data/*.db-*
+server/data/audio/
 
 # OS / editor files
 .DS_Store

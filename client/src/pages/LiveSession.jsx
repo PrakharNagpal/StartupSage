@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { ArrowRight, ChevronDown, ChevronUp, Loader2, Send, Wifi } from "lucide-react";
+import { ArrowRight, ChevronDown, ChevronUp, Loader2, Mic, Send, Square, Volume2, Wifi } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 
 import PageShell from "../components/layout/PageShell.jsx";
@@ -21,7 +21,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card.
 import { Input } from "../components/ui/input.jsx";
 import { Skeleton } from "../components/ui/skeleton.jsx";
 import { useSSE } from "../hooks/useSSE.js";
-import { endSession, sendSessionMessage } from "../lib/api.js";
+import { endSession, resolveApiUrl, sendSessionMessage, transcribeSessionAudio } from "../lib/api.js";
+import { createCourtIntroSound } from "../lib/courtSounds.js";
 import { makeId } from "../lib/utils.js";
 import { loadSessionSages } from "../lib/sages.js";
 import { verdictBadgeVariant, verdictLabel } from "../lib/report.js";
@@ -284,10 +285,17 @@ function normalizeTokenEvent(data, sagesByKey) {
   const sageKey = data.sage_id || data.sage_key || data.key || "sage_1";
   const sage = sagesByKey.get(sageKey);
   return {
+    messageId: data.message_id || data.messageId,
     sageKey,
     sageName: data.sage_name || data.name || sage?.name || "The Council",
     token: data.token || data.value || "",
   };
+}
+
+function preferredRecordingMimeType() {
+  if (typeof MediaRecorder === "undefined") return "";
+  const candidates = ["audio/webm;codecs=opus", "audio/webm", "audio/mp4", "audio/ogg;codecs=opus"];
+  return candidates.find((type) => MediaRecorder.isTypeSupported(type)) || "";
 }
 
 export default function LiveSession() {
@@ -308,9 +316,20 @@ export default function LiveSession() {
   const [endDialogOpen, setEndDialogOpen] = useState(false);
   const [tooEarlyDialogOpen, setTooEarlyDialogOpen] = useState(false);
   const [verdictDialogOpen, setVerdictDialogOpen] = useState(false);
+  const [voiceState, setVoiceState] = useState("idle"); // "idle" | "recording" | "transcribing"
+  const [voiceError, setVoiceError] = useState(null);
+  const [audioError, setAudioError] = useState(null);
+  const [playingAudioId, setPlayingAudioId] = useState(null);
   const processedEvents = useRef(0);
   const feedEndRef = useRef(null);
   const messageRefs = useRef(new Map());
+  const mediaRecorderRef = useRef(null);
+  const mediaStreamRef = useRef(null);
+  const audioChunksRef = useRef([]);
+  const audioPlayerRef = useRef(null);
+  const introSoundRef = useRef(null);
+  const readySoundPlayedRef = useRef(false);
+  const gavelSoundPlayedRef = useRef(false);
   const userReplyCount = useMemo(() => messages.filter((message) => message.role === "user").length, [messages]);
 
   const scrollToLatestSageMessage = useCallback((sageKey) => {
@@ -336,6 +355,143 @@ export default function LiveSession() {
     },
   });
 
+  const playAudioUrl = useCallback((audioUrl, messageId, { silent = false } = {}) => {
+    if (!audioUrl) return;
+
+    audioPlayerRef.current?.pause();
+    const audio = new Audio(resolveApiUrl(audioUrl));
+    audioPlayerRef.current = audio;
+    setPlayingAudioId(messageId || null);
+    setAudioError(null);
+
+    const clearPlaying = () => {
+      setPlayingAudioId((current) => (current === messageId ? null : current));
+    };
+    audio.onended = clearPlaying;
+    audio.onpause = clearPlaying;
+    audio.onerror = () => {
+      clearPlaying();
+      if (!silent) setAudioError("Judge audio could not be played.");
+    };
+
+    const playPromise = audio.play();
+    if (playPromise?.catch) {
+      playPromise.catch(() => {
+        clearPlaying();
+        if (!silent) setAudioError("Audio playback was blocked. Use the speaker button to play it.");
+      });
+    }
+  }, []);
+
+  const transcribeAudio = useMutation({
+    mutationFn: (audioBlob) => transcribeSessionAudio(id, audioBlob),
+    onSuccess: (payload) => {
+      const transcript = (payload?.text || "").trim();
+      if (!transcript) {
+        setVoiceError("No speech was detected. Try recording again.");
+        return;
+      }
+
+      if (sendMessage.isPending || sessionEnding || reportReady || !activeSageKey || !awaitingReply) {
+        setInput(transcript);
+        setVoiceError("Transcript is ready, but the council is not accepting replies right now.");
+        return;
+      }
+
+      setMessages((current) => [...current, { id: makeId("user"), role: "user", content: transcript }]);
+      setInput("");
+      setVoiceError(null);
+      setAwaitingReply(false);
+      sendMessage.mutate(transcript);
+    },
+    onError: (error) => {
+      setVoiceError(error?.message || "Voice input could not be transcribed.");
+    },
+    onSettled: () => {
+      setVoiceState("idle");
+    },
+  });
+
+  const cleanupVoiceRecorder = useCallback(() => {
+    mediaStreamRef.current?.getTracks().forEach((track) => track.stop());
+    mediaStreamRef.current = null;
+    mediaRecorderRef.current = null;
+    audioChunksRef.current = [];
+  }, []);
+
+  const stopVoiceRecording = useCallback(() => {
+    const recorder = mediaRecorderRef.current;
+    if (!recorder || recorder.state === "inactive") return;
+    setVoiceState("transcribing");
+    recorder.stop();
+  }, []);
+
+  const startVoiceRecording = useCallback(async () => {
+    if (!navigator.mediaDevices?.getUserMedia || typeof MediaRecorder === "undefined") {
+      setVoiceError("Voice recording is not supported in this browser.");
+      return;
+    }
+
+    setVoiceError(null);
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const mimeType = preferredRecordingMimeType();
+      const recorder = mimeType ? new MediaRecorder(stream, { mimeType }) : new MediaRecorder(stream);
+
+      mediaStreamRef.current = stream;
+      mediaRecorderRef.current = recorder;
+      audioChunksRef.current = [];
+
+      recorder.ondataavailable = (event) => {
+        if (event.data?.size) audioChunksRef.current.push(event.data);
+      };
+
+      recorder.onerror = () => {
+        cleanupVoiceRecorder();
+        setVoiceState("idle");
+        setVoiceError("Recording failed. Try again.");
+      };
+
+      recorder.onstop = () => {
+        const chunks = audioChunksRef.current;
+        const contentType = recorder.mimeType || mimeType || "audio/webm";
+        const audioBlob = chunks.length ? new Blob(chunks, { type: contentType }) : null;
+        cleanupVoiceRecorder();
+
+        if (!audioBlob?.size) {
+          setVoiceState("idle");
+          setVoiceError("No audio was recorded. Try again.");
+          return;
+        }
+
+        setVoiceState("transcribing");
+        transcribeAudio.mutate(audioBlob);
+      };
+
+      recorder.start();
+      setVoiceState("recording");
+    } catch (error) {
+      cleanupVoiceRecorder();
+      setVoiceState("idle");
+      setVoiceError(
+        error?.name === "NotAllowedError"
+          ? "Microphone permission was denied."
+          : "Microphone could not be started.",
+      );
+    }
+  }, [cleanupVoiceRecorder, transcribeAudio]);
+
+  useEffect(() => cleanupVoiceRecorder, [cleanupVoiceRecorder]);
+  useEffect(() => () => audioPlayerRef.current?.pause(), []);
+
+  useEffect(() => {
+    introSoundRef.current = createCourtIntroSound();
+    return () => {
+      introSoundRef.current?.dispose();
+      introSoundRef.current = null;
+    };
+  }, []);
+
   useEffect(() => {
     const pending = events.slice(processedEvents.current);
     if (!pending.length) return;
@@ -356,14 +512,17 @@ export default function LiveSession() {
         setMessages((current) => {
           const next = [...current];
           const last = next[next.length - 1];
-          if (last?.role === "sage" && last.sageKey === tokenEvent.sageKey && last.streaming) {
+          const matchesCurrentMessage = tokenEvent.messageId
+            ? last?.id === tokenEvent.messageId
+            : last?.role === "sage" && last.sageKey === tokenEvent.sageKey && last.streaming;
+          if (last?.role === "sage" && matchesCurrentMessage && last.streaming) {
             next[next.length - 1] = { ...last, content: `${last.content}${tokenEvent.token}` };
             return next;
           }
           return [
             ...next,
             {
-              id: makeId("sage"),
+              id: tokenEvent.messageId || makeId("sage"),
               role: "sage",
               sageKey: tokenEvent.sageKey,
               sageName: tokenEvent.sageName,
@@ -375,12 +534,37 @@ export default function LiveSession() {
       }
 
       if (event.type === "message_done" || event.type === "sage_done") {
+        const messageId = event.data.message_id || event.data.messageId;
         const sageKey = event.data.sage_id || event.data.sage_key || event.data.key;
         const nextRound = Number(event.data.round);
         if (Number.isFinite(nextRound)) setRound(Math.max(1, Math.min(2, nextRound)));
         setMessages((current) =>
-          current.map((message) => (message.sageKey === sageKey ? { ...message, streaming: false } : message)),
+          current.map((message) =>
+            message.id === messageId || (!messageId && message.sageKey === sageKey)
+              ? { ...message, streaming: false }
+              : message,
+          ),
         );
+      }
+
+      if (event.type === "sage_audio") {
+        const messageId = event.data.message_id || event.data.messageId;
+        const audioUrl = event.data.audio_url || event.data.audioUrl;
+        if (!messageId || !audioUrl) return;
+
+        setMessages((current) =>
+          current.map((message) =>
+            message.id === messageId
+              ? {
+                  ...message,
+                  audioUrl,
+                  audioVoice: event.data.voice,
+                  audioFormat: event.data.format,
+                }
+              : message,
+          ),
+        );
+        playAudioUrl(audioUrl, messageId);
       }
 
       if (event.type === "verdict") {
@@ -398,17 +582,23 @@ export default function LiveSession() {
         const sageKey = event.data.sage_id || event.data.sage_key || event.data.key;
         const sage = sagesByKey.get(sageKey);
         if (event.data.reaction) {
+          const messageId = event.data.message_id || event.data.messageId || makeId("reaction");
+          const audioUrl = event.data.audio_url || event.data.audioUrl;
           setMessages((current) => [
             ...current,
             {
-              id: makeId("reaction"),
+              id: messageId,
               role: "sage",
               sageKey,
               sageName: sage?.name || "The Council",
               content: event.data.reaction,
+              audioUrl,
+              audioVoice: event.data.voice,
+              audioFormat: event.data.format,
               streaming: false,
             },
           ]);
+          if (audioUrl) playAudioUrl(audioUrl, messageId);
         }
       }
 
@@ -429,7 +619,7 @@ export default function LiveSession() {
     });
 
     processedEvents.current = events.length;
-  }, [events, sagesByKey]);
+  }, [events, playAudioUrl, sagesByKey]);
 
   useEffect(() => {
     feedEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
@@ -446,14 +636,27 @@ export default function LiveSession() {
 
   useEffect(() => {
     if (introPhase !== "order") return;
+    if (!gavelSoundPlayedRef.current) {
+      gavelSoundPlayedRef.current = true;
+      introSoundRef.current?.playGavel();
+    }
+    introSoundRef.current?.startSummon();
     const t1 = setTimeout(() => setIntroPhase("begin"), 2200);
     return () => clearTimeout(t1);
   }, [introPhase]);
 
   useEffect(() => {
     if (introPhase !== "begin") return;
+    introSoundRef.current?.startSummon();
     const t2 = setTimeout(() => setIntroPhase("done"), 2000);
     return () => clearTimeout(t2);
+  }, [introPhase]);
+
+  useEffect(() => {
+    if (introPhase !== "done" || readySoundPlayedRef.current) return;
+    readySoundPlayedRef.current = true;
+    introSoundRef.current?.stopSummon();
+    introSoundRef.current?.playReady();
   }, [introPhase]);
 
   // Show a typing indicator when the active sage hasn't started streaming yet
@@ -475,6 +678,7 @@ export default function LiveSession() {
 
     setMessages((current) => [...current, { id: makeId("user"), role: "user", content }]);
     setInput("");
+    setVoiceError(null);
     setAwaitingReply(false);
     sendMessage.mutate(content);
   };
@@ -492,6 +696,19 @@ export default function LiveSession() {
       endSessionMutation.mutate();
     }
   };
+
+  const isRecording = voiceState === "recording";
+  const isTranscribing = voiceState === "transcribing" || transcribeAudio.isPending;
+  const voiceButtonDisabled =
+    !isRecording && (
+      sendMessage.isPending ||
+      sessionEnding ||
+      reportReady ||
+      !activeSageKey ||
+      !awaitingReply ||
+      isTranscribing
+    );
+  const inputDisabled = sendMessage.isPending || sessionEnding || reportReady || !activeSageKey || !awaitingReply || isTranscribing;
 
   return (
     <PageShell ambience={false}>
@@ -540,6 +757,10 @@ export default function LiveSession() {
               <Wifi className="h-4 w-4 text-gold" />
               {status === "open" ? "Live stream connected" : "Connecting stream"}
             </div>
+            <div className="mb-3 ml-2 inline-flex items-center gap-2 rounded-full border border-black/10 bg-black/[0.05] px-3 py-1.5 text-sm text-foreground/60">
+              <Volume2 className="h-4 w-4 text-gold" />
+              Judge voices are AI-generated
+            </div>
             <h1 className="font-display text-4xl font-bold text-foreground sm:text-5xl">Live Session</h1>
             <p className="mt-2 text-sm text-foreground/50">Round {round} of 2</p>
           </div>
@@ -585,6 +806,20 @@ export default function LiveSession() {
           <Alert variant="destructive">
             <AlertTitle>Message not sent</AlertTitle>
             <AlertDescription>{sendMessage.error?.message || "Try sending it again."}</AlertDescription>
+          </Alert>
+        ) : null}
+
+        {voiceError ? (
+          <Alert variant="destructive">
+            <AlertTitle>Voice input</AlertTitle>
+            <AlertDescription>{voiceError}</AlertDescription>
+          </Alert>
+        ) : null}
+
+        {audioError ? (
+          <Alert variant="destructive">
+            <AlertTitle>Judge audio</AlertTitle>
+            <AlertDescription>{audioError}</AlertDescription>
           </Alert>
         ) : null}
 
@@ -668,8 +903,23 @@ export default function LiveSession() {
                             style={!isUser && sage ? { borderLeft: `3px solid ${sage.avatarColor}50` } : {}}
                           >
                             {!isUser ? (
-                              <div className="mb-1 text-xs font-semibold" style={{ color: sage?.avatarColor || "#c49a2e" }}>
-                                {message.sageName || sage?.name || "The Council"}
+                              <div className="mb-1 flex items-center justify-between gap-3">
+                                <div className="min-w-0 truncate text-xs font-semibold" style={{ color: sage?.avatarColor || "#c49a2e" }}>
+                                  {message.sageName || sage?.name || "The Council"}
+                                </div>
+                                {message.audioUrl ? (
+                                  <button
+                                    type="button"
+                                    className={`inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-black/10 bg-black/[0.04] text-foreground/60 transition hover:bg-black/[0.08] hover:text-foreground ${
+                                      playingAudioId === message.id ? "animate-pulse text-gold" : ""
+                                    }`}
+                                    aria-label={`Play ${message.sageName || sage?.name || "judge"} audio`}
+                                    title={`Play ${message.sageName || sage?.name || "judge"} audio`}
+                                    onClick={() => playAudioUrl(message.audioUrl, message.id)}
+                                  >
+                                    <Volume2 className="h-3.5 w-3.5" />
+                                  </button>
+                                ) : null}
                               </div>
                             ) : null}
                             <p className="whitespace-pre-wrap text-sm leading-6">
@@ -702,12 +952,29 @@ export default function LiveSession() {
                     : "Waiting for the next judge…"
                 }
                 onChange={(event) => setInput(event.target.value)}
-                disabled={sendMessage.isPending || sessionEnding || reportReady || !activeSageKey || !awaitingReply}
+                disabled={inputDisabled}
               />
+              <Button
+                type="button"
+                size="icon"
+                variant={isRecording ? "destructive" : "secondary"}
+                disabled={voiceButtonDisabled}
+                aria-label={isRecording ? "Stop recording" : "Record voice message"}
+                title={isRecording ? "Stop recording" : "Record voice message"}
+                onClick={isRecording ? stopVoiceRecording : startVoiceRecording}
+              >
+                {isTranscribing ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : isRecording ? (
+                  <Square className="h-4 w-4" />
+                ) : (
+                  <Mic className="h-4 w-4" />
+                )}
+              </Button>
               <Button
                 type="submit"
                 size="icon"
-                disabled={!input.trim() || sendMessage.isPending || sessionEnding || reportReady || !activeSageKey || !awaitingReply}
+                disabled={!input.trim() || inputDisabled}
                 aria-label="Send message"
               >
                 {sendMessage.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}

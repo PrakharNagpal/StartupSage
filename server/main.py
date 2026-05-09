@@ -8,8 +8,9 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-from fastapi import BackgroundTasks, FastAPI, HTTPException
+from fastapi import BackgroundTasks, FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from database import db, init_db
 from sse_router import push_event, router as sse_router, stream_tokens
@@ -25,6 +26,9 @@ from schemas import (
 
 SERVER_ROOT = Path(__file__).resolve().parent
 session_message_locks: dict[str, asyncio.Lock] = {}
+AUDIO_ROOT = SERVER_ROOT / "data" / "audio"
+MAX_TRANSCRIPTION_UPLOAD_BYTES = 25 * 1024 * 1024
+SUPPORTED_BROWSER_RECORDING_TYPES = {"video/webm", "video/mp4"}
 
 
 def load_environment() -> None:
@@ -144,6 +148,41 @@ async def call_orchestrator(session_id: str, content: str, round_number: int) ->
     return True
 
 
+async def transcribe_uploaded_audio(audio: UploadFile) -> str:
+    content_type = audio.content_type or "application/octet-stream"
+    if (
+        content_type != "application/octet-stream"
+        and not content_type.startswith("audio/")
+        and content_type not in SUPPORTED_BROWSER_RECORDING_TYPES
+    ):
+        raise HTTPException(status_code=400, detail="Upload must be an audio file.")
+
+    audio_bytes = await audio.read()
+    if not audio_bytes:
+        raise HTTPException(status_code=400, detail="Audio upload was empty.")
+    if len(audio_bytes) > MAX_TRANSCRIPTION_UPLOAD_BYTES:
+        raise HTTPException(status_code=413, detail="Audio upload must be 25 MB or less.")
+
+    try:
+        from agents.transcription import transcribe_audio_bytes
+    except Exception as exc:
+        raise HTTPException(status_code=503, detail="Transcription service is unavailable.") from exc
+
+    filename = audio.filename or "recording.webm"
+    try:
+        return await transcribe_audio_bytes(
+            audio_bytes,
+            filename=filename,
+            content_type=content_type,
+        )
+    except RuntimeError as exc:
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=502, detail=str(exc)) from exc
+    except Exception as exc:
+        raise HTTPException(status_code=502, detail="OpenAI transcription failed.") from exc
+
+
 async def get_agent_report(session_id: str) -> dict[str, Any] | None:
     try:
         from agents import report_generator
@@ -254,6 +293,7 @@ async def emit_fallback_sage_turn(session_id: str, user_content: str, round_numb
 
 def create_app() -> FastAPI:
     app = FastAPI(title="StartupSage API", version="0.1.0")
+    AUDIO_ROOT.mkdir(parents=True, exist_ok=True)
 
     app.add_middleware(
         CORSMiddleware,
@@ -263,6 +303,7 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
     app.include_router(sse_router)
+    app.mount("/audio", StaticFiles(directory=AUDIO_ROOT), name="audio")
 
     @app.on_event("startup")
     def startup() -> None:
@@ -347,6 +388,14 @@ def create_app() -> FastAPI:
 
         background_tasks.add_task(run_verdicts_background, session_id)
         return StatusResponse(status="completing")
+
+    @app.post("/sessions/{session_id}/transcribe")
+    async def transcribe_session_audio(
+        session_id: str,
+        audio: UploadFile = File(...),
+    ) -> dict[str, str]:
+        get_session_or_404(session_id)
+        return {"text": await transcribe_uploaded_audio(audio)}
 
     @app.get("/sessions/{session_id}/report", response_model=ReportResponse)
     async def report(session_id: str) -> ReportResponse:

@@ -4,6 +4,7 @@ import asyncio
 import inspect
 import json
 import os
+import uuid
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -250,17 +251,68 @@ async def _push_active_sage(
     )
 
 
-async def _push_text(session_id: str, sage: SageAgent, text: str) -> None:
-    for word in text.split():
+async def _build_sage_audio(
+    session_id: str,
+    sage: SageAgent,
+    text: str,
+    message_id: str,
+) -> dict[str, str] | None:
+    try:
+        from .voice import synthesize_sage_audio
+
+        return await synthesize_sage_audio(
+            session_id=session_id,
+            message_id=message_id,
+            sage_id=sage.sage_id,
+            sage_name=sage.name,
+            text=text,
+        )
+    except Exception:
+        return None
+
+
+async def _push_text(
+    session_id: str,
+    sage: SageAgent,
+    text: str,
+    message_id: str,
+    audio: dict[str, str] | None = None,
+) -> None:
+    for index, word in enumerate(text.split()):
         await push_event(
             session_id,
             "sage_token",
             {
+                "message_id": message_id,
                 "sage_id": sage.sage_id,
                 "sage_name": sage.name,
                 "token": f"{word} ",
             },
         )
+        if index == 0 and audio:
+            await push_event(
+                session_id,
+                "sage_audio",
+                {
+                    "message_id": message_id,
+                    "sage_id": sage.sage_id,
+                    "sage_name": sage.name,
+                    **audio,
+                },
+            )
+        await asyncio.sleep(0.03)
+
+
+async def _push_sage_message(session_id: str, sage: SageAgent, text: str) -> str:
+    message_id = f"sage-{uuid.uuid4()}"
+    audio = await _build_sage_audio(session_id, sage, text, message_id)
+    await _push_text(session_id, sage, text, message_id, audio=audio)
+    await push_event(
+        session_id,
+        "sage_done",
+        {"message_id": message_id, "sage_id": sage.sage_id, "sage_name": sage.name},
+    )
+    return message_id
 
 
 def _interjection_prompt(
@@ -445,8 +497,7 @@ async def run_verdicts(session_id: str) -> None:
                 "rationale": verdict["rationale"],
             },
         )
-        await _push_text(session_id, sage, verdict_text)
-        await push_event(session_id, "sage_done", {"sage_id": sage.sage_id, "sage_name": sage.name})
+        await _push_sage_message(session_id, sage, verdict_text)
         all_verdicts.append(
             {
                 "sage_id": sage.sage_id,
@@ -485,13 +536,17 @@ async def run_verdicts(session_id: str) -> None:
 
         _append_transcript_message(session_id, reacting_sage.sage_id, reaction, reacting_sage.name)
         await memory.store_message(session_id, reacting_sage.sage_id, reaction, reacting_sage.name)
+        message_id = f"sage-{uuid.uuid4()}"
+        audio = await _build_sage_audio(session_id, reacting_sage, reaction, message_id)
         await push_event(
             session_id,
             "verdict_reaction",
             {
+                "message_id": message_id,
                 "sage_id": reacting_sage.sage_id,
                 "reacting_to_sage_id": ",".join(verdict["sage_id"] for verdict in other_verdicts),
                 "reaction": reaction,
+                **(audio or {}),
             },
         )
 
@@ -540,8 +595,7 @@ async def emit_current_sage_prompt(session_id: str) -> bool:
     _append_transcript_message(session_id, sage.sage_id, response, sage.name)
     state["last_spoke_at"][sage.sage_id] = int(state["exchange_count"])
     await memory.store_message(session_id, sage.sage_id, response, sage.name)
-    await _push_text(session_id, sage, response)
-    await push_event(session_id, "sage_done", {"sage_id": sage.sage_id, "sage_name": sage.name})
+    await _push_sage_message(session_id, sage, response)
     await _push_active_sage(session_id, sage, awaiting_reply=True)
     return True
 
@@ -605,8 +659,7 @@ async def handle_user_message(session_id: str, user_content: str, round_number: 
     _append_transcript_message(session_id, sage.sage_id, response, sage.name)
     await memory.store_message(session_id, sage.sage_id, response, sage.name)
     state["last_spoke_at"][sage.sage_id] = exchange_count
-    await _push_text(session_id, sage, response)
-    await push_event(session_id, "sage_done", {"sage_id": sage.sage_id, "sage_name": sage.name})
+    await _push_sage_message(session_id, sage, response)
 
     for interjecting_sage in sages:
         if interjecting_sage.sage_id == sage.sage_id:
@@ -634,12 +687,7 @@ async def handle_user_message(session_id: str, user_content: str, round_number: 
         )
         await memory.store_message(session_id, interjecting_sage.sage_id, interjection, interjecting_sage.name)
         state["last_spoke_at"][interjecting_sage.sage_id] = exchange_count
-        await _push_text(session_id, interjecting_sage, interjection)
-        await push_event(
-            session_id,
-            "sage_done",
-            {"sage_id": interjecting_sage.sage_id, "sage_name": interjecting_sage.name},
-        )
+        await _push_sage_message(session_id, interjecting_sage, interjection)
         break
 
     await _push_active_sage(session_id, sage, awaiting_reply=True)

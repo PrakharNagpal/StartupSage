@@ -55,6 +55,22 @@ Request:
 { "content": "We will start with indie agencies and charge per reconciled account." }
 ```
 
+## Voice Transcription
+
+`POST /sessions/{session_id}/transcribe`
+
+Request: multipart form-data with one `audio` file field.
+
+Response:
+
+```json
+{ "text": "We will start with indie agencies and charge per reconciled account." }
+```
+
+## Judge Audio
+
+Generated judge response audio is served from `/audio/{session_id}/{message_id}.mp3`.
+
 ## Live Session Stream
 
 `GET /sessions/{session_id}/stream`
@@ -62,11 +78,14 @@ Request:
 Server-Sent Events:
 
 ```text
-event: token
-data: {"sage_key":"distribution","sage_name":"The Distribution Skeptic","token":"Your "}
+event: sage_token
+data: {"message_id":"sage-uuid","sage_id":"sage_1","sage_name":"The Distribution Skeptic","token":"Your "}
 
-event: message_done
-data: {"sage_key":"distribution","sage_name":"The Distribution Skeptic"}
+event: sage_audio
+data: {"message_id":"sage-uuid","sage_id":"sage_1","sage_name":"The Distribution Skeptic","audio_url":"/audio/session/sage-uuid.mp3","voice":"marin","format":"mp3"}
+
+event: sage_done
+data: {"message_id":"sage-uuid","sage_id":"sage_1","sage_name":"The Distribution Skeptic"}
 
 event: done
 data: {"session_id":"uuid"}

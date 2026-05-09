@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import uuid
 from collections import defaultdict
 from typing import Any, AsyncIterator
 
@@ -24,10 +25,15 @@ async def push_event(session_id: str, event_type: str, data: dict[str, Any]) -> 
 
 
 async def stream_tokens(session_id: str, sage_id: str, text: str, round_number: int) -> None:
+    message_id = f"sage-{uuid.uuid4()}"
     for word in text.split():
-        await push_event(session_id, "sage_token", {"sage_id": sage_id, "token": f"{word} "})
+        await push_event(
+            session_id,
+            "sage_token",
+            {"message_id": message_id, "sage_id": sage_id, "token": f"{word} "},
+        )
         await asyncio.sleep(0.03)
-    await push_event(session_id, "sage_done", {"sage_id": sage_id, "round": round_number})
+    await push_event(session_id, "sage_done", {"message_id": message_id, "sage_id": sage_id, "round": round_number})
 
 
 def session_exists(session_id: str) -> bool:

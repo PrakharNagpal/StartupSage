@@ -8,6 +8,7 @@ const namedEvents = [
   "done",
   "sage_token",
   "sage_done",
+  "sage_audio",
   "active_sage",
   "session_ending",
   "verdict",
