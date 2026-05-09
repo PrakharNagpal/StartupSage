@@ -882,6 +882,178 @@ button:disabled {
 .summon-dots span:nth-child(2) { animation-delay: 0.2s; }
 .summon-dots span:nth-child(3) { animation-delay: 0.4s; }
 
+/* ── Verdict delivered full-page screen ── */
+@keyframes verdictRise {
+  from { opacity: 0; transform: scale(0.96) translateY(16px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes verdictSageIn {
+  from { opacity: 0; transform: translateX(-12px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.verdict-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background:
+    radial-gradient(circle at 50% 35%, rgba(196,154,46,0.18), transparent 58%),
+    radial-gradient(circle at 20% 80%, rgba(42,168,152,0.08), transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(184,62,47,0.07), transparent 40%),
+    #f7f4ee;
+  animation: summonRise 0.5s ease;
+}
+
+.verdict-screen-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  text-align: center;
+  max-width: 520px;
+  width: 100%;
+  animation: verdictRise 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.verdict-seal {
+  width: 96px;
+  height: 96px;
+  animation: sealSpin 14s linear infinite;
+}
+
+.verdict-screen-eyebrow {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #9a7030;
+  margin: 0;
+}
+
+.verdict-screen-title {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(2.2rem, 6vw, 3.4rem);
+  font-weight: 800;
+  color: #1c1810;
+  margin: 0;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.verdict-screen-rule {
+  width: 72px;
+  height: 2px;
+  background: linear-gradient(to right, transparent, #c49a2e, transparent);
+  border-radius: 1px;
+}
+
+.verdict-screen-sages {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  max-width: 380px;
+}
+
+.verdict-screen-sage {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  background: white;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  animation: verdictSageIn 0.4s ease both;
+}
+
+.verdict-screen-sage:nth-child(2) { animation-delay: 0.1s; }
+.verdict-screen-sage:nth-child(3) { animation-delay: 0.2s; }
+
+.verdict-screen-sage-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.verdict-screen-sage-name {
+  font-size: 0.75rem;
+  font-weight: 700;
+  flex: 1;
+  text-align: left;
+}
+
+.verdict-screen-sage-verdict {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #7a6040;
+  background: rgba(196,154,46,0.1);
+  border: 1px solid rgba(196,154,46,0.25);
+  border-radius: 999px;
+  padding: 2px 10px;
+}
+
+.verdict-screen-sub {
+  font-size: 0.9rem;
+  color: #7a5c28;
+  margin: 0;
+  font-style: italic;
+  max-width: 360px;
+}
+
+.verdict-screen-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 280px;
+  margin-top: 6px;
+}
+
+.verdict-screen-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 13px 24px;
+  background: #c49a2e;
+  color: #1c1810;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 10px;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  box-shadow: 0 4px 20px rgba(196,154,46,0.35);
+  transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.verdict-screen-cta:hover {
+  background: #d4aa3e;
+  box-shadow: 0 6px 28px rgba(196,154,46,0.45);
+  transform: translateY(-1px);
+}
+
+.verdict-screen-dismiss {
+  background: none;
+  border: none;
+  font-size: 0.78rem;
+  color: #9a7030;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  opacity: 0.75;
+  transition: opacity 0.15s;
+}
+
+.verdict-screen-dismiss:hover { opacity: 1; }
+
 /* ── Council intro overlay (LiveSession) ── */
 @keyframes introFadeOut {
   from { opacity: 1; }

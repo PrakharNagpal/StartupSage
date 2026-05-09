@@ -196,6 +196,63 @@ function TypingIndicator({ sage }) {
   );
 }
 
+function VerdictScreen({ id, sages, verdicts, onDismiss }) {
+  return (
+    <div className="verdict-screen">
+      <div className="verdict-screen-inner">
+
+        {/* Animated seal */}
+        <svg className="verdict-seal" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="46" fill="none" stroke="#c49a2e" strokeWidth="1.5" strokeDasharray="7 4" />
+          <circle cx="50" cy="50" r="38" fill="none" stroke="#c49a2e" strokeWidth="0.8" opacity="0.5" />
+          <circle cx="50" cy="50" r="30" fill="rgba(196,154,46,0.07)" />
+          <line x1="50" y1="28" x2="50" y2="72" stroke="#c49a2e" strokeWidth="2" strokeLinecap="round" />
+          <line x1="34" y1="38" x2="66" y2="38" stroke="#c49a2e" strokeWidth="2" strokeLinecap="round" />
+          <path d="M34 38 Q29 44 34 50 Q39 44 34 38 Z" fill="none" stroke="#c49a2e" strokeWidth="1.4" />
+          <path d="M66 38 Q61 44 66 50 Q71 44 66 38 Z" fill="none" stroke="#c49a2e" strokeWidth="1.4" />
+          <rect x="44" y="70" width="12" height="4" rx="2" fill="#c49a2e" />
+        </svg>
+
+        <p className="verdict-screen-eyebrow">The Council Has Spoken</p>
+        <h1 className="verdict-screen-title">Verdict Delivered</h1>
+
+        <div className="verdict-screen-rule" />
+
+        {/* Per-sage verdicts */}
+        {sages.length > 0 && Object.keys(verdicts).length > 0 && (
+          <div className="verdict-screen-sages">
+            {sages.map((sage) => {
+              const v = verdicts[sage.key];
+              if (!v) return null;
+              return (
+                <div key={sage.key} className="verdict-screen-sage" style={{ borderColor: `${sage.avatarColor}35` }}>
+                  <span className="verdict-screen-sage-dot" style={{ background: sage.avatarColor }} />
+                  <span className="verdict-screen-sage-name" style={{ color: sage.avatarColor }}>{sage.name}</span>
+                  <span className="verdict-screen-sage-verdict">{verdictLabel(v.verdict)}</span>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        <p className="verdict-screen-sub">
+          Your full report — scores, risks, and next steps — is ready.
+        </p>
+
+        <div className="verdict-screen-actions">
+          <Link to={`/report/${id}`} className="verdict-screen-cta">
+            View Verdict
+          </Link>
+          <button className="verdict-screen-dismiss" onClick={onDismiss}>
+            Stay in Session
+          </button>
+        </div>
+
+      </div>
+    </div>
+  );
+}
+
 function CouncilBench({ sages, verdicts, activeSageKey, messages, onBubbleClick }) {
   const activeIndex = sages.findIndex((s) => s.key === activeSageKey);
 
@@ -768,7 +825,7 @@ export default function LiveSession() {
             {!reportReady ? (
               <Button
                 variant="outline"
-                className="border-red-400/30 text-red-200 hover:bg-red-500/10"
+                className="border-red-400/40 text-red-600 hover:bg-red-50 hover:border-red-400/60"
                 disabled={sessionEnding || endSessionMutation.isPending}
                 onClick={handleEndSessionClick}
               >
@@ -1017,29 +1074,9 @@ export default function LiveSession() {
         </AlertDialogContent>
       </AlertDialog>
 
-      <AlertDialog open={verdictDialogOpen} onOpenChange={setVerdictDialogOpen}>
-        <AlertDialogContent style={{ textAlign: "center", maxWidth: 420 }}>
-          <AlertDialogHeader>
-            <div style={{ fontSize: "2.4rem", marginBottom: 4 }}>⚖️</div>
-            <AlertDialogTitle style={{ fontFamily: '"Playfair Display", Georgia, serif', fontSize: "1.4rem" }}>
-              Verdict Delivered
-            </AlertDialogTitle>
-            <AlertDialogDescription style={{ marginTop: 8 }}>
-              The council has reached its judgment. Your full report — scores, risks, and next steps — is ready for review.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter style={{ justifyContent: "center", flexDirection: "column", gap: 8 }}>
-            <AlertDialogAction asChild>
-              <Link to={`/report/${id}`} style={{ width: "100%" }}>
-                View Verdict
-              </Link>
-            </AlertDialogAction>
-            <AlertDialogCancel onClick={() => setVerdictDialogOpen(false)} style={{ width: "100%", marginTop: 0 }}>
-              Stay in Session
-            </AlertDialogCancel>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      {verdictDialogOpen && (
+        <VerdictScreen id={id} sages={sages} verdicts={verdicts} onDismiss={() => setVerdictDialogOpen(false)} />
+      )}
     </PageShell>
   );
 }

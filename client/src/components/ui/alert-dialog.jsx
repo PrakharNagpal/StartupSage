@@ -1,18 +1,24 @@
+import { createPortal } from "react-dom";
 import { cn } from "../../lib/utils.js";
 import { Button } from "./button.jsx";
 
 export function AlertDialog({ open, onOpenChange, children }) {
   if (!open) return null;
 
-  return (
-    <div className="fixed inset-0 z-50 grid place-items-center bg-black/70 px-4" role="presentation">
+  return createPortal(
+    <div
+      className="fixed inset-0 z-[100] flex items-center justify-center px-4"
+      role="presentation"
+      style={{ backdropFilter: "blur(4px)", backgroundColor: "rgba(0,0,0,0.38)" }}
+    >
       <div
         className="fixed inset-0"
         onClick={() => onOpenChange?.(false)}
         aria-hidden="true"
       />
       {children}
-    </div>
+    </div>,
+    document.body,
   );
 }
 
@@ -20,7 +26,7 @@ export function AlertDialogContent({ className, children, ...props }) {
   return (
     <div
       className={cn(
-        "relative z-10 w-full max-w-md rounded-lg border border-white/10 bg-[#111] p-6 shadow-2xl",
+        "relative z-10 w-full max-w-md rounded-xl border border-black/[0.08] bg-white p-6 shadow-2xl",
         className,
       )}
       role="alertdialog"
@@ -37,11 +43,11 @@ export function AlertDialogHeader({ className, ...props }) {
 }
 
 export function AlertDialogTitle({ className, ...props }) {
-  return <h2 className={cn("text-lg font-semibold text-white", className)} {...props} />;
+  return <h2 className={cn("text-lg font-semibold text-foreground", className)} {...props} />;
 }
 
 export function AlertDialogDescription({ className, ...props }) {
-  return <p className={cn("text-sm leading-6 text-white/65", className)} {...props} />;
+  return <p className={cn("text-sm leading-6 text-foreground/60", className)} {...props} />;
 }
 
 export function AlertDialogFooter({ className, ...props }) {
@@ -56,9 +62,9 @@ export function AlertDialogCancel({ children = "Cancel", onClick, ...props }) {
   );
 }
 
-export function AlertDialogAction({ children, onClick, variant = "destructive", ...props }) {
+export function AlertDialogAction({ children, onClick, variant = "destructive", asChild, ...props }) {
   return (
-    <Button variant={variant} onClick={onClick} {...props}>
+    <Button variant={variant} onClick={onClick} asChild={asChild} {...props}>
       {children}
     </Button>
   );
