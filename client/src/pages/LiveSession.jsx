@@ -16,75 +16,72 @@ import { makeId } from "../lib/utils.js";
 import { loadSessionSages } from "../lib/sages.js";
 import { verdictBadgeVariant, verdictLabel } from "../lib/report.js";
 
-function JudgeAvatar({ sage, isActive }) {
+function JudgeAvatar({ sage, isActive, lookDir = null }) {
   const c = sage.avatarColor;
+  // lookDir: "left" | "right" | null (centered)
+  const eyeShiftX = lookDir === "left" ? -1.8 : lookDir === "right" ? 1.8 : 0;
+  const eyeShiftY = isActive ? -2.5 : 0;
+  const browShiftX = lookDir === "left" ? -1.2 : lookDir === "right" ? 1.2 : 0;
+  const browY = isActive ? "49" : lookDir ? "52" : "51";
+
   return (
     <div className={`judge-figure ${isActive ? "active" : "idle"}`}>
       <svg viewBox="0 0 90 170" xmlns="http://www.w3.org/2000/svg" style={{ width: 100, display: "block" }}>
 
         {/* ══ THRONE CHAIR (drawn behind everything) ══ */}
-        {/* Chair back — full Gothic arch shape */}
         <path d="M12 125 L12 50 Q12 16 45 10 Q78 16 78 50 L78 125 Z"
           fill="#4a2e0e" stroke="#7a5020" strokeWidth="1.8" />
-        {/* Inner carved panel */}
         <path d="M19 122 L19 54 Q19 26 45 20 Q71 26 71 54 L71 122 Z"
           fill="#3a2208" stroke={c} strokeWidth="1.2" />
-        {/* Vertical center groove */}
         <line x1="45" y1="22" x2="45" y2="120" stroke={c} strokeWidth="0.8" strokeOpacity="0.5" />
-        {/* Horizontal grooves */}
         <line x1="22" y1="70" x2="68" y2="70" stroke={c} strokeWidth="0.7" strokeOpacity="0.4" />
         <line x1="22" y1="90" x2="68" y2="90" stroke={c} strokeWidth="0.7" strokeOpacity="0.4" />
 
-        {/* Top finial */}
         <circle cx="45" cy="10" r="7" fill="#7a5020" stroke={c} strokeWidth="1.8" />
         <circle cx="45" cy="10" r="3.5" fill={c} />
-        {/* Arch shoulder finials */}
         <circle cx="12" cy="50" r="4.5" fill="#7a5020" stroke={c} strokeWidth="1.4" />
         <circle cx="12" cy="50" r="2" fill={c} />
         <circle cx="78" cy="50" r="4.5" fill="#7a5020" stroke={c} strokeWidth="1.4" />
         <circle cx="78" cy="50" r="2" fill={c} />
 
         {/* ══ POWDERED WIG ══ */}
-        {/* Side curls — behind face */}
         <ellipse cx="20" cy="70" rx="12" ry="18" fill="#edeae0" stroke="#ccc8ba" strokeWidth="1" />
         <ellipse cx="70" cy="70" rx="12" ry="18" fill="#edeae0" stroke="#ccc8ba" strokeWidth="1" />
-        {/* Curl wave texture — left */}
         <path d="M13 58 Q17 62 13 67 Q17 72 13 77 Q17 82 13 87" stroke="#ccc8ba" strokeWidth="0.9" fill="none" />
         <path d="M20 58 Q24 62 20 67 Q24 72 20 77 Q24 82 20 87" stroke="#ccc8ba" strokeWidth="0.9" fill="none" />
-        {/* Curl wave texture — right */}
         <path d="M63 58 Q67 62 63 67 Q67 72 63 77 Q67 82 63 87" stroke="#ccc8ba" strokeWidth="0.9" fill="none" />
         <path d="M70 58 Q74 62 70 67 Q74 72 70 77 Q74 82 70 87" stroke="#ccc8ba" strokeWidth="0.9" fill="none" />
-        {/* Top wig — poofy dome */}
         <ellipse cx="45" cy="48" rx="26" ry="21" fill="#edeae0" stroke="#ccc8ba" strokeWidth="1.2" />
-        {/* Wig wave rows */}
         <path d="M26 42 Q31 38 36 42 Q41 38 46 42 Q51 38 56 42 Q61 38 66 42" stroke="#ccc8ba" strokeWidth="1" fill="none" />
         <path d="M24 49 Q29 45 34 49 Q39 45 44 49 Q49 45 54 49 Q59 45 64 49" stroke="#ccc8ba" strokeWidth="1" fill="none" />
 
         {/* ══ FACE ══ */}
         <ellipse cx="45" cy="62" rx="18" ry="20" fill="#f6d09a" stroke="#e0a860" strokeWidth="1.2" />
 
-        {/* Eyebrows — raised/alert when active */}
-        <path d={`M31 52 Q36 ${isActive ? "49" : "51"} 41 52`}
+        {/* Eyebrows — raised when active, shifted when looking sideways */}
+        <path d={`M${31 + browShiftX} 52 Q${36 + browShiftX} ${browY} ${41 + browShiftX} 52`}
           stroke="#8a5828" strokeWidth="2.2" fill="none" strokeLinecap="round" />
-        <path d={`M49 52 Q54 ${isActive ? "49" : "51"} 59 52`}
+        <path d={`M${49 + browShiftX} 52 Q${54 + browShiftX} ${browY} ${59 + browShiftX} 52`}
           stroke="#8a5828" strokeWidth="2.2" fill="none" strokeLinecap="round" />
 
         {/* Eyes */}
         <ellipse cx="36" cy="60" rx="6" ry="6.5" fill="white" stroke="#555" strokeWidth="1" />
         <ellipse cx="54" cy="60" rx="6" ry="6.5" fill="white" stroke="#555" strokeWidth="1" />
-        {/* Pupils — look up when active */}
-        <circle cx="36" cy={isActive ? "58" : "60.5"} r="3.8" fill="#1a0800" />
-        <circle cx="54" cy={isActive ? "58" : "60.5"} r="3.8" fill="#1a0800" />
+        {/* Pupils — shift up when active, sideways when looking at speaker */}
+        <circle cx={36 + eyeShiftX} cy={60.5 + eyeShiftY} r="3.8" fill="#1a0800" />
+        <circle cx={54 + eyeShiftX} cy={60.5 + eyeShiftY} r="3.8" fill="#1a0800" />
         {/* Eye glint */}
-        <circle cx="37.8" cy={isActive ? "56.4" : "58.9"} r="1.5" fill="white" />
-        <circle cx="55.8" cy={isActive ? "56.4" : "58.9"} r="1.5" fill="white" />
+        <circle cx={37.8 + eyeShiftX} cy={58.9 + eyeShiftY} r="1.5" fill="white" />
+        <circle cx={55.8 + eyeShiftX} cy={58.9 + eyeShiftY} r="1.5" fill="white" />
 
         {/* Nose */}
         <ellipse cx="45" cy="68" rx="2.8" ry="2" fill="#e09858" opacity="0.55" />
 
-        {/* Mouth */}
+        {/* Mouth — smile when active, neutral when watching, flat when idle */}
         {isActive ? (
           <path d="M36 74 Q45 81 54 74" stroke="#c06830" strokeWidth="2.2" fill="none" strokeLinecap="round" />
+        ) : lookDir ? (
+          <path d="M37 75 Q45 77 53 75" stroke="#c06830" strokeWidth="1.8" fill="none" strokeLinecap="round" />
         ) : (
           <line x1="37" y1="75" x2="53" y2="75" stroke="#c06830" strokeWidth="2" strokeLinecap="round" />
         )}
@@ -172,33 +169,66 @@ function SageMiniAvatar({ sage }) {
   );
 }
 
+function TypingIndicator({ sage }) {
+  return (
+    <div className="transcript-msg flex items-end gap-2">
+      <SageMiniAvatar sage={sage} />
+      <div className="typing-bubble">
+        <div className="mb-1 text-xs font-semibold" style={{ color: sage.avatarColor }}>
+          {sage.name}
+        </div>
+        <div className="typing-dots">
+          <span /><span /><span />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function CouncilBench({ sages, verdicts, activeSageKey, messages, onBubbleClick }) {
+  const activeIndex = sages.findIndex((s) => s.key === activeSageKey);
+
   return (
     <div className="council-chamber animate-fadeIn">
       <div className="council-chamber-header">✦ &nbsp; The Council &nbsp; ✦</div>
       <div className="council-seats">
-        {sages.map((sage) => {
+        {sages.map((sage, i) => {
           const isActive = sage.key === activeSageKey;
           const verdict = verdicts[sage.key];
           const latestMsg = messages.filter((m) => m.role === "sage" && m.sageKey === sage.key).slice(-1)[0];
+
+          // Idle judges glance toward whoever is speaking
+          let lookDir = null;
+          if (activeSageKey && !isActive && activeIndex !== -1) {
+            lookDir = activeIndex < i ? "left" : "right";
+          }
+
           return (
             <div
               key={sage.key}
-              className="council-seat"
-              style={isActive ? { background: `radial-gradient(ellipse at 50% 100%, ${sage.avatarColor}14 0%, transparent 72%)` } : {}}
+              className={`council-seat${isActive ? " is-active" : ""}`}
+              style={isActive ? { background: `radial-gradient(ellipse at 50% 100%, ${sage.avatarColor}18 0%, transparent 72%)` } : {}}
             >
               <div
                 className={`judge-spotlight ${isActive ? "active" : ""}`}
                 style={{
-                  background: `conic-gradient(from 180deg at 50% 0%, transparent 28%, ${sage.avatarColor}20 50%, transparent 72%)`,
+                  background: `conic-gradient(from 180deg at 50% 0%, transparent 28%, ${sage.avatarColor}22 50%, transparent 72%)`,
                 }}
               />
-              <JudgeAvatar sage={sage} isActive={isActive} />
+              <JudgeAvatar sage={sage} isActive={isActive} lookDir={lookDir} />
 
-              {latestMsg?.content ? (
+              {isActive && !latestMsg?.content ? (
+                <div className="judge-speech-bubble" style={{ borderColor: `${sage.avatarColor}35` }}>
+                  <div className="typing-dots">
+                    <span style={{ background: sage.avatarColor }} />
+                    <span style={{ background: sage.avatarColor }} />
+                    <span style={{ background: sage.avatarColor }} />
+                  </div>
+                </div>
+              ) : latestMsg?.content ? (
                 <button
                   className="judge-speech-bubble"
-                  style={{ borderColor: `${sage.avatarColor}30` }}
+                  style={{ borderColor: `${sage.avatarColor}35` }}
                   onClick={() => onBubbleClick(sage.key)}
                   title="Click to jump to this message in the transcript"
                 >
@@ -223,7 +253,10 @@ function CouncilBench({ sages, verdicts, activeSageKey, messages, onBubbleClick 
                     {verdictLabel(verdict.verdict)}
                   </Badge>
                 ) : isActive ? (
-                  <Badge>Speaking</Badge>
+                  <Badge>
+                    Speaking
+                    <span className="speaking-dot" style={{ background: sage.avatarColor }} />
+                  </Badge>
                 ) : (
                   <Badge variant="outline">Waiting</Badge>
                 )}
@@ -367,6 +400,15 @@ export default function LiveSession() {
     feedEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   }, [messages]);
 
+  // Insert a round-divider message when the session advances to round 2
+  useEffect(() => {
+    if (round !== 2) return;
+    setMessages((current) => {
+      if (current.some((m) => m.role === "divider")) return current;
+      return [...current, { id: makeId("divider"), role: "divider", round: 2 }];
+    });
+  }, [round]);
+
   useEffect(() => {
     if (introPhase !== "order") return;
     const t1 = setTimeout(() => setIntroPhase("begin"), 2200);
@@ -378,6 +420,10 @@ export default function LiveSession() {
     const t2 = setTimeout(() => setIntroPhase("done"), 2000);
     return () => clearTimeout(t2);
   }, [introPhase]);
+
+  // Show a typing indicator when the active sage hasn't started streaming yet
+  const lastSageMsg = [...messages].reverse().find((m) => m.role === "sage");
+  const showTyping = Boolean(activeSageKey && !awaitingReply && lastSageMsg?.sageKey !== activeSageKey);
 
   const handleSend = async (event) => {
     event.preventDefault();
@@ -420,10 +466,10 @@ export default function LiveSession() {
 
             {introPhase === "begin" && (
               <div className="council-intro-text animate-fadeIn">
-                <h1 className="council-intro-heading" style={{ fontSize: "2rem" }}>Please state your case,</h1>
+                <h1 className="council-intro-heading" style={{ fontSize: "2rem" }}>Prepare to be questioned,</h1>
                 <p className="council-intro-label" style={{ fontSize: "1.5rem", marginTop: 8 }}>Founder.</p>
                 <div className="council-intro-rule" />
-                <p className="council-intro-sub">The judges are listening.</p>
+                <p className="council-intro-sub">The council will examine every assumption.</p>
               </div>
             )}
           </div>
@@ -480,21 +526,30 @@ export default function LiveSession() {
                 </div>
               ) : (
                 messages.map((message) => {
+                  if (message.role === "divider") {
+                    return (
+                      <div key={message.id} className="round-divider">
+                        Cross-Examination — Round 2
+                      </div>
+                    );
+                  }
+
                   const sage = sagesByKey.get(message.sageKey);
                   const isUser = message.role === "user";
                   return (
                     <div
                       key={message.id}
                       ref={(el) => { if (el) messageRefs.current.set(message.id, el); else messageRefs.current.delete(message.id); }}
-                      className={`flex items-end gap-2 ${isUser ? "justify-end" : "justify-start"}`}
+                      className={`transcript-msg flex items-end gap-2 ${isUser ? "justify-end" : "justify-start"}`}
                     >
                       {!isUser && sage ? <SageMiniAvatar sage={sage} /> : null}
                       <div
-                        className={`max-w-[min(720px,85%)] rounded-2xl border px-4 py-3 ${
+                        className={`msg-bubble max-w-[min(720px,85%)] rounded-2xl border px-4 py-3 ${
                           isUser
                             ? "rounded-br-sm border-[#4f46e5]/20 bg-[#4f46e5]/[0.08] text-foreground"
                             : "rounded-bl-sm border-black/[0.08] bg-white text-foreground/85 shadow-sm"
                         }`}
+                        style={!isUser && sage ? { borderLeft: `3px solid ${sage.avatarColor}50` } : {}}
                       >
                         {!isUser ? (
                           <div className="mb-1 text-xs font-semibold" style={{ color: sage?.avatarColor || "#c49a2e" }}>
@@ -511,18 +566,22 @@ export default function LiveSession() {
                   );
                 })
               )}
+              {showTyping && activeSageKey ? (
+                <TypingIndicator sage={sagesByKey.get(activeSageKey)} />
+              ) : null}
               <div ref={feedEndRef} />
             </div>
 
             <form onSubmit={handleSend} className="flex gap-3 border-t border-black/[0.08] p-4">
               <Input
                 value={input}
+                className={awaitingReply ? "input-awaiting" : ""}
                 placeholder={
                   activeSageKey
                     ? awaitingReply
-                      ? `Reply to ${sagesByKey.get(activeSageKey)?.name || "the active sage"}...`
-                      : `${sagesByKey.get(activeSageKey)?.name || "The active sage"} is asking...`
-                    : "Waiting for the next sage..."
+                      ? `Reply to ${sagesByKey.get(activeSageKey)?.name || "the active sage"}…`
+                      : `${sagesByKey.get(activeSageKey)?.name || "The council"} is speaking…`
+                    : "Waiting for the next judge…"
                 }
                 onChange={(event) => setInput(event.target.value)}
                 disabled={sendMessage.isPending || reportReady || !activeSageKey || !awaitingReply}
