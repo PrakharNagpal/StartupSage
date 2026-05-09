@@ -14,7 +14,7 @@ class Settings(BaseSettings):
     gemini_api_key: str | None = None
     openai_api_key: str | None = None
     elevenlabs_api_key: str | None = None
-    cors_origin_csv: str = "http://localhost:3000,http://localhost:5173,http://localhost:8080,http://localhost:5858,http://127.0.0.1:5858"
+    cors_origin_csv: str = "http://localhost:3000,http://localhost:5173,http://localhost:5174,http://localhost:8080,http://localhost:5858,http://127.0.0.1:5858"
 
     @property
     def cors_origins(self) -> list[str]:

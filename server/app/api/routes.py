@@ -77,6 +77,16 @@ async def stream_fake_conversation(session_id: str) -> EventSourceResponse:
         raise HTTPException(status_code=404, detail="Session not found.")
 
     async def events():
+        # Guard: if this session was already streamed, just signal done immediately
+        with db() as connection:
+            already_run = connection.execute(
+                "SELECT COUNT(*) AS cnt FROM messages WHERE session_id = ? AND role = 'sage'",
+                (session_id,),
+            ).fetchone()
+        if already_run and already_run["cnt"] > 0:
+            yield {"event": "done", "data": json.dumps({"session_id": session_id})}
+            return
+
         scripts = [
             (
                 "distribution",

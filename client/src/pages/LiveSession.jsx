@@ -307,6 +307,7 @@ export default function LiveSession() {
   const [filterSage, setFilterSage] = useState(null);
   const [endDialogOpen, setEndDialogOpen] = useState(false);
   const [tooEarlyDialogOpen, setTooEarlyDialogOpen] = useState(false);
+  const [verdictDialogOpen, setVerdictDialogOpen] = useState(false);
   const processedEvents = useRef(0);
   const feedEndRef = useRef(null);
   const messageRefs = useRef(new Map());
@@ -319,7 +320,7 @@ export default function LiveSession() {
     if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
   }, [messages]);
 
-  const { events, status, error: streamError } = useSSE(`/sessions/${id}/stream`, { enabled: Boolean(id) });
+  const { events, status, error: streamError } = useSSE(`/sessions/${id}/stream`, { enabled: Boolean(id) && !reportReady });
 
   const sendMessage = useMutation({
     mutationFn: (content) => sendSessionMessage(id, content),
@@ -419,6 +420,7 @@ export default function LiveSession() {
 
       if (event.type === "done" || event.type === "report_ready") {
         setReportReady(true);
+        setVerdictDialogOpen(true);
         setSessionEnding(false);
         setActiveSageKey(null);
         setAwaitingReply(false);
@@ -744,6 +746,30 @@ export default function LiveSession() {
             <AlertDialogAction variant="secondary" onClick={() => setTooEarlyDialogOpen(false)}>
               OK
             </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog open={verdictDialogOpen} onOpenChange={setVerdictDialogOpen}>
+        <AlertDialogContent style={{ textAlign: "center", maxWidth: 420 }}>
+          <AlertDialogHeader>
+            <div style={{ fontSize: "2.4rem", marginBottom: 4 }}>⚖️</div>
+            <AlertDialogTitle style={{ fontFamily: '"Playfair Display", Georgia, serif', fontSize: "1.4rem" }}>
+              Verdict Delivered
+            </AlertDialogTitle>
+            <AlertDialogDescription style={{ marginTop: 8 }}>
+              The council has reached its judgment. Your full report — scores, risks, and next steps — is ready for review.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter style={{ justifyContent: "center", flexDirection: "column", gap: 8 }}>
+            <AlertDialogAction asChild>
+              <Link to={`/report/${id}`} style={{ width: "100%" }}>
+                View Verdict
+              </Link>
+            </AlertDialogAction>
+            <AlertDialogCancel onClick={() => setVerdictDialogOpen(false)} style={{ width: "100%", marginTop: 0 }}>
+              Stay in Session
+            </AlertDialogCancel>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

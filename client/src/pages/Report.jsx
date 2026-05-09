@@ -15,12 +15,12 @@ import { loadSessionSages } from "../lib/sages.js";
 import { normalizeReport, verdictBadgeVariant, verdictLabel } from "../lib/report.js";
 
 function ScoreDial({ score }) {
-  const degrees = Math.max(0, Math.min(100, Number(score) || 0)) / 100 * 360;
+  const pct = Math.max(0, Math.min(100, Number(score) || 0));
   return (
-    <div className="score-dial" style={{ "--score-degrees": `${degrees}deg` }}>
+    <div className="score-dial" style={{ "--score": pct }}>
       <div className="text-center">
-        <div className="text-5xl font-extrabold text-white">{score}</div>
-        <div className="mt-1 text-xs font-semibold uppercase text-gold">Survival</div>
+        <div className="text-5xl font-extrabold text-foreground">{score}</div>
+        <div className="mt-1 text-xs font-semibold uppercase tracking-widest text-gold">Survival Score</div>
       </div>
     </div>
   );
@@ -74,15 +74,18 @@ export default function Report() {
 
       {report ? (
         <section className="mx-auto grid w-full max-w-6xl gap-5 py-6">
+
+          {/* Header */}
           <header className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
             <div>
-              <Button asChild variant="ghost" className="mb-5 px-0">
+              <Button asChild variant="ghost" className="mb-5 px-0 text-foreground/60 hover:text-foreground">
                 <Link to={`/session/${id}`}>
                   <ArrowLeft className="h-4 w-4" />
-                  Session
+                  Back to Session
                 </Link>
               </Button>
-              <h1 className="font-display text-4xl font-bold text-white sm:text-5xl">Council Report</h1>
+              <p className="mb-1 text-xs font-bold uppercase tracking-widest text-gold">The Council's Judgment</p>
+              <h1 className="font-display text-4xl font-bold text-foreground sm:text-5xl">Council Report</h1>
             </div>
             <Button asChild variant="outline">
               <Link to="/submit">
@@ -92,7 +95,8 @@ export default function Report() {
             </Button>
           </header>
 
-          <Card className="overflow-hidden border-gold/[0.16] bg-[rgba(16,16,16,0.86)]">
+          {/* Score + overall verdict */}
+          <Card className="overflow-hidden border-gold/25 bg-white shadow-md">
             <CardContent className="grid gap-8 p-6 md:grid-cols-[220px_1fr] md:items-center">
               <div className="flex justify-center md:justify-start">
                 <ScoreDial score={report.score} />
@@ -101,12 +105,13 @@ export default function Report() {
                 <Badge variant={report.score >= 70 ? "survives" : report.score >= 45 ? "pivot" : "rethink"}>
                   Overall Verdict
                 </Badge>
-                <p className="mt-4 text-lg leading-8 text-white/[0.76]">{report.overallVerdict}</p>
+                <p className="mt-4 text-lg leading-8 text-foreground/75">{report.overallVerdict}</p>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="border-gold/[0.18] bg-[rgba(16,16,16,0.9)]">
+          {/* Council summary */}
+          <Card className="border-gold/20 bg-white shadow-sm">
             <CardHeader>
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <CardTitle>Council Summary</CardTitle>
@@ -116,18 +121,18 @@ export default function Report() {
               </div>
             </CardHeader>
             <CardContent className="space-y-6">
-              <p className="text-lg italic leading-8 text-white/[0.78]">
+              <p className="text-base italic leading-8 text-foreground/70 border-l-2 border-gold/40 pl-4">
                 {report.councilSummary.consensus}
               </p>
 
               <div>
-                <h3 className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-gold">
+                <h3 className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-gold mb-3">
                   <Star className="h-4 w-4 fill-gold text-gold" />
                   What we liked
                 </h3>
-                <ul className="mt-3 space-y-3">
+                <ul className="space-y-3">
                   {report.councilSummary.whatWeLiked.map((item) => (
-                    <li key={item} className="flex gap-3 text-sm leading-6 text-white/[0.7]">
+                    <li key={item} className="flex gap-3 text-sm leading-6 text-foreground/70">
                       <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-teal" />
                       <span>{item}</span>
                     </li>
@@ -137,8 +142,9 @@ export default function Report() {
             </CardContent>
           </Card>
 
+          {/* Risks + Improvements */}
           <div className="grid gap-4 lg:grid-cols-2">
-            <Card>
+            <Card className="border-ember/20 bg-white shadow-sm">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <CircleAlert className="h-5 w-5 text-ember" />
@@ -148,7 +154,7 @@ export default function Report() {
               <CardContent>
                 <ul className="space-y-3">
                   {report.topRisks.map((risk) => (
-                    <li key={risk} className="flex gap-3 text-sm leading-6 text-white/[0.68]">
+                    <li key={risk} className="flex gap-3 text-sm leading-6 text-foreground/70">
                       <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-ember" />
                       <span>{risk}</span>
                     </li>
@@ -157,7 +163,7 @@ export default function Report() {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="border-teal/20 bg-white shadow-sm">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Sparkles className="h-5 w-5 text-gold" />
@@ -167,7 +173,7 @@ export default function Report() {
               <CardContent>
                 <ul className="space-y-3">
                   {report.topImprovements.map((improvement) => (
-                    <li key={improvement} className="flex gap-3 text-sm leading-6 text-white/[0.68]">
+                    <li key={improvement} className="flex gap-3 text-sm leading-6 text-foreground/70">
                       <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-teal" />
                       <span>{improvement}</span>
                     </li>
@@ -177,25 +183,27 @@ export default function Report() {
             </Card>
           </div>
 
-          <Card className="border-gold/20 bg-gold/[0.08]">
+          {/* Closest parallel */}
+          <Card className="border-gold/25 bg-gold/[0.06] shadow-sm">
             <CardHeader>
               <CardTitle>Closest Historical Parallel</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="font-semibold text-gold">{report.closestParallel.name}</p>
-              <p className="mt-2 text-sm leading-6 text-white/[0.68]">{report.closestParallel.why}</p>
+              <p className="mt-2 text-sm leading-6 text-foreground/65">{report.closestParallel.why}</p>
             </CardContent>
           </Card>
 
-          <Card>
+          {/* Next steps */}
+          <Card className="bg-white shadow-sm">
             <CardHeader>
               <CardTitle>Recommended Next Steps</CardTitle>
             </CardHeader>
             <CardContent>
               <ol className="grid gap-3">
                 {report.nextSteps.map((step, index) => (
-                  <li key={step} className="grid grid-cols-[2rem_1fr] items-start gap-3 text-sm leading-6 text-white/70">
-                    <span className="grid h-8 w-8 place-items-center rounded-full border border-gold/25 bg-gold/10 text-sm font-bold text-gold">
+                  <li key={step} className="grid grid-cols-[2rem_1fr] items-start gap-3 text-sm leading-6 text-foreground/70">
+                    <span className="grid h-8 w-8 place-items-center rounded-full border border-gold/30 bg-gold/10 text-sm font-bold text-gold">
                       {index + 1}
                     </span>
                     <span className="pt-1">{step}</span>
@@ -205,7 +213,7 @@ export default function Report() {
             </CardContent>
           </Card>
 
-          <Separator />
+          <Separator className="bg-black/[0.07]" />
         </section>
       ) : null}
     </PageShell>
