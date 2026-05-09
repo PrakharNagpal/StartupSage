@@ -9,6 +9,7 @@ from typing import Any
 FAILED_STARTUPS_PATH = Path(__file__).with_name("failed_startups.json")
 REPO_ROOT = Path(__file__).resolve().parents[2]
 RESEARCHER_MODEL = "gpt-4o-mini"
+PLACEHOLDER_API_KEY = "your_openai_api_key_here"
 
 
 def _load_env() -> None:
@@ -105,12 +106,12 @@ def _normalize_sages(items: list[Any]) -> list[dict[str, str]]:
     return normalized
 
 
-async def run(idea_text: str) -> list[dict]:
+async def run_with_debug(idea_text: str) -> tuple[list[dict], dict[str, str]]:
     _load_env()
     failed_startups = _load_failed_startups()
-    api_key = os.getenv("OPENAI_API_KEY")
-    if not api_key:
-        return _fallback_sages(failed_startups)
+    api_key = (os.getenv("OPENAI_API_KEY") or "").strip()
+    if not api_key or api_key == PLACEHOLDER_API_KEY:
+        return _fallback_sages(failed_startups), {"source": "fallback", "reason": "missing_key"}
 
     try:
         from openai import AsyncOpenAI
@@ -122,6 +123,17 @@ async def run(idea_text: str) -> list[dict]:
             input=prompt,
         )
         response_text = getattr(response, "output_text", "") or ""
-        return _normalize_sages(_extract_json_array(response_text))
-    except Exception:
-        return _fallback_sages(failed_startups)
+        return _normalize_sages(_extract_json_array(response_text)), {
+            "source": "openai",
+            "model": RESEARCHER_MODEL,
+        }
+    except Exception as exc:
+        return _fallback_sages(failed_startups), {
+            "source": "fallback",
+            "reason": exc.__class__.__name__,
+        }
+
+
+async def run(idea_text: str) -> list[dict]:
+    sages, _debug = await run_with_debug(idea_text)
+    return sages

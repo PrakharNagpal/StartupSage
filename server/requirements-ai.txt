@@ -1,5 +1,4 @@
-# Optional provider SDKs for phase 1+ agent work.
+# Optional provider SDK for phase 1+ agent work.
 # Install with Python 3.11 or 3.12:
 #   pip install -r requirements-ai.txt
-google-genai==1.52.0
 openai==2.11.0
