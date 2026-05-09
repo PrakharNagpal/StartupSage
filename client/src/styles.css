@@ -5,6 +5,7 @@
 @tailwind utilities;
 
 :root {
+  color-scheme: light;
   color: #1c1810;
   background: #f7f4ee;
   font-synthesis: none;
@@ -18,11 +19,14 @@
 }
 
 html {
+  color-scheme: light;
   min-height: 100%;
   background: #f7f4ee;
+  color: #1c1810;
 }
 
 body {
+  color-scheme: light;
   min-width: 320px;
   min-height: 100vh;
   margin: 0;
