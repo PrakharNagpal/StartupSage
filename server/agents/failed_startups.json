@@ -1,0 +1,392 @@
+[
+  {
+    "name": "Quibi",
+    "year_founded": 2018,
+    "year_failed": 2020,
+    "sector": "Streaming Media",
+    "one_line_pitch": "Premium short-form mobile video episodes built for commuters and phone-first viewing.",
+    "primary_failure_reason": "Misread consumer demand, pricing tolerance, and mobile viewing habits while launching into a crowded streaming market.",
+    "key_lessons": [
+      "Validate a durable user habit before committing to massive content spend",
+      "Do not confuse celebrity supply with customer demand",
+      "A launch context can erase the use case a product depends on"
+    ]
+  },
+  {
+    "name": "Juicero",
+    "year_founded": 2013,
+    "year_failed": 2017,
+    "sector": "Consumer Hardware",
+    "one_line_pitch": "A connected countertop press for squeezing proprietary fresh juice packs.",
+    "primary_failure_reason": "Expensive hardware did not create enough value beyond squeezing the packs by hand.",
+    "key_lessons": [
+      "Prove the hardware performs a necessary job better than simple alternatives",
+      "Avoid proprietary consumables unless the customer value is obvious",
+      "Overengineering can turn a convenience product into a punchline"
+    ]
+  },
+  {
+    "name": "Theranos",
+    "year_founded": 2003,
+    "year_failed": 2018,
+    "sector": "Healthcare Diagnostics",
+    "one_line_pitch": "Blood testing from tiny samples through compact proprietary diagnostic machines.",
+    "primary_failure_reason": "Technical claims outran validated science and regulatory reality in a high-trust healthcare market.",
+    "key_lessons": [
+      "Healthcare products require evidence before scale",
+      "Secrecy cannot substitute for technical validation",
+      "Governance must challenge charismatic founders in regulated markets"
+    ]
+  },
+  {
+    "name": "Webvan",
+    "year_founded": 1996,
+    "year_failed": 2001,
+    "sector": "Grocery Delivery",
+    "one_line_pitch": "Online grocery ordering with rapid home delivery from automated fulfillment centers.",
+    "primary_failure_reason": "Expanded capital-intensive logistics before demand density and unit economics were proven.",
+    "key_lessons": [
+      "Delivery businesses need route density before aggressive expansion",
+      "Automation does not fix weak demand economics",
+      "Operational complexity should follow validated demand"
+    ]
+  },
+  {
+    "name": "Pets.com",
+    "year_founded": 1998,
+    "year_failed": 2000,
+    "sector": "E-commerce",
+    "one_line_pitch": "Online pet supplies delivered directly to consumers.",
+    "primary_failure_reason": "Spent heavily on brand awareness while shipping costs and margins made the model unsustainable.",
+    "key_lessons": [
+      "Brand spend cannot rescue poor gross margin",
+      "Bulky low-margin goods require disciplined logistics",
+      "Measure repeat purchasing before mass marketing"
+    ]
+  },
+  {
+    "name": "Color Labs",
+    "year_founded": 2010,
+    "year_failed": 2012,
+    "sector": "Social Networking",
+    "one_line_pitch": "A proximity-based mobile photo sharing network for people nearby.",
+    "primary_failure_reason": "Raised and built far ahead of a clear user behavior, social graph, or compelling use case.",
+    "key_lessons": [
+      "Social apps need a simple atomic habit",
+      "Funding does not create network effects",
+      "Users should understand the product in one breath"
+    ]
+  },
+  {
+    "name": "Beepi",
+    "year_founded": 2013,
+    "year_failed": 2017,
+    "sector": "Automotive Marketplace",
+    "one_line_pitch": "A managed marketplace for buying and selling used cars online.",
+    "primary_failure_reason": "Operational overhead, inventory risk, and cash burn overwhelmed marketplace efficiency gains.",
+    "key_lessons": [
+      "Managed marketplaces need tight operational scope",
+      "Inventory risk can turn a marketplace into a capital-heavy retailer",
+      "Trust features must pay for themselves through conversion or margin"
+    ]
+  },
+  {
+    "name": "Jawbone",
+    "year_founded": 1999,
+    "year_failed": 2017,
+    "sector": "Wearables",
+    "one_line_pitch": "Consumer fitness trackers, connected audio devices, and health wearables.",
+    "primary_failure_reason": "Product quality issues, strategic pivots, and intense hardware competition eroded the business.",
+    "key_lessons": [
+      "Hardware brands live or die by reliability",
+      "Consumer electronics require supply chain discipline as much as design taste",
+      "Competing against platform giants demands a sharp wedge"
+    ]
+  },
+  {
+    "name": "MoviePass",
+    "year_founded": 2011,
+    "year_failed": 2019,
+    "sector": "Entertainment Subscription",
+    "one_line_pitch": "A subscription that let members watch many theater movies for one monthly fee.",
+    "primary_failure_reason": "The customer offer was popular but structurally unprofitable as heavy users increased losses.",
+    "key_lessons": [
+      "High engagement can worsen losses when unit economics are inverted",
+      "Subsidized growth needs a credible path to margin",
+      "Partner leverage matters when another party controls supply"
+    ]
+  },
+  {
+    "name": "Rdio",
+    "year_founded": 2010,
+    "year_failed": 2015,
+    "sector": "Music Streaming",
+    "one_line_pitch": "A social music streaming service with subscriptions and on-demand listening.",
+    "primary_failure_reason": "Could not match the scale, distribution, and label economics of larger streaming competitors.",
+    "key_lessons": [
+      "Great product design is not enough without distribution",
+      "Content licensing can punish subscale players",
+      "Social features must reinforce a clear acquisition engine"
+    ]
+  },
+  {
+    "name": "Vine",
+    "year_founded": 2012,
+    "year_failed": 2017,
+    "sector": "Social Video",
+    "one_line_pitch": "A mobile social network for looping six-second videos.",
+    "primary_failure_reason": "Failed to support creator monetization and product evolution as competitors copied the format.",
+    "key_lessons": [
+      "Creator platforms need credible earning paths",
+      "Novel formats must keep evolving after competitors copy them",
+      "A parent company can underinvest in a product with separate strategic needs"
+    ]
+  },
+  {
+    "name": "Google+",
+    "year_founded": 2011,
+    "year_failed": 2019,
+    "sector": "Social Networking",
+    "one_line_pitch": "Google's identity-centered social network for sharing with circles and communities.",
+    "primary_failure_reason": "Could not overcome weak consumer pull, confusing positioning, and later privacy and security concerns.",
+    "key_lessons": [
+      "Bundled distribution cannot force authentic social behavior",
+      "Network effects need emotional utility, not just account reach",
+      "Privacy issues can accelerate the end of an already weak product"
+    ]
+  },
+  {
+    "name": "Yik Yak",
+    "year_founded": 2013,
+    "year_failed": 2017,
+    "sector": "Anonymous Social Networking",
+    "one_line_pitch": "A location-based anonymous message board for nearby communities.",
+    "primary_failure_reason": "Safety, moderation, and harassment problems undermined growth and campus adoption.",
+    "key_lessons": [
+      "Anonymity requires moderation design from day one",
+      "Local network effects are fragile when trust erodes",
+      "Growth loops that amplify abuse eventually damage retention"
+    ]
+  },
+  {
+    "name": "Meerkat",
+    "year_founded": 2015,
+    "year_failed": 2016,
+    "sector": "Live Streaming",
+    "one_line_pitch": "A mobile app for instantly broadcasting live video to social followers.",
+    "primary_failure_reason": "Lost distribution leverage when platform access changed and larger rivals entered live streaming.",
+    "key_lessons": [
+      "Platform dependency can erase growth overnight",
+      "Speed to buzz is different from durable retention",
+      "Competing with integrated platform features requires a defensible niche"
+    ]
+  },
+  {
+    "name": "Homejoy",
+    "year_founded": 2012,
+    "year_failed": 2015,
+    "sector": "Home Services Marketplace",
+    "one_line_pitch": "An online marketplace for booking home cleaners.",
+    "primary_failure_reason": "Low retention, coupon-driven acquisition, worker classification pressure, and thin marketplace economics weakened the model.",
+    "key_lessons": [
+      "Discount-led growth can hide weak retention",
+      "Labor marketplaces must model legal and operational risk early",
+      "Repeat behavior is the real signal in home services"
+    ]
+  },
+  {
+    "name": "Sprig",
+    "year_founded": 2013,
+    "year_failed": 2017,
+    "sector": "Food Delivery",
+    "one_line_pitch": "On-demand delivery of freshly prepared meals from owned kitchens.",
+    "primary_failure_reason": "Vertically integrated food production and delivery created high operating costs that demand could not support.",
+    "key_lessons": [
+      "Owning the full stack increases margin pressure and execution risk",
+      "Food delivery needs precise demand forecasting",
+      "Convenience does not automatically cover kitchen and courier costs"
+    ]
+  },
+  {
+    "name": "Washio",
+    "year_founded": 2013,
+    "year_failed": 2016,
+    "sector": "Laundry Delivery",
+    "one_line_pitch": "On-demand laundry and dry cleaning pickup and delivery.",
+    "primary_failure_reason": "Logistics costs, low margins, and insufficient order density made the service hard to scale profitably.",
+    "key_lessons": [
+      "Local services need density before broad expansion",
+      "Convenience marketplaces must control fulfillment costs",
+      "Recurring chores still require strong contribution margin"
+    ]
+  },
+  {
+    "name": "Shyp",
+    "year_founded": 2013,
+    "year_failed": 2018,
+    "sector": "Shipping Logistics",
+    "one_line_pitch": "An app that picked up, packed, and shipped items for consumers and small businesses.",
+    "primary_failure_reason": "Consumer convenience demand was too sporadic to cover labor-heavy logistics and packaging costs.",
+    "key_lessons": [
+      "Occasional consumer tasks may not support venture-scale logistics",
+      "Labor-heavy convenience needs high utilization",
+      "Narrowing to profitable customer segments must happen before cash runs out"
+    ]
+  },
+  {
+    "name": "Zume Pizza",
+    "year_founded": 2015,
+    "year_failed": 2020,
+    "sector": "Food Robotics",
+    "one_line_pitch": "Robot-assisted pizza production and mobile ovens for faster delivery.",
+    "primary_failure_reason": "Complex robotics and logistics failed to produce a scalable advantage in a low-margin food category.",
+    "key_lessons": [
+      "Robotics must solve a painful economic constraint",
+      "Novel operations need proof before massive capital raises",
+      "Low-margin categories leave little room for technical complexity"
+    ]
+  },
+  {
+    "name": "Bodega",
+    "year_founded": 2017,
+    "year_failed": 2018,
+    "sector": "Retail Automation",
+    "one_line_pitch": "Smart vending cabinets stocked with convenience goods in apartments and offices.",
+    "primary_failure_reason": "The brand positioning provoked backlash while the model struggled with inventory, location economics, and differentiation.",
+    "key_lessons": [
+      "Naming and positioning can sabotage a launch",
+      "Retail automation still depends on replenishment discipline",
+      "Convenience concepts need a clear reason to beat existing stores"
+    ]
+  },
+  {
+    "name": "Clinkle",
+    "year_founded": 2011,
+    "year_failed": 2016,
+    "sector": "Mobile Payments",
+    "one_line_pitch": "A secretive mobile payments app aimed at changing how people paid in stores.",
+    "primary_failure_reason": "Heavy hype, secrecy, leadership turmoil, and unclear product value prevented meaningful adoption.",
+    "key_lessons": [
+      "Hype compounds execution pressure",
+      "Payments products need merchant and consumer value at the same time",
+      "Secrecy can weaken hiring, feedback, and trust"
+    ]
+  },
+  {
+    "name": "Fab.com",
+    "year_founded": 2010,
+    "year_failed": 2015,
+    "sector": "E-commerce",
+    "one_line_pitch": "A design-focused flash sales and curated shopping destination.",
+    "primary_failure_reason": "Rapid pivots, overexpansion, and weak repeat economics undermined an expensive commerce operation.",
+    "key_lessons": [
+      "Flash sale excitement can fade without strong retention",
+      "Commerce expansion should track margin and repeat behavior",
+      "Frequent pivots can confuse customers and teams"
+    ]
+  },
+  {
+    "name": "Quirky",
+    "year_founded": 2009,
+    "year_failed": 2015,
+    "sector": "Consumer Products",
+    "one_line_pitch": "A crowdsourced invention platform that developed and sold community-submitted products.",
+    "primary_failure_reason": "Too many physical products created manufacturing, inventory, and quality complexity without enough winners.",
+    "key_lessons": [
+      "Crowdsourcing ideas does not remove product selection discipline",
+      "Physical goods portfolios need ruthless focus",
+      "Inventory risk grows quickly when experimentation is broad"
+    ]
+  },
+  {
+    "name": "Everpix",
+    "year_founded": 2011,
+    "year_failed": 2013,
+    "sector": "Photo Management",
+    "one_line_pitch": "A cloud photo service that automatically organized and surfaced personal memories.",
+    "primary_failure_reason": "Loved product quality was not matched by enough paying customers or business discipline.",
+    "key_lessons": [
+      "Product love must convert into sustainable revenue",
+      "Beautiful automation still needs a clear acquisition channel",
+      "Small teams need financial visibility as much as craft"
+    ]
+  },
+  {
+    "name": "Secret",
+    "year_founded": 2013,
+    "year_failed": 2015,
+    "sector": "Anonymous Social Networking",
+    "one_line_pitch": "An anonymous app for sharing secrets with friends and nearby people.",
+    "primary_failure_reason": "Novel anonymous sharing gave way to moderation problems, weak trust, and declining user engagement.",
+    "key_lessons": [
+      "Anonymity products must design for harm reduction",
+      "Initial curiosity is not the same as long-term community health",
+      "Trust is a core feature in social products"
+    ]
+  },
+  {
+    "name": "Vessel",
+    "year_founded": 2013,
+    "year_failed": 2016,
+    "sector": "Online Video",
+    "one_line_pitch": "A subscription video platform offering early access to creator content.",
+    "primary_failure_reason": "Could not build enough consumer demand or creator leverage against dominant free video platforms.",
+    "key_lessons": [
+      "Creator exclusivity must be strong enough to shift audience behavior",
+      "Subscription video needs a clear reason to pay",
+      "Competing with free platforms requires distinctive supply"
+    ]
+  },
+  {
+    "name": "Aereo",
+    "year_founded": 2012,
+    "year_failed": 2014,
+    "sector": "Media Technology",
+    "one_line_pitch": "A cloud antenna service for streaming broadcast television over the internet.",
+    "primary_failure_reason": "The business depended on a legal interpretation that failed after a Supreme Court ruling.",
+    "key_lessons": [
+      "Regulatory and legal risk can be existential",
+      "A clever technical architecture does not guarantee legal defensibility",
+      "Business models built on contested rights need contingency plans"
+    ]
+  },
+  {
+    "name": "Solyndra",
+    "year_founded": 2005,
+    "year_failed": 2011,
+    "sector": "Solar Energy",
+    "one_line_pitch": "Cylindrical thin-film solar panels designed for commercial rooftops.",
+    "primary_failure_reason": "Manufacturing costs and market pricing moved against the company as conventional solar panels became cheaper.",
+    "key_lessons": [
+      "Clean tech hardware must survive commodity price declines",
+      "Manufacturing scale is dangerous without cost competitiveness",
+      "Policy support cannot replace market economics"
+    ]
+  },
+  {
+    "name": "Better Place",
+    "year_founded": 2007,
+    "year_failed": 2013,
+    "sector": "Electric Vehicles",
+    "one_line_pitch": "A battery-swapping network and infrastructure platform for electric vehicles.",
+    "primary_failure_reason": "Required too much coordinated infrastructure, automaker adoption, and consumer behavior change before demand was ready.",
+    "key_lessons": [
+      "Infrastructure startups need ecosystem alignment",
+      "Behavior change is harder when hardware standards are unsettled",
+      "Capital intensity magnifies timing mistakes"
+    ]
+  },
+  {
+    "name": "Segway",
+    "year_founded": 1999,
+    "year_failed": 2020,
+    "sector": "Personal Transportation",
+    "one_line_pitch": "A self-balancing personal transporter for short urban trips.",
+    "primary_failure_reason": "High price, unclear use cases, regulatory friction, and social awkwardness limited mainstream adoption.",
+    "key_lessons": [
+      "Technical novelty needs a frequent practical job",
+      "Urban mobility products must fit regulations and social norms",
+      "Launch expectations should match realistic adoption curves"
+    ]
+  }
+]
