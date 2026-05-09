@@ -5,8 +5,6 @@ import os
 from pathlib import Path
 from typing import Any
 
-from .prompts import REPORT_PROMPT
-
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 SERVER_ROOT = Path(__file__).resolve().parents[1]
@@ -212,14 +210,6 @@ async def call_openai(prompt: str, model: str = "gpt-4o") -> str:
     if not response_text.strip():
         raise ValueError("OpenAI returned an empty report response")
     return response_text.strip()
-
-
-async def _generate_with_model(prompt: str, model: str) -> dict[str, Any]:
-    raw = await call_openai(prompt, model=model)
-    print("RAW REPORT RESPONSE:", raw[:500])
-    LAST_REPORT_DEBUG.clear()
-    LAST_REPORT_DEBUG.update({"model": model, "raw": raw[:2000], "error": None})
-    return _parse_report_json(raw)
 
 
 async def generate_report(
