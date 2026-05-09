@@ -151,6 +151,24 @@ export default function LiveSession() {
         }));
       }
 
+      if (event.type === "verdict_reaction") {
+        const sageKey = event.data.sage_id || event.data.sage_key || event.data.key;
+        const sage = sagesByKey.get(sageKey);
+        if (event.data.reaction) {
+          setMessages((current) => [
+            ...current,
+            {
+              id: makeId("reaction"),
+              role: "sage",
+              sageKey,
+              sageName: sage?.name || "The Council",
+              content: event.data.reaction,
+              streaming: false,
+            },
+          ]);
+        }
+      }
+
       if (event.type === "done" || event.type === "report_ready") {
         setReportReady(true);
         setActiveSageKey(null);

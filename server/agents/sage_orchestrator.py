@@ -1,18 +1,24 @@
 from __future__ import annotations
 
+import asyncio
 import inspect
+import json
+import os
 from datetime import UTC, datetime
+from pathlib import Path
 from typing import Any
 
 from database import db
 from sse_router import push_event
 
 from . import memory
-from .sage_agent import SageAgent
+from .sage_agent import OPENAI_MODEL, SageAgent
 
 
 active_sages: dict[str, list[SageAgent]] = {}
 session_states: dict[str, dict[str, Any]] = {}
+REPO_ROOT = Path(__file__).resolve().parents[2]
+SERVER_ROOT = Path(__file__).resolve().parents[1]
 
 
 async def _maybe_await(value: Any) -> Any:
@@ -42,6 +48,8 @@ def init_sages(session_id: str, sage_data_list: list[dict[str, Any]]) -> None:
     ]
     session_states[session_id] = {
         "exchange_count": 0,
+        "last_sage_id": None,
+        "last_spoke_at": {},
         "phase": "questions",
         "transcript": [],
     }
@@ -52,6 +60,8 @@ def _get_state(session_id: str) -> dict[str, Any]:
         session_id,
         {
             "exchange_count": 0,
+            "last_sage_id": None,
+            "last_spoke_at": {},
             "phase": "questions",
             "transcript": [],
         },
@@ -77,13 +87,24 @@ def _timestamp() -> str:
     return datetime.now(UTC).isoformat()
 
 
+def _load_env() -> None:
+    try:
+        from dotenv import load_dotenv
+    except Exception:
+        return
+
+    load_dotenv(REPO_ROOT / ".env")
+    load_dotenv(SERVER_ROOT / ".env")
+
+
 def _append_transcript_message(
     session_id: str,
     role: str,
     content: str,
     sage_name: str = "",
 ) -> None:
-    _get_state(session_id)["transcript"].append(
+    state = _get_state(session_id)
+    state["transcript"].append(
         {
             "role": role,
             "content": content,
@@ -91,6 +112,8 @@ def _append_transcript_message(
             "timestamp": _timestamp(),
         }
     )
+    if role != "user":
+        state["last_sage_id"] = role
 
 
 def _format_transcript(transcript: list[dict]) -> str:
@@ -108,11 +131,97 @@ def _sage_by_id(sages: list[SageAgent], sage_id: str) -> SageAgent:
     return next((sage for sage in sages if sage.sage_id == sage_id), sages[0])
 
 
+def _sage_by_name(sages: list[SageAgent], sage_name: str) -> SageAgent | None:
+    return next((sage for sage in sages if sage.name == sage_name), None)
+
+
+def _session_state_for_sages(sages: list[SageAgent]) -> dict[str, Any] | None:
+    for session_id, session_sages in active_sages.items():
+        if session_sages is sages:
+            return _get_state(session_id)
+    return None
+
+
+def _extract_json_object(response_text: str) -> dict[str, Any]:
+    text = response_text.strip()
+    if text.startswith("```"):
+        lines = text.splitlines()
+        if lines and lines[0].startswith("```"):
+            lines = lines[1:]
+        if lines and lines[-1].startswith("```"):
+            lines = lines[:-1]
+        text = "\n".join(lines).strip()
+
+    start = text.find("{")
+    end = text.rfind("}")
+    if start == -1 or end == -1 or end < start:
+        raise ValueError("OpenAI response did not contain a JSON object")
+
+    parsed = json.loads(text[start : end + 1])
+    if not isinstance(parsed, dict):
+        raise ValueError("OpenAI response JSON was not an object")
+    return parsed
+
+
+async def _call_openai_json(prompt: str) -> dict[str, Any]:
+    _load_env()
+    api_key = (os.getenv("OPENAI_API_KEY") or "").strip()
+    if not api_key:
+        raise RuntimeError("OPENAI_API_KEY is not set")
+
+    from openai import AsyncOpenAI
+
+    client = AsyncOpenAI(api_key=api_key)
+    response = await client.responses.create(
+        model=os.getenv("OPENAI_MODEL", OPENAI_MODEL),
+        input=prompt,
+    )
+    return _extract_json_object(getattr(response, "output_text", "") or "")
+
+
 def _fallback_response(sage: SageAgent, user_content: str) -> str:
     return (
         f"You said: {user_content} I am still testing this against {sage.failed_startup}'s "
         f"failure lesson: {sage.failure_lesson} What concrete proof shows this risk is handled?"
     )
+
+
+async def detect_addressed_sage(user_content: str, sages: list[SageAgent]) -> str | None:
+    state = _session_state_for_sages(sages) or {}
+    last_sage_id = state.get("last_sage_id")
+    last_sage = next((sage for sage in sages if sage.sage_id == last_sage_id), None)
+    last_sage_name = last_sage.name if last_sage else "none"
+    last_sage_failed_startup = last_sage.failed_startup if last_sage else "none"
+    council_members = "\n".join(
+        f"- {sage.sage_id}: {sage.name} from {sage.failed_startup}" for sage in sages
+    )
+    prompt = f"""The user just said: "{user_content}"
+
+Council members:
+{council_members}
+
+Is the user's message clearly directed at one specific council member?
+This includes:
+- Directly naming them ("Beepi, what did you mean...", "what was YOUR downfall")
+- Using "you" or "your" in reply to the last sage who spoke
+- Asking a follow-up that only makes sense in context of one sage's last message
+
+Last sage who spoke: {last_sage_id or "none"} ({last_sage_name} from {last_sage_failed_startup})
+
+Return JSON only:
+{{"addressed": true | false, "sage_id": "sage_1" | "sage_2" | "sage_3" | null}}
+"""
+
+    try:
+        parsed = await _call_openai_json(prompt)
+    except Exception:
+        return None
+
+    sage_id = parsed.get("sage_id")
+    if bool(parsed.get("addressed")) and isinstance(sage_id, str):
+        if any(sage.sage_id == sage_id for sage in sages):
+            return sage_id
+    return None
 
 
 async def _push_active_sage(
@@ -146,6 +255,104 @@ async def _push_text(session_id: str, sage: SageAgent, text: str) -> None:
         )
 
 
+def _interjection_prompt(
+    sage: SageAgent,
+    primary_sage_name: str,
+    primary_company_name: str,
+    primary_response: str,
+    transcript: list[dict],
+    idea_text: str,
+    target: str,
+) -> str:
+    return f"""You are {sage.name}, one of three failed-founder sages evaluating a startup idea.
+
+Startup idea:
+{idea_text}
+
+Your focus area:
+{sage.focus}
+
+Your failed startup:
+{sage.failed_startup}
+
+Your failure lesson:
+{sage.failure_lesson}
+
+Full transcript so far:
+{_format_transcript(transcript) or "No conversation yet."}
+
+{primary_sage_name} ({primary_company_name}) just gave this {target}:
+{primary_response}
+
+You should stay SILENT in most cases. Only interject if ALL of these are true:
+- You have a direct contradiction from your own failure experience
+- What was just said is factually wrong or dangerously optimistic
+- Your point cannot wait — it changes the meaning of the conversation
+
+Do NOT interject if:
+- You are just adding a related point or general advice
+- The previous sage already covered the key risk adequately
+- You would just be agreeing or slightly extending what was said
+- You already spoke in the last 2 exchanges
+
+When in doubt, return interject: false. Silence is better than noise.
+If interjecting, reference {primary_company_name} by company name and write max one sentence.
+
+Return JSON only, no markdown:
+{{"interject":true|false,"message":"..."|null}}
+"""
+
+
+async def _maybe_interject_about(
+    sage: SageAgent,
+    primary_sage_name: str,
+    primary_response: str,
+    transcript: list[dict],
+    idea_text: str,
+    target: str,
+) -> str | None:
+    sages = [agent for agents in active_sages.values() for agent in agents]
+    primary_sage = _sage_by_name(sages, primary_sage_name)
+    primary_company_name = primary_sage.failed_startup if primary_sage else primary_sage_name
+
+    try:
+        parsed = await _call_openai_json(
+            _interjection_prompt(
+                sage=sage,
+                primary_sage_name=primary_sage_name,
+                primary_company_name=primary_company_name,
+                primary_response=primary_response,
+                transcript=transcript,
+                idea_text=idea_text,
+                target=target,
+            )
+        )
+    except Exception:
+        return None
+
+    message = parsed.get("message")
+    if bool(parsed.get("interject")) and isinstance(message, str) and message.strip():
+        return message.strip()
+    return None
+
+
+async def maybe_interject(
+    sage: SageAgent,
+    primary_sage_name: str,
+    primary_response: str,
+    transcript: list[dict],
+    idea_text: str,
+) -> str | None:
+    return await _maybe_interject_about(
+        sage=sage,
+        primary_sage_name=primary_sage_name,
+        primary_response=primary_response,
+        transcript=transcript,
+        idea_text=idea_text,
+        target="response",
+    )
+
+
 async def _trigger_report_generation(session_id: str) -> None:
     try:
         from agents import report_generator
@@ -170,10 +377,10 @@ async def run_verdicts(session_id: str) -> None:
 
     state = _get_state(session_id)
     idea_text = _get_session_idea(session_id)
-    full_transcript = _format_transcript(state["transcript"])
 
     state["phase"] = "verdicts"
     for sage in sages:
+        full_transcript = _format_transcript(state["transcript"])
         try:
             verdict = await sage.verdict(idea_text, full_transcript)
         except Exception:
@@ -208,6 +415,33 @@ async def run_verdicts(session_id: str) -> None:
                 "rationale": verdict["rationale"],
             },
         )
+
+        for reacting_sage in sages:
+            if reacting_sage.sage_id == sage.sage_id:
+                continue
+
+            reaction = await _maybe_interject_about(
+                sage=reacting_sage,
+                primary_sage_name=sage.name,
+                primary_response=verdict_text,
+                transcript=state["transcript"],
+                idea_text=idea_text,
+                target="verdict",
+            )
+            if reaction is None:
+                continue
+
+            _append_transcript_message(session_id, reacting_sage.sage_id, reaction, reacting_sage.name)
+            await memory.store_message(session_id, reacting_sage.sage_id, reaction, reacting_sage.name)
+            await push_event(
+                session_id,
+                "verdict_reaction",
+                {
+                    "sage_id": reacting_sage.sage_id,
+                    "reacting_to_sage_id": sage.sage_id,
+                    "reaction": reaction,
+                },
+            )
 
     state["phase"] = "complete"
     await _trigger_report_generation(session_id)
@@ -257,23 +491,28 @@ async def handle_user_message(session_id: str, user_content: str, round_number: 
     state["exchange_count"] = int(state["exchange_count"]) + 1
     exchange_count = int(state["exchange_count"])
 
-    try:
-        from agents import coordinator
-
-        next_sage_id = await coordinator.pick_next_sage(
-            sages=sages,
-            user_content=user_content,
-            transcript=transcript,
-            exchange_count=exchange_count,
-        )
-        ready_for_verdicts = coordinator.ready_for_verdicts()
-    except Exception:
-        speak_counts = {
-            sage.sage_id: sum(1 for message in transcript if message["role"] == sage.sage_id)
-            for sage in sages
-        }
-        next_sage_id = min(sages, key=lambda sage: (speak_counts[sage.sage_id], sage.sage_id)).sage_id
+    addressed_sage_id = await detect_addressed_sage(user_content, sages)
+    if addressed_sage_id:
+        next_sage_id = addressed_sage_id
         ready_for_verdicts = False
+    else:
+        try:
+            from agents import coordinator
+
+            next_sage_id = await coordinator.pick_next_sage(
+                sages=sages,
+                user_content=user_content,
+                transcript=transcript,
+                exchange_count=exchange_count,
+            )
+            ready_for_verdicts = coordinator.ready_for_verdicts()
+        except Exception:
+            speak_counts = {
+                sage.sage_id: sum(1 for message in transcript if message["role"] == sage.sage_id)
+                for sage in sages
+            }
+            next_sage_id = min(sages, key=lambda sage: (speak_counts[sage.sage_id], sage.sage_id)).sage_id
+            ready_for_verdicts = False
 
     if ready_for_verdicts or exchange_count >= 8:
         await run_verdicts(session_id)
@@ -295,7 +534,43 @@ async def handle_user_message(session_id: str, user_content: str, round_number: 
 
     _append_transcript_message(session_id, sage.sage_id, response, sage.name)
     await memory.store_message(session_id, sage.sage_id, response, sage.name)
+    state["last_spoke_at"][sage.sage_id] = exchange_count
     await _push_text(session_id, sage, response)
     await push_event(session_id, "sage_done", {"sage_id": sage.sage_id, "sage_name": sage.name})
+
+    for interjecting_sage in sages:
+        if interjecting_sage.sage_id == sage.sage_id:
+            continue
+
+        last_spoke = state["last_spoke_at"].get(interjecting_sage.sage_id, 0)
+        if exchange_count - last_spoke <= 2:
+            continue
+
+        interjection = await maybe_interject(
+            interjecting_sage,
+            sage.name,
+            response,
+            transcript,
+            _get_session_idea(session_id),
+        )
+        if interjection is None:
+            continue
+
+        await asyncio.sleep(0.8)
+        _append_transcript_message(
+            session_id,
+            interjecting_sage.sage_id,
+            interjection,
+            interjecting_sage.name,
+        )
+        await memory.store_message(session_id, interjecting_sage.sage_id, interjection, interjecting_sage.name)
+        state["last_spoke_at"][interjecting_sage.sage_id] = exchange_count
+        await _push_text(session_id, interjecting_sage, interjection)
+        await push_event(
+            session_id,
+            "sage_done",
+            {"sage_id": interjecting_sage.sage_id, "sage_name": interjecting_sage.name},
+        )
+
     await _push_active_sage(session_id, sage, awaiting_reply=True)
     _set_session_round(session_id, exchange_count)

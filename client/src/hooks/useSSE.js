@@ -10,6 +10,7 @@ const namedEvents = [
   "sage_done",
   "active_sage",
   "verdict",
+  "verdict_reaction",
   "report_ready",
 ];
 
