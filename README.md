@@ -177,14 +177,7 @@ Those interjections also show up visually. The active judge rises on the bench, 
 - Python 3.11+
 - An [OpenAI API key](https://platform.openai.com/api-keys)
 
-### 1. Clone
-
-```bash
-git clone https://github.com/your-org/startupsage.git
-cd startupsage
-```
-
-### 2. Backend
+### 1. Backend
 
 ```bash
 cd server
@@ -214,7 +207,7 @@ curl http://localhost:8000/health
 # → {"status":"ok"}
 ```
 
-### 3. Frontend
+### 2. Frontend
 
 ```bash
 cd client
@@ -373,15 +366,6 @@ Start at 50
 | 70–100 | Survives |
 | 45–69 | Pivot |
 | 0–44 | Rethink |
-
----
-
-## Contributing
-
-1. Fork the repo
-2. Create a feature branch: `git checkout -b feat/your-feature`
-3. Keep frontend changes in `/client`, backend in `/server`, agents in `/server/agents`
-4. Open a PR against `main`
 
 ---
 
