@@ -1,15 +1,13 @@
 <div align="center">
 
-```
-███████╗████████╗ █████╗ ██████╗ ████████╗██╗   ██╗██████╗
-██╔════╝╚══██╔══╝██╔══██╗██╔══██╗╚══██╔══╝██║   ██║██╔══██╗
-███████╗   ██║   ███████║██████╔╝   ██║   ██║   ██║██████╔╝
-╚════██║   ██║   ██╔══██║██╔══██╗   ██║   ██║   ██║██╔═══╝
-███████║   ██║  ██║  ██║██║  ██║   ██║   ╚██████╔╝██║
-╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝    ╚═════╝ ╚═╝
-```
+<h1>StartupSage</h1>
 
-**Your idea, judged by the founders who failed before you.**
+<p><b>A tiny founder courtroom where failed-startup sages pressure-test your idea before the market does.</b></p>
+
+<p>
+Submit a startup idea, defend it live, survive the interjections, and walk away with a verdict,
+risks, improvements, and a survival score.
+</p>
 
 [![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react)](https://react.dev)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.110-009688?style=flat-square&logo=fastapi)](https://fastapi.tiangolo.com)
@@ -46,40 +44,89 @@
 
 ## The Premise
 
-Every startup pitch gets torn apart eventually — by VCs, the market, or time itself. StartupSage lets you face that reckoning early, in a dramatic courtroom setting, before a council of three AI sages who embody the founders of **historically failed startups**.
+Every startup pitch gets torn apart eventually by VCs, customers, competitors, or time itself. StartupSage lets you face that reckoning early, inside a dramatic little courtroom, before three AI sages inspired by **historically failed startups**.
 
 Submit your idea. Defend it under oath. Receive your verdict.
 
-The sages aren't cheerleaders. They've been burned. They know exactly how ideas like yours have collapsed before, and they won't let you off easy.
+The sages are not cheerleaders. They have been burned before. Each one carries a different failure lesson, and they will keep asking the uncomfortable question until the idea either sharpens or cracks.
 
 ---
 
-## What Happens
+## How It Feels
 
 ```
-You submit a startup idea
+You submit the idea
         ↓
-An AI researcher searches the failed-startup dataset and selects 3 relevant failure archetypes
+StartupSage finds 3 relevant failed-startup parallels
         ↓
-Three sages are summoned — each embodying a failed founder archetype
+The council appears on the bench
         ↓
-A live council begins: one sage speaks, the active judge rises, and the transcript streams token-by-token
+One judge rises, speaks, and gets the spotlight
         ↓
-The founder replies by text or voice
+You answer by text or voice
         ↓
-A coordinator AI reads the full transcript and decides who should interject next
+Another sage may interject if your answer opens a new risk
         ↓
-Another sage can challenge the founder, reinforce a previous concern, or push back on another sage's premise
+The judges build on each other's objections
         ↓
-Each sage delivers a verdict: Survives / Pivot / Rethink
+They vote: Survives / Pivot / Rethink
         ↓
-The Council generates a full report: survival score, risks, improvements,
-closest historical parallel, and recommended next steps
+You get a council report with score, risks, improvements, and next steps
 ```
 
 ---
 
-## Architecture
+## Meet the Council
+
+Three sages are dynamically assembled for each session based on your idea. StartupSage searches the failed-startup dataset, picks the most relevant cautionary parallels, and turns them into a council with distinct personalities and failure lenses.
+
+One might care about distribution. Another might care about timing. Another might care about operational drag or unit economics. Together, they create the kind of pressure that makes a founder's assumptions easier to see.
+
+---
+
+## Multi-Agent Magic
+
+StartupSage is not a single chatbot wearing three costumes. Each session creates a small adversarial council:
+
+- **Researcher agent** selects the failed startups most relevant to the submitted idea.
+- **Sage agents** each own one failure lens, such as logistics density, market timing, distribution, or unit economics.
+- **Coordinator agent** watches the full transcript and decides who should speak next.
+- **Report agent** turns the verdicts and transcript into a final founder-facing report.
+
+The coordinator is the fun part. It does not simply rotate speakers in order. After every founder reply, it can:
+
+- keep pressure on the same sage if the answer was vague
+- hand the floor to a different sage when a new risk appears
+- let one sage react to another sage's concern
+- decide when the council has enough evidence to move into verdicts
+
+In a live session, that can look like:
+
+```text
+Sprig asks about vertical integration and high operating costs.
+Founder answers that the product will stay asset-light through partners.
+Webvan interjects on partner reliability and operational readiness.
+Zume Pizza follows by warning that logistics failures can damage retention.
+```
+
+Those interjections also show up visually. The active judge rises on the bench, receives the spotlight, and the reply box targets the current sage.
+
+---
+
+## Little Details
+
+- **Live courtroom bench** — the speaking judge stands forward while the others wait their turn.
+- **Streaming transcript** — responses appear as they are generated through Server-Sent Events.
+- **Real interjections** — sages can challenge you, reinforce each other, or poke at a weak answer.
+- **Voice-ready replies** — answer by text or microphone, with judge audio playback support.
+- **Transcript filters** — focus on one sage or view the whole exchange.
+- **Verdict ceremony** — the council reveals each vote before the full report.
+- **Survival score** — a simple 0-100 read on how well the idea held up.
+- **Founder report** — risks, improvements, closest historical parallel, and next steps.
+
+---
+
+## Under the Hood
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -119,57 +166,6 @@ closest historical parallel, and recommended next steps
 │                    report using GPT-4o / GPT-4o mini     │
 └─────────────────────────────────────────────────────────┘
 ```
-
----
-
-## The Council
-
-Three sages are dynamically assembled for each session based on your idea. The AI selects the most relevant failed founder archetypes from startup history and has each one challenge you from the angle of their specific failure.
-
-Each sage internalises one hard lesson from their failure and challenges you specifically on whether your idea repeats it.
-
----
-
-## Multi-Agent Interaction
-
-StartupSage is not a single chatbot wearing three costumes. Each session creates a small adversarial council:
-
-- **Researcher agent** selects the three failed startups most relevant to the submitted idea from the seed dataset.
-- **Sage agents** each own one failure lens, such as logistics density, market timing, distribution, or unit economics.
-- **Coordinator agent** watches the full transcript and decides which sage should speak next.
-- **Report agent** converts the council's verdicts and transcript into a final founder-facing report.
-
-The coordinator is the key piece. It does not just rotate speakers in a fixed order. After every founder reply, it can:
-
-- keep pressure on the same sage if the answer was vague or dodged the question
-- hand the floor to another sage whose failure lens is now more relevant
-- let a sage directly react to another sage's concern, creating an interjection rather than a disconnected Q&A
-- decide when the council has enough evidence to move from questioning into verdicts
-
-In the live session, this creates exchanges like:
-
-```text
-Sprig asks about vertical integration and high operating costs.
-Founder answers that the product will stay asset-light through partners.
-Webvan interjects on partner reliability and operational readiness.
-Zume Pizza follows by warning that logistics failures can damage retention.
-```
-
-Those interjections are reflected in the UI through `active_sage` SSE events: the speaking judge rises on the bench, receives the spotlight, and the reply box targets the current sage.
-
----
-
-## Features
-
-- **Live streaming courtroom** — sage responses appear word-by-word via Server-Sent Events
-- **Animated council bench** — the active judge stands forward, speaks under a spotlight, and idle judges stay seated
-- **Multi-agent interjections** — sages can challenge the founder and respond to each other's concerns
-- **AI coordinator** — dynamically decides who challenges you next based on transcript coverage and answer quality
-- **Voice-ready flow** — founders can answer by text or microphone, and sage responses can be replayed as judge audio
-- **Collapsible transcript** — filter by sage, collapse to focus on the bench
-- **Verdict ceremony** — full-page reveal with animated seal and per-sage verdict pills
-- **Survival score dial** — CSS conic-gradient score from 0 to 100
-- **Detailed council report** — risks, improvements, historical parallel, and next steps
 
 ---
 
