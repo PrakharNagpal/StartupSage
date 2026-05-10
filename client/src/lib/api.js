@@ -8,6 +8,13 @@ export function resolveApiUrl(path) {
   return `${API_BASE_URL}${path.startsWith("/") ? path : `/${path}`}`;
 }
 
+export function warmBackend() {
+  return fetch(resolveApiUrl("/health"), {
+    mode: "cors",
+    cache: "no-store",
+  }).catch(() => null);
+}
+
 async function fetchJson(path, options = {}) {
   const response = await fetch(resolveApiUrl(path), {
     mode: "cors",

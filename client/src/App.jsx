@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { Component, useEffect } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 
 import { Alert, AlertDescription, AlertTitle } from "./components/ui/alert.jsx";
@@ -6,6 +6,7 @@ import Home from "./pages/Home.jsx";
 import SubmitIdea from "./pages/SubmitIdea.jsx";
 import LiveSession from "./pages/LiveSession.jsx";
 import Report from "./pages/Report.jsx";
+import { warmBackend } from "./lib/api.js";
 
 class RouteErrorBoundary extends Component {
   constructor(props) {
@@ -60,5 +61,9 @@ function RoutedApp() {
 }
 
 export default function App() {
+  useEffect(() => {
+    warmBackend();
+  }, []);
+
   return <RoutedApp />;
 }
