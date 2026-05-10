@@ -6,7 +6,11 @@
     "sector": "Streaming Media",
     "one_line_pitch": "Premium short-form mobile video episodes built for commuters.",
     "primary_failure_reason": "Misread consumer behavior and launched into a market that did not need another paid video subscription.",
-    "key_lessons": ["Validate habit frequency before content spend", "Do not confuse celebrity supply with demand", "Timing can erase a use case"]
+    "key_lessons": [
+      "Validate habit frequency before content spend",
+      "Do not confuse celebrity supply with demand",
+      "Timing can erase a use case"
+    ]
   },
   {
     "name": "Juicero",
@@ -15,7 +19,11 @@
     "sector": "Consumer Hardware",
     "one_line_pitch": "A connected countertop press for proprietary juice packs.",
     "primary_failure_reason": "Hardware complexity and high price failed to create value beyond a simpler manual alternative.",
-    "key_lessons": ["Prove the machine does something customers cannot already do", "Avoid proprietary consumables unless value is obvious", "Hardware margins punish overengineering"]
+    "key_lessons": [
+      "Prove the machine does something customers cannot already do",
+      "Avoid proprietary consumables unless value is obvious",
+      "Hardware margins punish overengineering"
+    ]
   },
   {
     "name": "MoviePass",
@@ -24,7 +32,11 @@
     "sector": "Entertainment Subscription",
     "one_line_pitch": "A subscription that let members watch many theater movies for one monthly fee.",
     "primary_failure_reason": "The core offer was loved by users but structurally unprofitable at scale.",
-    "key_lessons": ["Great demand can still be fatal with negative unit economics", "Model partner leverage before subsidizing usage", "Watch for usage patterns that worsen with engagement"]
+    "key_lessons": [
+      "Great demand can still be fatal with negative unit economics",
+      "Model partner leverage before subsidizing usage",
+      "Watch for usage patterns that worsen with engagement"
+    ]
   },
   {
     "name": "Theranos",
@@ -33,7 +45,11 @@
     "sector": "Healthcare Diagnostics",
     "one_line_pitch": "Blood testing from tiny samples through proprietary machines.",
     "primary_failure_reason": "Technical claims outran validated science in a high-trust regulated market.",
-    "key_lessons": ["Healthcare trust must be earned with evidence", "Regulatory reality is part of the product", "Secrecy cannot substitute for validation"]
+    "key_lessons": [
+      "Healthcare trust must be earned with evidence",
+      "Regulatory reality is part of the product",
+      "Secrecy cannot substitute for validation"
+    ]
   },
   {
     "name": "Webvan",
@@ -42,7 +58,11 @@
     "sector": "Grocery Delivery",
     "one_line_pitch": "Online grocery ordering with rapid home delivery.",
     "primary_failure_reason": "Expanded capital-intensive logistics before demand density and fulfillment economics worked.",
-    "key_lessons": ["Density matters in delivery", "Scale does not fix weak contribution margin", "Operational complexity should follow demand"]
+    "key_lessons": [
+      "Density matters in delivery",
+      "Scale does not fix weak contribution margin",
+      "Operational complexity should follow demand"
+    ]
   },
   {
     "name": "Pets.com",
@@ -51,7 +71,11 @@
     "sector": "E-commerce",
     "one_line_pitch": "Online pet supplies delivered to homes.",
     "primary_failure_reason": "Spent aggressively on brand before margins, logistics, and repeat economics were ready.",
-    "key_lessons": ["Brand cannot rescue poor gross margin", "Bulky goods need shipping discipline", "Measure repeat behavior before mass marketing"]
+    "key_lessons": [
+      "Brand cannot rescue poor gross margin",
+      "Bulky goods need shipping discipline",
+      "Measure repeat behavior before mass marketing"
+    ]
   },
   {
     "name": "Color Labs",
@@ -60,7 +84,11 @@
     "sector": "Social Networking",
     "one_line_pitch": "A proximity-based mobile photo sharing network.",
     "primary_failure_reason": "Raised and built ahead of a clear user behavior or compelling social graph.",
-    "key_lessons": ["Social apps need an atomic habit", "Funding does not create network effects", "Explain the use case in one breath"]
+    "key_lessons": [
+      "Social apps need an atomic habit",
+      "Funding does not create network effects",
+      "Explain the use case in one breath"
+    ]
   },
   {
     "name": "Beepi",
@@ -69,7 +97,11 @@
     "sector": "Automotive Marketplace",
     "one_line_pitch": "A managed marketplace for buying and selling used cars online.",
     "primary_failure_reason": "Heavy operations and cash burn overwhelmed marketplace liquidity gains.",
-    "key_lessons": ["Managed marketplaces need tight operational scope", "Inventory risk changes the business model", "Trust features must pay for themselves"]
+    "key_lessons": [
+      "Managed marketplaces need tight operational scope",
+      "Inventory risk changes the business model",
+      "Trust features must pay for themselves"
+    ]
   },
   {
     "name": "Jawbone",
@@ -78,7 +110,11 @@
     "sector": "Wearables",
     "one_line_pitch": "Consumer fitness trackers and connected audio devices.",
     "primary_failure_reason": "Product quality issues and brutal hardware competition eroded the brand.",
-    "key_lessons": ["Hardware reliability is brand", "Competing with platform owners is hard", "Support burden can consume margin"]
+    "key_lessons": [
+      "Hardware reliability is brand",
+      "Competing with platform owners is hard",
+      "Support burden can consume margin"
+    ]
   },
   {
     "name": "Better Place",
@@ -87,7 +123,11 @@
     "sector": "Electric Vehicles",
     "one_line_pitch": "Battery swapping infrastructure for electric vehicles.",
     "primary_failure_reason": "Required massive ecosystem coordination before enough compatible cars and demand existed.",
-    "key_lessons": ["Infrastructure startups need ecosystem sequencing", "Capex must match adoption reality", "Standards risk can sink adoption"]
+    "key_lessons": [
+      "Infrastructure startups need ecosystem sequencing",
+      "Capex must match adoption reality",
+      "Standards risk can sink adoption"
+    ]
   },
   {
     "name": "Homejoy",
@@ -96,7 +136,11 @@
     "sector": "Home Services Marketplace",
     "one_line_pitch": "On-demand home cleaning booked online.",
     "primary_failure_reason": "Low retention, worker classification pressure, and thin margins made growth fragile.",
-    "key_lessons": ["Marketplace liquidity is not retention", "Labor compliance is strategic", "Discount-led acquisition hides weak loyalty"]
+    "key_lessons": [
+      "Marketplace liquidity is not retention",
+      "Labor compliance is strategic",
+      "Discount-led acquisition hides weak loyalty"
+    ]
   },
   {
     "name": "Fab.com",
@@ -105,7 +149,11 @@
     "sector": "Design E-commerce",
     "one_line_pitch": "Flash sales and discovery for design-forward products.",
     "primary_failure_reason": "Rapid pivots and expansion created operational drag without durable differentiation.",
-    "key_lessons": ["Curation needs supply discipline", "Flash sale demand can be shallow", "Pivots do not erase execution debt"]
+    "key_lessons": [
+      "Curation needs supply discipline",
+      "Flash sale demand can be shallow",
+      "Pivots do not erase execution debt"
+    ]
   },
   {
     "name": "Aereo",
@@ -114,7 +162,11 @@
     "sector": "Media Technology",
     "one_line_pitch": "Cloud-based broadcast television streaming through tiny antennas.",
     "primary_failure_reason": "The business depended on a legal interpretation that courts rejected.",
-    "key_lessons": ["Legal risk can be existential", "Regulated incumbents fight distribution bypasses", "Have a fallback business model"]
+    "key_lessons": [
+      "Legal risk can be existential",
+      "Regulated incumbents fight distribution bypasses",
+      "Have a fallback business model"
+    ]
   },
   {
     "name": "Bodega",
@@ -123,7 +175,11 @@
     "sector": "Retail Automation",
     "one_line_pitch": "Smart pantry boxes as an alternative to corner stores.",
     "primary_failure_reason": "Brand positioning triggered backlash and the model lacked clear advantage over existing retail.",
-    "key_lessons": ["Respect existing community context", "Automation still needs distribution", "Launch narratives shape adoption"]
+    "key_lessons": [
+      "Respect existing community context",
+      "Automation still needs distribution",
+      "Launch narratives shape adoption"
+    ]
   },
   {
     "name": "Clinkle",
@@ -132,7 +188,11 @@
     "sector": "Payments",
     "one_line_pitch": "A secretive mobile payments app for students.",
     "primary_failure_reason": "Hype and funding preceded a compelling product in a crowded payments market.",
-    "key_lessons": ["Payments need trust and ubiquity", "Stealth can starve product feedback", "Campus adoption must translate into retention"]
+    "key_lessons": [
+      "Payments need trust and ubiquity",
+      "Stealth can starve product feedback",
+      "Campus adoption must translate into retention"
+    ]
   },
   {
     "name": "Rdio",
@@ -141,7 +201,11 @@
     "sector": "Music Streaming",
     "one_line_pitch": "A polished subscription music streaming service.",
     "primary_failure_reason": "Strong product was outdistributed by larger competitors with better bundles and marketing.",
-    "key_lessons": ["Product quality alone may not beat distribution", "Licensing-heavy markets reward scale", "Bundles can undercut standalone value"]
+    "key_lessons": [
+      "Product quality alone may not beat distribution",
+      "Licensing-heavy markets reward scale",
+      "Bundles can undercut standalone value"
+    ]
   },
   {
     "name": "Vine",
@@ -150,7 +214,11 @@
     "sector": "Social Video",
     "one_line_pitch": "A short looping video social network.",
     "primary_failure_reason": "Creator monetization and product direction lagged while competitors copied and extended the format.",
-    "key_lessons": ["Creators need economic reasons to stay", "Formats are easy to copy", "Parent-company priorities matter"]
+    "key_lessons": [
+      "Creators need economic reasons to stay",
+      "Formats are easy to copy",
+      "Parent-company priorities matter"
+    ]
   },
   {
     "name": "Secret",
@@ -159,7 +227,11 @@
     "sector": "Social Networking",
     "one_line_pitch": "Anonymous sharing with friends and nearby users.",
     "primary_failure_reason": "Engagement leaned toward harmful behavior and trust problems rather than durable connection.",
-    "key_lessons": ["Anonymity needs strong guardrails", "Viral growth can amplify abuse", "Trust and safety is core infrastructure"]
+    "key_lessons": [
+      "Anonymity needs strong guardrails",
+      "Viral growth can amplify abuse",
+      "Trust and safety is core infrastructure"
+    ]
   },
   {
     "name": "Yik Yak",
@@ -168,7 +240,11 @@
     "sector": "Social Networking",
     "one_line_pitch": "Anonymous location-based message boards for campuses.",
     "primary_failure_reason": "Moderation challenges and fading novelty undermined campus network effects.",
-    "key_lessons": ["Local networks need ongoing utility", "Safety failures drive institutions away", "Novelty is not retention"]
+    "key_lessons": [
+      "Local networks need ongoing utility",
+      "Safety failures drive institutions away",
+      "Novelty is not retention"
+    ]
   },
   {
     "name": "Google Glass Explorer",
@@ -177,7 +253,11 @@
     "sector": "Wearable Computing",
     "one_line_pitch": "Consumer smart glasses with camera and glanceable computing.",
     "primary_failure_reason": "Privacy concerns, unclear use cases, and awkward social acceptance blocked mainstream adoption.",
-    "key_lessons": ["Social acceptability is a product requirement", "Developer ecosystems need clear use cases", "Wearables must solve frequent pain"]
+    "key_lessons": [
+      "Social acceptability is a product requirement",
+      "Developer ecosystems need clear use cases",
+      "Wearables must solve frequent pain"
+    ]
   },
   {
     "name": "Essential Products",
@@ -186,7 +266,11 @@
     "sector": "Consumer Electronics",
     "one_line_pitch": "Premium Android phones and ambient computing devices.",
     "primary_failure_reason": "Entered a mature smartphone market without enough differentiation or distribution.",
-    "key_lessons": ["Mature hardware categories punish late entrants", "Carrier and retail channels matter", "Premium requires unmistakable advantage"]
+    "key_lessons": [
+      "Mature hardware categories punish late entrants",
+      "Carrier and retail channels matter",
+      "Premium requires unmistakable advantage"
+    ]
   },
   {
     "name": "Solyndra",
@@ -195,7 +279,11 @@
     "sector": "Clean Energy",
     "one_line_pitch": "Cylindrical solar panels for commercial rooftops.",
     "primary_failure_reason": "Manufacturing economics collapsed as conventional solar prices fell faster than expected.",
-    "key_lessons": ["Cost curves can invalidate technical differentiation", "Manufacturing scale is unforgiving", "Commodity markets punish inflexibility"]
+    "key_lessons": [
+      "Cost curves can invalidate technical differentiation",
+      "Manufacturing scale is unforgiving",
+      "Commodity markets punish inflexibility"
+    ]
   },
   {
     "name": "Munchery",
@@ -204,7 +292,11 @@
     "sector": "Food Delivery",
     "one_line_pitch": "Prepared meal delivery from central kitchens.",
     "primary_failure_reason": "Food waste, logistics, and demand forecasting made the model expensive to operate.",
-    "key_lessons": ["Perishability compounds operational risk", "Forecasting errors become margin losses", "Local density matters"]
+    "key_lessons": [
+      "Perishability compounds operational risk",
+      "Forecasting errors become margin losses",
+      "Local density matters"
+    ]
   },
   {
     "name": "Sprig",
@@ -213,7 +305,11 @@
     "sector": "Food Delivery",
     "one_line_pitch": "On-demand healthy meals delivered quickly.",
     "primary_failure_reason": "Vertically integrated food operations could not support sustainable delivery economics.",
-    "key_lessons": ["Owning the full stack raises burn", "Fast delivery needs dense demand", "Menu simplicity helps but does not fix logistics"]
+    "key_lessons": [
+      "Owning the full stack raises burn",
+      "Fast delivery needs dense demand",
+      "Menu simplicity helps but does not fix logistics"
+    ]
   },
   {
     "name": "Daqri",
@@ -222,7 +318,11 @@
     "sector": "Augmented Reality",
     "one_line_pitch": "Industrial augmented reality headsets and software.",
     "primary_failure_reason": "Enterprise AR hardware arrived before cost, comfort, and workflows were ready.",
-    "key_lessons": ["Enterprise pilots are not deployments", "Hardware ergonomics decide usage", "Timing matters even in B2B"]
+    "key_lessons": [
+      "Enterprise pilots are not deployments",
+      "Hardware ergonomics decide usage",
+      "Timing matters even in B2B"
+    ]
   },
   {
     "name": "Nasty Gal",
@@ -231,7 +331,11 @@
     "sector": "Fashion E-commerce",
     "one_line_pitch": "Online fashion retail built from a distinctive brand voice.",
     "primary_failure_reason": "Growth outpaced operational maturity and inventory discipline.",
-    "key_lessons": ["Brand heat must convert into repeatable operations", "Inventory mistakes drain cash", "Culture and systems must scale together"]
+    "key_lessons": [
+      "Brand heat must convert into repeatable operations",
+      "Inventory mistakes drain cash",
+      "Culture and systems must scale together"
+    ]
   },
   {
     "name": "Washio",
@@ -240,7 +344,11 @@
     "sector": "Local Services",
     "one_line_pitch": "On-demand laundry and dry cleaning pickup.",
     "primary_failure_reason": "Convenience was attractive but route logistics and labor costs weakened margins.",
-    "key_lessons": ["Route density is the business", "Convenience premiums have ceilings", "Local ops do not scale like software"]
+    "key_lessons": [
+      "Route density is the business",
+      "Convenience premiums have ceilings",
+      "Local ops do not scale like software"
+    ]
   },
   {
     "name": "Shyp",
@@ -249,7 +357,11 @@
     "sector": "Logistics",
     "one_line_pitch": "On-demand pickup, packing, and shipping for consumers and businesses.",
     "primary_failure_reason": "A labor-intensive consumer convenience model lacked enough frequency and margin.",
-    "key_lessons": ["Occasional-use products face high CAC", "Operational delight can be expensive", "B2B focus may need to come earlier"]
+    "key_lessons": [
+      "Occasional-use products face high CAC",
+      "Operational delight can be expensive",
+      "B2B focus may need to come earlier"
+    ]
   },
   {
     "name": "Tink Labs",
@@ -258,7 +370,11 @@
     "sector": "Travel Technology",
     "one_line_pitch": "Free hotel smartphones for travelers with local services and ads.",
     "primary_failure_reason": "Hardware deployment costs and weak monetization collided as traveler behavior shifted.",
-    "key_lessons": ["Free hardware requires reliable monetization", "Hotels are slow distribution partners", "Smartphone ubiquity can erase the need"]
+    "key_lessons": [
+      "Free hardware requires reliable monetization",
+      "Hotels are slow distribution partners",
+      "Smartphone ubiquity can erase the need"
+    ]
   },
   {
     "name": "Powa Technologies",
@@ -267,6 +383,1089 @@
     "sector": "Mobile Commerce",
     "one_line_pitch": "Mobile payments and commerce tools for merchants.",
     "primary_failure_reason": "Overstated partnerships and broad ambition hid weak adoption.",
-    "key_lessons": ["Partnership announcements are not revenue", "Merchant payments need focused workflows", "Credibility collapses when traction is inflated"]
+    "key_lessons": [
+      "Partnership announcements are not revenue",
+      "Merchant payments need focused workflows",
+      "Credibility collapses when traction is inflated"
+    ]
+  },
+  {
+    "name": "FTX",
+    "year_founded": 2019,
+    "year_failed": 2022,
+    "sector": "Cryptocurrency Exchange",
+    "one_line_pitch": "A global cryptocurrency exchange and derivatives trading platform.",
+    "primary_failure_reason": "Misappropriated billions in customer funds to support sister hedge fund Alameda Research, with founder Sam Bankman-Fried convicted of fraud after the platform collapsed.",
+    "key_lessons": [
+      "Customer fund segregation is non-negotiable",
+      "Related-party transactions create existential risk",
+      "Regulatory arbitrage cannot replace governance"
+    ]
+  },
+  {
+    "name": "Terra/Luna",
+    "year_founded": 2018,
+    "year_failed": 2022,
+    "sector": "Cryptocurrency",
+    "one_line_pitch": "Algorithmic stablecoin ecosystem promising stable value through token mechanics.",
+    "primary_failure_reason": "The algorithmic peg between UST and LUNA collapsed in a death spiral, wiping out approximately $40 billion in value within days.",
+    "key_lessons": [
+      "Algorithmic stablecoins face reflexive failure modes",
+      "Yield products that seem too good usually are",
+      "Mechanism design must account for panic scenarios"
+    ]
+  },
+  {
+    "name": "Three Arrows Capital",
+    "year_founded": 2012,
+    "year_failed": 2022,
+    "sector": "Crypto Hedge Fund",
+    "one_line_pitch": "A cryptocurrency hedge fund managing billions in digital assets.",
+    "primary_failure_reason": "Excessive leverage and concentrated bets on Terra/Luna and other crypto positions led to insolvency when markets crashed.",
+    "key_lessons": [
+      "Leverage amplifies correlated risks",
+      "Concentration disguised as conviction is dangerous",
+      "Liquidity crises punish illiquid positions"
+    ]
+  },
+  {
+    "name": "Celsius Network",
+    "year_founded": 2017,
+    "year_failed": 2022,
+    "sector": "Crypto Lending",
+    "one_line_pitch": "A crypto lending platform offering high yields on deposits.",
+    "primary_failure_reason": "Risky DeFi investments and a liquidity crunch led to bankruptcy after the platform froze customer withdrawals.",
+    "key_lessons": [
+      "Deposit-taking platforms need liquidity discipline",
+      "Yield promises require sustainable revenue sources",
+      "Customer trust is destroyed by withdrawal freezes"
+    ]
+  },
+  {
+    "name": "Voyager Digital",
+    "year_founded": 2018,
+    "year_failed": 2022,
+    "sector": "Crypto Brokerage",
+    "one_line_pitch": "A cryptocurrency broker offering commission-free trading and yield products.",
+    "primary_failure_reason": "Massive exposure to Three Arrows Capital triggered insolvency when 3AC defaulted on loans.",
+    "key_lessons": [
+      "Counterparty concentration creates fragility",
+      "Lending to hedge funds is not a stable business",
+      "Risk management must include single-customer limits"
+    ]
+  },
+  {
+    "name": "BlockFi",
+    "year_founded": 2017,
+    "year_failed": 2022,
+    "sector": "Crypto Lending",
+    "one_line_pitch": "A crypto financial services platform offering interest accounts and loans.",
+    "primary_failure_reason": "Significant exposure to FTX and Alameda triggered bankruptcy after FTX's collapse.",
+    "key_lessons": [
+      "Concentrated counterparty risk is existential",
+      "Regulatory uncertainty constrains business models",
+      "Crypto market contagion spreads quickly"
+    ]
+  },
+  {
+    "name": "Genesis Global Capital",
+    "year_founded": 2018,
+    "year_failed": 2023,
+    "sector": "Crypto Lending",
+    "one_line_pitch": "Institutional crypto lending and trading services provider.",
+    "primary_failure_reason": "Cascading failures from Three Arrows Capital and FTX exposures led to bankruptcy.",
+    "key_lessons": [
+      "Wholesale funding markets transmit shocks rapidly",
+      "Diligence on borrowers requires operational depth",
+      "Crypto contagion ignores institutional walls"
+    ]
+  },
+  {
+    "name": "Convoy",
+    "year_founded": 2015,
+    "year_failed": 2023,
+    "sector": "Logistics Technology",
+    "one_line_pitch": "A digital freight network connecting truckers with shippers.",
+    "primary_failure_reason": "Shut down despite raising $1.1 billion as freight market downturn and weak unit economics overwhelmed the company.",
+    "key_lessons": [
+      "Marketplace economics need cycle resilience",
+      "Heavy fundraising can mask fragile unit economics",
+      "Commodity-like services compete on cost"
+    ]
+  },
+  {
+    "name": "Olive AI",
+    "year_founded": 2012,
+    "year_failed": 2023,
+    "sector": "Healthcare AI",
+    "one_line_pitch": "AI-powered automation platform for healthcare administrative tasks.",
+    "primary_failure_reason": "Despite a $4 billion valuation and $850 million raised, the company struggled with overpromised AI capabilities and unsustainable growth, leading to shutdown.",
+    "key_lessons": [
+      "AI claims must match delivered capabilities",
+      "Healthcare sales cycles need patient capital",
+      "Valuation does not equal viability"
+    ]
+  },
+  {
+    "name": "Fast",
+    "year_founded": 2019,
+    "year_failed": 2022,
+    "sector": "E-commerce Technology",
+    "one_line_pitch": "One-click checkout technology for online retailers.",
+    "primary_failure_reason": "Burned $10 million monthly while generating only $600K in 2021 revenue, with massive overspending on marketing and team before product-market fit.",
+    "key_lessons": [
+      "Burn rate must match traction",
+      "Marketing cannot replace product validation",
+      "Hiring ahead of revenue creates fragility"
+    ]
+  },
+  {
+    "name": "Bird",
+    "year_founded": 2017,
+    "year_failed": 2023,
+    "sector": "Micromobility",
+    "one_line_pitch": "Electric scooter sharing service for urban transportation.",
+    "primary_failure_reason": "Filed Chapter 11 bankruptcy after massive losses, vehicle theft and damage costs, regulatory battles, and inability to reach profitability despite billions in funding.",
+    "key_lessons": [
+      "Hardware-dependent unit economics need scale",
+      "Asset destruction costs compound quickly",
+      "City regulations can constrain growth indefinitely"
+    ]
+  },
+  {
+    "name": "Vroom",
+    "year_founded": 2013,
+    "year_failed": 2024,
+    "sector": "Online Auto Retail",
+    "one_line_pitch": "An online platform for buying and selling used cars.",
+    "primary_failure_reason": "Wound down e-commerce operations after years of losses, with declining used car prices and weak unit economics making the model unviable.",
+    "key_lessons": [
+      "Inventory-heavy marketplaces face cash trap",
+      "Used car logistics are operationally brutal",
+      "Online-only purchase models for big-ticket items face headwinds"
+    ]
+  },
+  {
+    "name": "WeWork",
+    "year_founded": 2010,
+    "year_failed": 2023,
+    "sector": "Coworking",
+    "one_line_pitch": "Flexible office space and coworking memberships globally.",
+    "primary_failure_reason": "Filed for bankruptcy after years of mounting losses, failed IPO, and inability to reconcile long-term lease commitments with short-term member contracts during pandemic disruption.",
+    "key_lessons": [
+      "Maturity mismatches in real estate are dangerous",
+      "Cult-of-founder cultures conceal problems",
+      "Tech valuations cannot reframe real estate businesses"
+    ]
+  },
+  {
+    "name": "Bolt Mobility",
+    "year_founded": 2018,
+    "year_failed": 2022,
+    "sector": "Micromobility",
+    "one_line_pitch": "Electric scooter and bike sharing service in cities.",
+    "primary_failure_reason": "Abruptly shut down operations across cities, abandoning vehicles in public spaces with no notice to customers or municipalities.",
+    "key_lessons": [
+      "Operational shutdowns leave reputational scars",
+      "Micromobility unit economics rarely work",
+      "City partnerships require trust and process"
+    ]
+  },
+  {
+    "name": "Veev",
+    "year_founded": 2008,
+    "year_failed": 2023,
+    "sector": "Construction Technology",
+    "one_line_pitch": "Modular home construction with technology-driven prefabrication.",
+    "primary_failure_reason": "Despite $600 million raised, ran out of capital before achieving production scale, hampered by housing market downturn and capital intensity.",
+    "key_lessons": [
+      "Construction tech needs deep capital",
+      "Cycle timing matters in housing",
+      "Modular promises take longer than projected"
+    ]
+  },
+  {
+    "name": "Volocopter",
+    "year_founded": 2011,
+    "year_failed": 2024,
+    "sector": "Electric Aviation",
+    "one_line_pitch": "Electric vertical takeoff and landing aircraft for urban air mobility.",
+    "primary_failure_reason": "Filed for insolvency after failing to secure additional funding for certification and commercial launch despite years of development.",
+    "key_lessons": [
+      "Hardware certification takes longer than expected",
+      "Regulated aviation needs deep capital reserves",
+      "Commercial timelines compress investor patience"
+    ]
+  },
+  {
+    "name": "Embark Trucks",
+    "year_founded": 2016,
+    "year_failed": 2023,
+    "sector": "Autonomous Trucking",
+    "one_line_pitch": "Self-driving truck technology for highway freight.",
+    "primary_failure_reason": "Shut down operations and laid off most staff after going public via SPAC, citing commercialization timelines stretching beyond available capital.",
+    "key_lessons": [
+      "Autonomous technology timelines are uncertain",
+      "SPACs accelerated companies before maturity",
+      "Cash runway must match technical milestones"
+    ]
+  },
+  {
+    "name": "Argo AI",
+    "year_founded": 2016,
+    "year_failed": 2022,
+    "sector": "Autonomous Vehicles",
+    "one_line_pitch": "Self-driving vehicle technology platform with Ford and Volkswagen backing.",
+    "primary_failure_reason": "Shut down after Ford and Volkswagen withdrew funding, recognizing autonomous vehicle commercialization was further away than projected.",
+    "key_lessons": [
+      "Strategic investors can withdraw quickly",
+      "Multi-year R&D needs aligned funders",
+      "Autonomy timelines have repeatedly slipped"
+    ]
+  },
+  {
+    "name": "Virgin Hyperloop",
+    "year_founded": 2014,
+    "year_failed": 2022,
+    "sector": "Transportation Technology",
+    "one_line_pitch": "High-speed hyperloop transportation system using vacuum tubes.",
+    "primary_failure_reason": "Pivoted from passenger to cargo and laid off most staff before effectively winding down, with technology and economics never demonstrating commercial viability.",
+    "key_lessons": [
+      "Visionary infrastructure faces execution gaps",
+      "Public funding hopes do not equal projects",
+      "Pivots away from original vision signal trouble"
+    ]
+  },
+  {
+    "name": "Zume Pizza",
+    "year_founded": 2015,
+    "year_failed": 2023,
+    "sector": "Food Technology",
+    "one_line_pitch": "Robotic pizza making and delivery using mobile cooking trucks.",
+    "primary_failure_reason": "Pivoted multiple times before shutting down, with robotic pizza assembly never achieving cost or quality advantages over traditional methods.",
+    "key_lessons": [
+      "Robotics in food service rarely beats labor",
+      "Multiple pivots without traction signal model issues",
+      "SoftBank backing did not validate the model"
+    ]
+  },
+  {
+    "name": "Bowery Farming",
+    "year_founded": 2015,
+    "year_failed": 2024,
+    "sector": "Vertical Farming",
+    "one_line_pitch": "Indoor vertical farms growing leafy greens with AI and automation.",
+    "primary_failure_reason": "Filed for bankruptcy after years of losses, as energy costs, capital intensity, and weak retail margins overwhelmed the model.",
+    "key_lessons": [
+      "Vertical farming economics rarely work for cheap crops",
+      "Energy intensity scales with growth",
+      "Specialty produce margins cannot offset capex"
+    ]
+  },
+  {
+    "name": "Wirecard",
+    "year_founded": 1999,
+    "year_failed": 2020,
+    "sector": "Payments Technology",
+    "one_line_pitch": "Global payment processing and financial technology services.",
+    "primary_failure_reason": "Collapsed after revealing $2 billion in cash on its balance sheet did not exist, exposing one of Europe's largest accounting frauds.",
+    "key_lessons": [
+      "Auditor independence and rigor matter",
+      "Rapid international expansion can hide fraud",
+      "Short sellers often see what regulators miss"
+    ]
+  },
+  {
+    "name": "Greensill Capital",
+    "year_founded": 2011,
+    "year_failed": 2021,
+    "sector": "Supply Chain Finance",
+    "one_line_pitch": "Supply chain financing and working capital solutions for businesses.",
+    "primary_failure_reason": "Collapsed after losing credit insurance for risky exposures, revealing concentrated lending to a single client and weak underwriting.",
+    "key_lessons": [
+      "Insurance dependency creates single points of failure",
+      "Concentrated borrower risk hides in growth",
+      "Financial innovation needs old-fashioned diligence"
+    ]
+  },
+  {
+    "name": "Plastiq",
+    "year_founded": 2012,
+    "year_failed": 2023,
+    "sector": "Fintech",
+    "one_line_pitch": "Allowed businesses to pay vendors with credit cards even when not accepted.",
+    "primary_failure_reason": "Filed for bankruptcy after a planned SPAC deal fell through and rising interest rates made the credit-card-funded payment model unsustainable.",
+    "key_lessons": [
+      "Interest rate sensitivity must be modeled",
+      "SPAC dependency was a strategic vulnerability",
+      "Card economics shifts can break business models"
+    ]
+  },
+  {
+    "name": "Kabbage",
+    "year_founded": 2009,
+    "year_failed": 2020,
+    "sector": "Small Business Lending",
+    "one_line_pitch": "Online platform providing automated small business loans.",
+    "primary_failure_reason": "Lending operations collapsed during pandemic credit crisis, leading to fire sale acquisition by American Express after the lending arm shut down.",
+    "key_lessons": [
+      "Lending businesses face cycle risk",
+      "Pandemic exposed model fragility",
+      "Tech-forward underwriting still depends on capital markets"
+    ]
+  },
+  {
+    "name": "Outcome Health",
+    "year_founded": 2006,
+    "year_failed": 2019,
+    "sector": "Healthcare Media",
+    "one_line_pitch": "Health information displays in doctors' offices funded by pharmaceutical advertising.",
+    "primary_failure_reason": "Collapsed after fraud revelations showed executives had falsified data to advertisers about ad reach and effectiveness, leading to criminal convictions.",
+    "key_lessons": [
+      "Advertising metrics fraud is criminal exposure",
+      "Hyper growth can incentivize misrepresentation",
+      "Pharmaceutical clients audit aggressively"
+    ]
+  },
+  {
+    "name": "Forward Health",
+    "year_founded": 2016,
+    "year_failed": 2024,
+    "sector": "Primary Care",
+    "one_line_pitch": "AI-enabled primary care clinics with subscription pricing.",
+    "primary_failure_reason": "Shut down all clinics abruptly despite raising $650 million, after struggling to scale tech-enabled clinical model and pivoting to autonomous care pods.",
+    "key_lessons": [
+      "Healthcare delivery is harder than software",
+      "Vertical integration multiplies execution risk",
+      "Pivots in capital-intensive models compound problems"
+    ]
+  },
+  {
+    "name": "Babylon Health",
+    "year_founded": 2013,
+    "year_failed": 2023,
+    "sector": "Digital Health",
+    "one_line_pitch": "AI-powered telehealth and primary care services.",
+    "primary_failure_reason": "Went bankrupt after going public via SPAC, with mounting losses, AI capability questions, and unsustainable business model in US market.",
+    "key_lessons": [
+      "Healthcare AI claims need clinical validation",
+      "International expansion is costly",
+      "SPAC accelerated weak business models"
+    ]
+  },
+  {
+    "name": "Brandless",
+    "year_founded": 2017,
+    "year_failed": 2020,
+    "sector": "Consumer Goods E-commerce",
+    "one_line_pitch": "Direct-to-consumer brand selling everything for $3.",
+    "primary_failure_reason": "Shut down after failing to find sustainable customer acquisition economics with low average order values, despite SoftBank backing.",
+    "key_lessons": [
+      "Low AOV makes paid acquisition impossible",
+      "DTC requires repeat purchase economics",
+      "SoftBank capital cannot fix unit economics"
+    ]
+  },
+  {
+    "name": "Birchbox",
+    "year_founded": 2010,
+    "year_failed": 2022,
+    "sector": "Subscription Beauty",
+    "one_line_pitch": "Monthly beauty product subscription boxes.",
+    "primary_failure_reason": "Sold for parts after years of decline, as subscription fatigue, churn, and free shipping costs overwhelmed the model.",
+    "key_lessons": [
+      "Subscription churn destroys LTV math",
+      "Curation business is hard to defend",
+      "Beauty discovery moved to other channels"
+    ]
+  },
+  {
+    "name": "Lordstown Motors",
+    "year_founded": 2018,
+    "year_failed": 2023,
+    "sector": "Electric Vehicles",
+    "one_line_pitch": "Electric pickup trucks targeted at commercial fleets.",
+    "primary_failure_reason": "Filed bankruptcy after years of production delays, allegations of inflated pre-orders, and inability to scale manufacturing.",
+    "key_lessons": [
+      "Manufacturing pickup trucks is harder than slides suggest",
+      "Pre-order claims invite scrutiny",
+      "SPAC funding accelerated weak operations"
+    ]
+  },
+  {
+    "name": "Lilium",
+    "year_founded": 2015,
+    "year_failed": 2024,
+    "sector": "Electric Aviation",
+    "one_line_pitch": "Electric jet for regional air mobility.",
+    "primary_failure_reason": "Filed for insolvency after failing to secure additional funding, with technical challenges and certification timelines outstripping capital.",
+    "key_lessons": [
+      "eVTOL development is more expensive than projected",
+      "Government funding hopes are not strategy",
+      "Public market pressure compresses runways"
+    ]
+  },
+  {
+    "name": "Reef Technology",
+    "year_founded": 2013,
+    "year_failed": 2023,
+    "sector": "Ghost Kitchens",
+    "one_line_pitch": "Network of ghost kitchens and parking lot logistics hubs.",
+    "primary_failure_reason": "Massive layoffs and effective wind-down after parking lot ghost kitchen model proved operationally complex and unprofitable despite SoftBank funding.",
+    "key_lessons": [
+      "Ghost kitchens face brutal economics",
+      "Real estate-tech hybrids inherit both problems",
+      "SoftBank scale strategy did not work"
+    ]
+  },
+  {
+    "name": "Maple",
+    "year_founded": 2014,
+    "year_failed": 2017,
+    "sector": "Food Delivery",
+    "one_line_pitch": "Vertically integrated meal delivery with proprietary kitchens.",
+    "primary_failure_reason": "Despite high-quality food and David Chang involvement, unit economics never worked due to delivery costs and labor.",
+    "key_lessons": [
+      "Quality food delivery rarely has margin",
+      "Vertical integration multiplies ops complexity",
+      "Celebrity backing does not fix economics"
+    ]
+  },
+  {
+    "name": "Sonder",
+    "year_founded": 2014,
+    "year_failed": 2024,
+    "sector": "Hospitality Technology",
+    "one_line_pitch": "Tech-enabled apartment-style accommodations for travelers.",
+    "primary_failure_reason": "Years of losses, going-concern warnings, and operational challenges after pandemic, ultimately rescued by Marriott licensing deal but original model failed.",
+    "key_lessons": [
+      "Asset-light hospitality still has lease commitments",
+      "Tech wrappers do not transform real estate",
+      "Capital intensity hides in growth"
+    ]
+  },
+  {
+    "name": "Selina",
+    "year_founded": 2014,
+    "year_failed": 2024,
+    "sector": "Hospitality",
+    "one_line_pitch": "Hostels and co-living spaces for digital nomads.",
+    "primary_failure_reason": "Filed for restructuring after going public via SPAC, with debt loads and post-pandemic occupancy challenges overwhelming the model.",
+    "key_lessons": [
+      "Lifestyle real estate has cyclical demand",
+      "SPACs took companies public too early",
+      "Niche traveler segments cannot support broad expansion"
+    ]
+  },
+  {
+    "name": "Byju's",
+    "year_founded": 2011,
+    "year_failed": 2024,
+    "sector": "Edtech",
+    "one_line_pitch": "Online learning and tutoring platform for K-12 students globally.",
+    "primary_failure_reason": "Once valued at $22 billion, faced insolvency proceedings amid accusations of aggressive sales tactics, financial irregularities, and post-pandemic learning slowdown.",
+    "key_lessons": [
+      "Pandemic edtech tailwinds were temporary",
+      "Aggressive sales tactics create regulatory risk",
+      "Acquisition sprees increase fragility"
+    ]
+  },
+  {
+    "name": "BloomTech",
+    "year_founded": 2017,
+    "year_failed": 2024,
+    "sector": "Coding Bootcamp",
+    "one_line_pitch": "Online coding bootcamp with income share agreements.",
+    "primary_failure_reason": "Effectively shut down after California regulators ordered cease and desist over loan disclosure violations, alongside placement rate concerns.",
+    "key_lessons": [
+      "Education claims face regulatory scrutiny",
+      "ISAs created complex disclosure requirements",
+      "Tech labor market shifts hit bootcamps hard"
+    ]
+  },
+  {
+    "name": "Pebble",
+    "year_founded": 2009,
+    "year_failed": 2016,
+    "sector": "Wearables",
+    "one_line_pitch": "Smartwatch with e-paper display and cross-platform support.",
+    "primary_failure_reason": "Sold to Fitbit for parts after Apple Watch and Google entered the smartwatch market, eroding Pebble's pioneer advantage.",
+    "key_lessons": [
+      "Hardware pioneers face platform-owner competition",
+      "Crowdfunding success does not equal market readiness",
+      "Niche features cannot beat ecosystems"
+    ]
+  },
+  {
+    "name": "Anki",
+    "year_founded": 2010,
+    "year_failed": 2019,
+    "sector": "Consumer Robotics",
+    "one_line_pitch": "Consumer robotics company making toy robots and Cozmo.",
+    "primary_failure_reason": "Shut down after failing to close additional funding, despite technically impressive products that could not generate sustainable consumer revenue.",
+    "key_lessons": [
+      "Consumer robotics has thin margins",
+      "Hardware dev cycles outpace consumer interest",
+      "Toy categories face seasonal pressure"
+    ]
+  },
+  {
+    "name": "Jibo",
+    "year_founded": 2012,
+    "year_failed": 2018,
+    "sector": "Social Robotics",
+    "one_line_pitch": "Family social robot with AI and emotional intelligence.",
+    "primary_failure_reason": "Shipped late after Amazon Echo and Google Home dominated voice-AI market, leaving Jibo's premium price unjustifiable.",
+    "key_lessons": [
+      "Hardware delays cede markets to platforms",
+      "Premium consumer hardware needs clear differentiation",
+      "Voice AI commoditized quickly"
+    ]
+  },
+  {
+    "name": "Coolest Cooler",
+    "year_founded": 2014,
+    "year_failed": 2019,
+    "sector": "Consumer Hardware",
+    "one_line_pitch": "Multi-function cooler with blender, speaker, and battery.",
+    "primary_failure_reason": "Despite raising over $13 million on Kickstarter, manufacturing costs and complexity led to insolvency before fulfilling all backer orders.",
+    "key_lessons": [
+      "Crowdfunding budgets underestimate manufacturing",
+      "Feature creep is a hardware killer",
+      "Backer expectations are different from customers"
+    ]
+  },
+  {
+    "name": "Skully Helmets",
+    "year_founded": 2013,
+    "year_failed": 2016,
+    "sector": "Wearable Hardware",
+    "one_line_pitch": "AR-enabled motorcycle helmets with HUD and rear camera.",
+    "primary_failure_reason": "Filed bankruptcy after misuse of crowdfunding funds and inability to deliver promised product to backers.",
+    "key_lessons": [
+      "Crowdfunded hardware needs strict financial discipline",
+      "Founder spending on luxury items destroys trust",
+      "Complex AR hardware faces unit-cost reality"
+    ]
+  },
+  {
+    "name": "OnLive",
+    "year_founded": 2003,
+    "year_failed": 2015,
+    "sector": "Cloud Gaming",
+    "one_line_pitch": "Cloud-based gaming service streaming games to any device.",
+    "primary_failure_reason": "Burned through capital before broadband infrastructure and consumer adoption caught up with the cloud gaming vision.",
+    "key_lessons": [
+      "Cloud gaming was right idea wrong decade",
+      "Latency requirements outpaced broadband",
+      "Pioneers often fund the market for successors"
+    ]
+  },
+  {
+    "name": "OUYA",
+    "year_founded": 2012,
+    "year_failed": 2015,
+    "sector": "Gaming Hardware",
+    "one_line_pitch": "Open Android-based home gaming console.",
+    "primary_failure_reason": "Failed to attract quality games or sustained users, with hardware sales collapsing within a year of launch.",
+    "key_lessons": [
+      "Console economics need exclusive content",
+      "Open platforms struggle to attract publishers",
+      "Kickstarter validation is not market validation"
+    ]
+  },
+  {
+    "name": "Magic Leap",
+    "year_founded": 2010,
+    "year_failed": 2020,
+    "sector": "Augmented Reality",
+    "one_line_pitch": "Spatial computing augmented reality glasses for consumers.",
+    "primary_failure_reason": "Burned billions before pivoting to enterprise after consumer headset failed to find market, with technology not matching the marketing.",
+    "key_lessons": [
+      "Hype-driven fundraising creates expectation gaps",
+      "AR hardware has not matched promises",
+      "Enterprise pivots reset valuations"
+    ]
+  },
+  {
+    "name": "Mic.com",
+    "year_founded": 2011,
+    "year_failed": 2018,
+    "sector": "Digital Media",
+    "one_line_pitch": "News and culture content for millennials.",
+    "primary_failure_reason": "Sold for fire sale price after pivot to video failed and Facebook algorithm changes destroyed traffic.",
+    "key_lessons": [
+      "Platform-dependent media is fragile",
+      "Pivot to video was a Facebook trap",
+      "Audience targeting cannot replace product"
+    ]
+  },
+  {
+    "name": "MapR",
+    "year_founded": 2009,
+    "year_failed": 2019,
+    "sector": "Big Data",
+    "one_line_pitch": "Enterprise data platform built on Hadoop.",
+    "primary_failure_reason": "Hadoop market collapsed as cloud-native data platforms emerged, with HPE acquiring assets at fire sale prices.",
+    "key_lessons": [
+      "Platform shifts can erase categories",
+      "Enterprise software has long but finite cycles",
+      "Cloud-native winners eat distributed predecessors"
+    ]
+  },
+  {
+    "name": "Pixelon",
+    "year_founded": 1998,
+    "year_failed": 2000,
+    "sector": "Internet Video",
+    "one_line_pitch": "Internet video streaming technology.",
+    "primary_failure_reason": "Founder turned out to be a fugitive con man and the technology did not work as claimed, after spending most funding on a Las Vegas launch party.",
+    "key_lessons": [
+      "Founder backgrounds matter",
+      "Demos can disguise non-functional tech",
+      "Marketing should not exceed product capabilities"
+    ]
+  },
+  {
+    "name": "Boo.com",
+    "year_founded": 1998,
+    "year_failed": 2000,
+    "sector": "Fashion E-commerce",
+    "one_line_pitch": "Online fashion retailer with global ambitions.",
+    "primary_failure_reason": "Burned $135 million in 18 months on lavish marketing and complex Flash-based site that loaded slowly on dial-up connections.",
+    "key_lessons": [
+      "Technology must match infrastructure reality",
+      "Lavish spending burns runway fast",
+      "Global launches multiply complexity"
+    ]
+  },
+  {
+    "name": "Kozmo.com",
+    "year_founded": 1998,
+    "year_failed": 2001,
+    "sector": "Delivery",
+    "one_line_pitch": "One-hour delivery of small consumer goods.",
+    "primary_failure_reason": "Free delivery on small-ticket items destroyed unit economics, with messengers losing money on most orders.",
+    "key_lessons": [
+      "Free delivery on small orders is unsustainable",
+      "Unit economics must work without scale",
+      "Convenience pricing must reflect costs"
+    ]
+  },
+  {
+    "name": "Flooz.com",
+    "year_founded": 1999,
+    "year_failed": 2001,
+    "sector": "Digital Currency",
+    "one_line_pitch": "Online currency for gift-giving and shopping.",
+    "primary_failure_reason": "Failed to gain merchant or consumer adoption, with the proprietary currency model never solving a real problem better than dollars.",
+    "key_lessons": [
+      "Alternative currencies need clear value",
+      "Merchant adoption is hard to bootstrap",
+      "Solving non-problems wastes capital"
+    ]
+  },
+  {
+    "name": "Beenz.com",
+    "year_founded": 1998,
+    "year_failed": 2001,
+    "sector": "Digital Currency",
+    "one_line_pitch": "Internet currency earned through online activities.",
+    "primary_failure_reason": "Could not establish meaningful merchant network or consumer adoption for proprietary points currency.",
+    "key_lessons": [
+      "Loyalty currencies are hard to bootstrap",
+      "Two-sided adoption requires patience",
+      "Points have psychological constraints"
+    ]
+  },
+  {
+    "name": "eToys",
+    "year_founded": 1997,
+    "year_failed": 2001,
+    "sector": "E-commerce",
+    "one_line_pitch": "Online toy retailer with seasonal demand spikes.",
+    "primary_failure_reason": "Holiday season fulfillment failures and inability to compete with Toys R Us and Amazon partnerships drove bankruptcy.",
+    "key_lessons": [
+      "Seasonal businesses need ops resilience",
+      "Fulfillment failures destroy customer trust",
+      "Specialty retail faces broad competitors"
+    ]
+  },
+  {
+    "name": "Govworks.com",
+    "year_founded": 1999,
+    "year_failed": 2001,
+    "sector": "GovTech",
+    "one_line_pitch": "Online platform for paying government fees and accessing services.",
+    "primary_failure_reason": "Featured in documentary 'Startup.com', failed due to slow government partnerships, weak revenue model, and team conflict.",
+    "key_lessons": [
+      "Government sales cycles are very long",
+      "Founder conflicts compound problems",
+      "Public sector innovation needs patient capital"
+    ]
+  },
+  {
+    "name": "Digital Convergence",
+    "year_founded": 1997,
+    "year_failed": 2001,
+    "sector": "Consumer Hardware",
+    "one_line_pitch": "CueCat barcode scanner connecting print ads to websites.",
+    "primary_failure_reason": "Free hardware giveaway failed when consumers had no compelling reason to scan magazine codes to visit websites.",
+    "key_lessons": [
+      "Free hardware needs compelling use",
+      "Ad-driven hardware models rarely work",
+      "Adding friction to information rarely helps"
+    ]
+  },
+  {
+    "name": "Ofo",
+    "year_founded": 2014,
+    "year_failed": 2018,
+    "sector": "Bike Sharing",
+    "one_line_pitch": "Dockless bike sharing across China and globally.",
+    "primary_failure_reason": "Cash crisis after global expansion outpaced unit economics, with massive bike inventory damage and theft compounding losses.",
+    "key_lessons": [
+      "Hardware fleets face destruction costs",
+      "Land-grab strategies need profitable cores",
+      "Global expansion before local profitability is risky"
+    ]
+  },
+  {
+    "name": "oBike",
+    "year_founded": 2017,
+    "year_failed": 2018,
+    "sector": "Bike Sharing",
+    "one_line_pitch": "Dockless bike sharing in Singapore and globally.",
+    "primary_failure_reason": "Abruptly ceased operations after city regulations and abandoned bikes created backlash, leaving deposit refund issues.",
+    "key_lessons": [
+      "Regulatory frameworks shape city-tech",
+      "Sudden shutdowns destroy reputation",
+      "Deposits create consumer trust risks"
+    ]
+  },
+  {
+    "name": "A123 Systems",
+    "year_founded": 2001,
+    "year_failed": 2012,
+    "sector": "Battery Technology",
+    "one_line_pitch": "Advanced lithium-ion batteries for electric vehicles and grid storage.",
+    "primary_failure_reason": "Filed bankruptcy after Fisker Automotive faltered and Chinese competitors undercut prices, with manufacturing scale challenges.",
+    "key_lessons": [
+      "Battery commodity pressure is intense",
+      "Anchor customer concentration risks",
+      "Cleantech 1.0 funded ahead of markets"
+    ]
+  },
+  {
+    "name": "Aquion Energy",
+    "year_founded": 2008,
+    "year_failed": 2017,
+    "sector": "Energy Storage",
+    "one_line_pitch": "Saltwater batteries for grid energy storage.",
+    "primary_failure_reason": "Filed bankruptcy after lithium-ion prices fell faster than expected, eliminating saltwater battery cost advantage.",
+    "key_lessons": [
+      "Cost curves can erase technical advantages",
+      "Energy storage is a commodity market",
+      "Cleantech needs persistent capital"
+    ]
+  },
+  {
+    "name": "Fisker Automotive",
+    "year_founded": 2007,
+    "year_failed": 2013,
+    "sector": "Electric Vehicles",
+    "one_line_pitch": "Premium plug-in hybrid electric vehicles.",
+    "primary_failure_reason": "Filed bankruptcy after battery supplier A123 collapsed, manufacturing problems mounted, and capital ran out.",
+    "key_lessons": [
+      "Supplier dependencies create existential risk",
+      "Auto manufacturing humbles startups",
+      "Cleantech 1.0 underestimated complexity"
+    ]
+  },
+  {
+    "name": "Theranos competitors",
+    "year_founded": 2007,
+    "year_failed": 2019,
+    "sector": "Diagnostics",
+    "one_line_pitch": "uBiome, microbiome diagnostic and consumer testing kits.",
+    "primary_failure_reason": "uBiome shut down after FBI investigation into insurance billing practices and questions about clinical validity.",
+    "key_lessons": [
+      "Insurance billing has compliance traps",
+      "Clinical claims require rigorous evidence",
+      "Healthcare regulators are persistent"
+    ]
+  },
+  {
+    "name": "Improbable Worlds",
+    "year_founded": 2012,
+    "year_failed": 2024,
+    "sector": "Gaming Technology",
+    "one_line_pitch": "Cloud-based simulation technology for massive multiplayer games.",
+    "primary_failure_reason": "Shut down most operations after years of pivots, failing to find product-market fit despite SoftBank-led $500 million funding.",
+    "key_lessons": [
+      "Platform technology needs killer apps",
+      "Pivots without traction multiply",
+      "SoftBank funding does not validate models"
+    ]
+  },
+  {
+    "name": "Pearl Automation",
+    "year_founded": 2014,
+    "year_failed": 2017,
+    "sector": "Automotive",
+    "one_line_pitch": "Aftermarket backup cameras and driver aids.",
+    "primary_failure_reason": "Shut down after retail demand for $500 backup cameras did not materialize, with auto OEMs including features as standard.",
+    "key_lessons": [
+      "Aftermarket auto faces OEM commoditization",
+      "Premium pricing needs differentiation",
+      "Consumer auto-tech retail is hard"
+    ]
+  },
+  {
+    "name": "Shyp competitor Postmates",
+    "year_founded": 2011,
+    "year_failed": 2020,
+    "sector": "Delivery",
+    "one_line_pitch": "On-demand local delivery from any store or restaurant.",
+    "primary_failure_reason": "Acquired by Uber for $2.65 billion after years of losses and failure to compete with DoorDash, effectively a fire sale of independent existence.",
+    "key_lessons": [
+      "Two-sided marketplaces are hard to defend",
+      "Delivery wars require deep pockets",
+      "Pioneer advantage rarely persists"
+    ]
+  },
+  {
+    "name": "Caviar",
+    "year_founded": 2012,
+    "year_failed": 2019,
+    "sector": "Premium Food Delivery",
+    "one_line_pitch": "Premium restaurant delivery service.",
+    "primary_failure_reason": "Sold to DoorDash by Square after struggling to differentiate from mass-market delivery competitors despite premium positioning.",
+    "key_lessons": [
+      "Premium delivery faces convergence",
+      "Niche positioning has scale limits",
+      "Food delivery economics squeeze all comers"
+    ]
+  },
+  {
+    "name": "Lily Robotics",
+    "year_founded": 2013,
+    "year_failed": 2017,
+    "sector": "Consumer Drones",
+    "one_line_pitch": "Self-flying camera drone that follows users automatically.",
+    "primary_failure_reason": "Shut down after taking $34 million in pre-orders without delivering products, with FTC charges over deceptive marketing.",
+    "key_lessons": [
+      "Pre-orders create regulatory exposure",
+      "Marketing must match capability",
+      "Hardware delays multiply problems"
+    ]
+  },
+  {
+    "name": "Doppler Labs",
+    "year_founded": 2013,
+    "year_failed": 2017,
+    "sector": "Wearable Audio",
+    "one_line_pitch": "Smart earbuds with active sound control.",
+    "primary_failure_reason": "Burned $50 million before AirPods and similar products dominated market, with Doppler's premium price unjustifiable.",
+    "key_lessons": [
+      "Apple competition is brutal in earbuds",
+      "Premium audio needs clear differentiation",
+      "Hardware pioneers fund successors"
+    ]
+  },
+  {
+    "name": "Knock",
+    "year_founded": 2015,
+    "year_failed": 2024,
+    "sector": "Real Estate Technology",
+    "one_line_pitch": "Buy-before-you-sell home transaction platform.",
+    "primary_failure_reason": "Shut down after housing market downturn made the bridge financing model untenable, with rising rates compounding issues.",
+    "key_lessons": [
+      "Real estate fintech is rate-sensitive",
+      "Bridge financing carries inventory risk",
+      "iBuyer-adjacent models have similar problems"
+    ]
+  },
+  {
+    "name": "Reali",
+    "year_founded": 2015,
+    "year_failed": 2022,
+    "sector": "Real Estate Technology",
+    "one_line_pitch": "Online real estate platform with cash offer programs.",
+    "primary_failure_reason": "Shut down operations as rising interest rates and housing slowdown destroyed iBuyer-like programs and cash offer economics.",
+    "key_lessons": [
+      "iBuying is rate-environment dependent",
+      "Inventory carry costs scale with rates",
+      "Real estate tech follows housing cycles"
+    ]
+  },
+  {
+    "name": "Better.com",
+    "year_founded": 2014,
+    "year_failed": 2023,
+    "sector": "Mortgage Technology",
+    "one_line_pitch": "Online mortgage platform with faster approvals.",
+    "primary_failure_reason": "Massive layoffs and going public via SPAC at fraction of valuation after rate environment destroyed mortgage refi business and CEO controversy.",
+    "key_lessons": [
+      "Mortgage volumes are rate-sensitive",
+      "Layoff handling shapes culture",
+      "Tech wrappers do not eliminate cyclicality"
+    ]
+  },
+  {
+    "name": "Inflection AI",
+    "year_founded": 2022,
+    "year_failed": 2024,
+    "sector": "AI Assistants",
+    "one_line_pitch": "Personal AI assistant with empathetic conversation.",
+    "primary_failure_reason": "Effectively dissolved when Microsoft hired most staff and licensed technology, after failing to find sustainable consumer AI revenue model.",
+    "key_lessons": [
+      "Consumer AI has unclear willingness to pay",
+      "Talent acquisition can substitute for company outcome",
+      "Big tech licensing is a soft landing"
+    ]
+  },
+  {
+    "name": "Adept AI",
+    "year_founded": 2022,
+    "year_failed": 2024,
+    "sector": "AI Agents",
+    "one_line_pitch": "AI agents that perform tasks across software applications.",
+    "primary_failure_reason": "Acqui-hired by Amazon after struggling to ship products despite founding team pedigree and substantial funding.",
+    "key_lessons": [
+      "AI agent products are harder than research",
+      "Pedigree raises expectations",
+      "Acqui-hires soft-land failed strategies"
+    ]
+  },
+  {
+    "name": "Character AI",
+    "year_founded": 2021,
+    "year_failed": 2024,
+    "sector": "AI Companions",
+    "one_line_pitch": "AI character chatbots for entertainment and roleplay.",
+    "primary_failure_reason": "Founders returned to Google in licensing deal after consumer engagement failed to translate to revenue, with safety concerns mounting.",
+    "key_lessons": [
+      "AI companion safety needs serious investment",
+      "Consumer engagement does not equal revenue",
+      "Founder departures signal exits"
+    ]
+  },
+  {
+    "name": "Humane AI",
+    "year_founded": 2018,
+    "year_failed": 2025,
+    "sector": "Wearable AI",
+    "one_line_pitch": "AI-powered wearable Pin to replace smartphones.",
+    "primary_failure_reason": "Sold assets to HP for fraction of valuation after Pin launched to scathing reviews, returns exceeded sales, and product overheated.",
+    "key_lessons": [
+      "Hardware launches need product-market fit",
+      "AI demos do not equal AI products",
+      "Reviewing media has long memory"
+    ]
+  },
+  {
+    "name": "Nikola Motor",
+    "year_founded": 2014,
+    "year_failed": 2025,
+    "sector": "Electric Trucks",
+    "one_line_pitch": "Electric and hydrogen-fueled commercial trucks.",
+    "primary_failure_reason": "Filed bankruptcy after years of struggles following founder fraud conviction and inability to scale production despite SPAC capital.",
+    "key_lessons": [
+      "Founder integrity is non-negotiable",
+      "Truck manufacturing requires deep operational expertise",
+      "Hype cycles compress reality checks"
+    ]
+  },
+  {
+    "name": "Pearl",
+    "year_founded": 2018,
+    "year_failed": 2023,
+    "sector": "Pet Health",
+    "one_line_pitch": "AI-powered dental diagnostics for veterinary clinics.",
+    "primary_failure_reason": "Pearl Health pivoted from earlier model after pet diagnostics startup struggled to gain veterinary adoption and reimbursement.",
+    "key_lessons": [
+      "Veterinary markets have unique adoption barriers",
+      "Specialty AI needs clear ROI",
+      "Pet healthcare margins are constrained"
+    ]
+  },
+  {
+    "name": "Gilt Groupe",
+    "year_founded": 2007,
+    "year_failed": 2016,
+    "sector": "Flash Sales",
+    "one_line_pitch": "Members-only flash sales for designer fashion.",
+    "primary_failure_reason": "Sold for fraction of peak valuation as flash-sale demand declined and brand discovery shifted to Instagram and other channels.",
+    "key_lessons": [
+      "Flash sales fatigue customers",
+      "Channel shifts erase business models",
+      "Designer access has democratized"
+    ]
+  },
+  {
+    "name": "ZenPayroll",
+    "year_founded": 2011,
+    "year_failed": 2015,
+    "sector": "HR Technology",
+    "one_line_pitch": "Originally ZenPayroll, predecessor naming for what became Gusto, considered failed in original consumer HR concept.",
+    "primary_failure_reason": "Pivoted away from original direct-to-consumer concept to small business B2B model, with original concept effectively failing.",
+    "key_lessons": [
+      "Pivots can rescue startups",
+      "Consumer HR was wrong segment",
+      "B2B SaaS proved more sustainable"
+    ]
+  },
+  {
+    "name": "Munchery competitor Spoonrocket",
+    "year_founded": 2013,
+    "year_failed": 2016,
+    "sector": "Food Delivery",
+    "one_line_pitch": "Cheap, fast meal delivery with limited menu.",
+    "primary_failure_reason": "Shut down after low price points combined with delivery costs created unsustainable economics.",
+    "key_lessons": [
+      "Cheap delivery has structural margin issues",
+      "Limited menu speed advantages erode",
+      "Food delivery is brutally competitive"
+    ]
+  },
+  {
+    "name": "Sprig competitor Bento",
+    "year_founded": 2014,
+    "year_failed": 2017,
+    "sector": "Food Delivery",
+    "one_line_pitch": "Customizable Asian-inspired meal delivery.",
+    "primary_failure_reason": "Shut down after meal delivery economics proved unsustainable for boutique players.",
+    "key_lessons": [
+      "Niche food delivery cannot scale",
+      "Customization adds complexity",
+      "Boutique delivery cannot compete on cost"
+    ]
+  },
+  {
+    "name": "Triage",
+    "year_founded": 2015,
+    "year_failed": 2023,
+    "sector": "Healthtech",
+    "one_line_pitch": "Healthcare staffing and shift management platform.",
+    "primary_failure_reason": "Shut down as healthcare staffing margins compressed post-pandemic and competition intensified.",
+    "key_lessons": [
+      "Healthcare staffing is cyclical",
+      "Pandemic boom was temporary",
+      "Staffing margins are thin"
+    ]
+  },
+  {
+    "name": "Mirror",
+    "year_founded": 2016,
+    "year_failed": 2023,
+    "sector": "Connected Fitness",
+    "one_line_pitch": "Wall-mounted smart mirror for at-home fitness classes.",
+    "primary_failure_reason": "Lululemon shut down the product after acquiring it for $500 million, with hardware sales collapsing post-pandemic.",
+    "key_lessons": [
+      "Pandemic fitness boom was temporary",
+      "Connected fitness hardware is cyclical",
+      "Strategic acquisitions can fail to integrate"
+    ]
   }
 ]
